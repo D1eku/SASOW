@@ -40,8 +40,6 @@ public class EnvironmentTwitter extends Environment {
             step();
         }
         states.add(countStates());
-        System.out.println("EXTRA DATA");
-        //extraAnalysis(states);
         return new EnvironmentInfo(this.stepInfos);
     }
 

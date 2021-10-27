@@ -1,12 +1,11 @@
 package model.essentials;
 
-import model.not.implemented.ExperimentInterface;
 import model.util.config.SimulationConfig;
 import model.util.data.SimulationData;
 
 import java.util.ArrayList;
 
-public abstract class Experiment implements ExperimentInterface {
+public abstract class Experiment {
     protected ArrayList<Simulation> simulationArrayList;
     protected ArrayList<SimulationData> simulationDataArrayList;
     protected SimulationConfig simulation_config;

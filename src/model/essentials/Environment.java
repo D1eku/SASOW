@@ -93,7 +93,7 @@ public abstract class Environment {
             Agent newAgent =  new TwitterAgent(this.users_cant, info.getState(), info.getCommands(), isSeed, this.agentsConfigs.indexOf(configAgent));//Crea un nuevo agente
             users.add(newAgent);//Agregalo a la lista de agentes.
             if(newAgent.isSeed()){
-                newAgent.setState(Agent.SHARED);
+                newAgent.setState(Agent.STOP);
                 this.seeds.add(newAgent);
             }
             this.users_cant++;

@@ -1,10 +1,11 @@
 package model.essentials;
 
 import model.command.Command;
+import model.util.data.Handler;
 
 import java.util.ArrayList;
 
-public abstract class Agent {
+public abstract class Agent extends Handler {
     public static final int STOP = -1;
     public static final int WAITING = 0;
     public static final int READ = 1;
@@ -26,6 +27,35 @@ public abstract class Agent {
         this.commands = cmd_config;
         this.isSeed = isSeed;
         this.agentConfig = agentConfig;
+    }
+
+    public abstract void doActions();
+
+    public void share() {
+        //Todo Revisar esto ._.
+        for(int i = 0; i<this.followers.size() ; i++){
+            Agent f = this.followers.get(i);
+            f.receiveMessage();
+        }
+    }
+
+    public void restart() {
+        if(this.state == READ) {
+            this.state = WAITING;
+        }
+
+        if(this.state == SHARED) {
+            this.state = STOP;
+        }
+    }
+
+    public void receiveMessage() {
+        //Si recibo un mensaje, agrega a la Queue que este agente debe realizar la accion.
+        if(state != STOP && state != SHARED) {
+            for (Command c : this.commands) {
+                c.Execute(this);
+            }
+        }
     }
 
     public void setState(int state){
@@ -58,38 +88,6 @@ public abstract class Agent {
 
     public ArrayList<Command> getCommands(){
         return this.commands;
-    }
-
-    public void doAction(String name) {
-
-        for (Command command : commands) {
-            if (command.getName().equals(name)) {
-                command.Execute(this);
-            }
-        }
-
-    }
-
-    public abstract void doActions();
-
-    public void share() {
-        //Todo Revisar esto ._.
-        if(state == SHARED){
-            for(int i = 0; i<this.followers.size() ; i++){
-                Agent f = this.followers.get(i);
-                f.receiveMessage();
-            }
-            state = STOP;
-        }
-    }
-
-    public void receiveMessage() {
-        //Si recibo un mensaje, agrega a la Queue que este agente debe realizar la accion.
-        if(state != STOP && state != SHARED) {
-            for (Command c : this.commands) {
-                c.Execute(this);
-            }
-        }
     }
 
     public boolean isSeed() {

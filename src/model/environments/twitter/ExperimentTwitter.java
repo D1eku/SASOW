@@ -44,7 +44,7 @@ public class ExperimentTwitter extends Experiment {
 
         //Configura la simulacion
         SimulationConfig sc = new SimulationConfig( periods,networkSize, seedSize, agentConfigs);
-        //this.simulation_config  = sc;
+        this.simulation_config  = sc;
 
         //Crea la simulacion
         simulation = new SimulationTwitter(sc);
