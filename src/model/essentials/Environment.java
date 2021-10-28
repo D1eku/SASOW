@@ -4,10 +4,12 @@ import model.environments.twitter.TwitterAgent;
 import model.util.data.StepInfo;
 import model.util.config.AgentConfig;
 import model.util.data.EnvironmentInfo;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public abstract class Environment {
+public abstract class Environment implements Cloneable{
+    protected int id;
     protected int NetworkSize;
     protected int SeedSize;
     protected int periods;
@@ -21,7 +23,8 @@ public abstract class Environment {
 
     protected ArrayList<StepInfo> stepInfos;
 
-    public Environment(int periods, int NetworkSize,int SeedSize, ArrayList<AgentConfig> agentsConfigs){
+    public Environment(int id, int periods, int NetworkSize,int SeedSize, ArrayList<AgentConfig> agentsConfigs){
+        this.id = id;
         this.agentsConfigs = agentsConfigs;
         this.NetworkSize = NetworkSize;
         this.SeedSize = SeedSize;
@@ -40,24 +43,21 @@ public abstract class Environment {
             createAgents(configAgent, i==0);
         }
 
-
         this.initialized = true;
         this.addFollowers();
         if(!this.allDone()){
             System.out.println("Alerta");
         }
-        this.period = 0;
+        System.out.println("End Initialize in Environment: ");
     }
 
     private boolean allDone() {
         boolean isDone = true;
         if(users.size() != this.NetworkSize){
-            isDone = false;
             return false;
         }
 
         if(seeds.size() != this.SeedSize){
-            isDone= false;
             return false;
         }
 
@@ -85,7 +85,7 @@ public abstract class Environment {
         System.out.println("End Adding Followers");
     }
 
-    private void createAgents(AgentConfig configAgent, boolean isSeed){
+    private void createAgents(@NotNull AgentConfig configAgent, boolean isSeed){
         System.out.println("Starting Create agents");
         for(int j = 0; j<configAgent.getCantAgent(); j++){
             Agent info = configAgent.getAgentInfo();//Obten la informacion del agenteConfig
@@ -104,4 +104,8 @@ public abstract class Environment {
     public abstract StepInfo step();
 
     public abstract EnvironmentInfo run();
+
+    public Object clone() throws CloneNotSupportedException{
+        return super.clone();
+    }
 }

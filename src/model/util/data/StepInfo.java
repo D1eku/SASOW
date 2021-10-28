@@ -8,7 +8,7 @@ public class StepInfo {
 
     private int iteration;
     private ArrayList<Agent> users;
-    private ArrayList<AgentInfo> agentInfos;
+    private ArrayList<AgentState> agentInfos;
 
     public StepInfo(int iteration, ArrayList<Agent> users){
         this.iteration = iteration;
@@ -24,7 +24,7 @@ public class StepInfo {
         return this.users;
     }
 
-    public ArrayList<AgentInfo> getAgentInfos(){
+    public ArrayList<AgentState> getAgentInfos(){
         return this.agentInfos;
     }
 

@@ -19,9 +19,8 @@ public class TwitterAgent extends Agent {
 
     }
 
-    @Override
-    protected String addData() {
-
-        return "";
+    public Object clone() throws CloneNotSupportedException{
+        return (TwitterAgent) super.clone();
     }
+
 }

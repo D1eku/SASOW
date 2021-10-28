@@ -1,17 +1,15 @@
 package model.essentials;
 
 import model.command.Command;
-import model.util.data.Handler;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public abstract class Agent extends Handler {
+public abstract class Agent implements Cloneable {
     public static final int STOP = -1;
     public static final int WAITING = 0;
     public static final int READ = 1;
     public static final int SHARED = 2;
-
-
 
     protected int state;
     protected int id;
@@ -29,6 +27,10 @@ public abstract class Agent extends Handler {
         this.agentConfig = agentConfig;
     }
 
+    public Object clone() throws CloneNotSupportedException{
+        return super.clone();
+    }
+
     public abstract void doActions();
 
     public void share() {
@@ -36,16 +38,6 @@ public abstract class Agent extends Handler {
         for(int i = 0; i<this.followers.size() ; i++){
             Agent f = this.followers.get(i);
             f.receiveMessage();
-        }
-    }
-
-    public void restart() {
-        if(this.state == READ) {
-            this.state = WAITING;
-        }
-
-        if(this.state == SHARED) {
-            this.state = STOP;
         }
     }
 
@@ -57,6 +49,27 @@ public abstract class Agent extends Handler {
             }
         }
     }
+
+    public void addFriend(@NotNull Agent agent) {
+        boolean exist = false;
+        if(agent.getId() == this.id) {
+            exist = true;
+        }else{
+            for(int i = 0; i<this.followers.size(); i++){
+                if(this.followers.get(i).getId() == agent.getId()) {
+                    exist = true;
+                    break;
+                }
+            }
+        }
+
+        if(!exist) {
+            this.followers.add(agent);
+        }//El agente esta repetido
+
+    }
+
+    /* Getters and Setters */
 
     public void setState(int state){
         this.state = state;
@@ -98,22 +111,4 @@ public abstract class Agent extends Handler {
         return this.agentConfig;
     }
 
-    public void addFriend(Agent agent) {
-        boolean exist = false;
-        if(agent.getId() == this.id) {
-            exist = true;
-        }else{
-            for(int i = 0; i<this.followers.size(); i++){
-                if(this.followers.get(i).getId() == agent.getId()) {
-                    exist = true;
-                    break;
-                }
-            }
-        }
-
-        if(!exist) {
-            this.followers.add(agent);
-        }//El agente esta repetido
-
-    }
 }

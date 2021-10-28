@@ -9,7 +9,7 @@ public class CommandShare extends Command {
     public CommandShare(String name, double probability ) {
         super(name, probability);
     }
-
+    //Todo fix states to make a fixed shared message.
     @Override
     public void Execute(Agent g) {
         if(g.getState() == Agent.READ){//Si leyo entonces puede compartir

@@ -13,7 +13,10 @@ public class ExperimentTwitter extends Experiment {
 
     public ExperimentTwitter(int repetitions, String name, String description) {
         super(repetitions, name, description);
+    }
 
+    @Override
+    public void configure() {
         int STOP = -1;
         int WAITING = 0;
         int READ = 1;
@@ -43,11 +46,8 @@ public class ExperimentTwitter extends Experiment {
         agentConfigs.add(averageConfig);
 
         //Configura la simulacion
-        SimulationConfig sc = new SimulationConfig( periods,networkSize, seedSize, agentConfigs);
-        this.simulation_config  = sc;
+        simulation_config = new SimulationConfig( periods,networkSize, seedSize, agentConfigs);
 
-        //Crea la simulacion
-        simulation = new SimulationTwitter(sc);
     }
 
 

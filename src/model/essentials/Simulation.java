@@ -1,21 +1,29 @@
 package model.essentials;
 
+import model.environments.twitter.EnvironmentTwitter;
 import model.util.config.SimulationConfig;
 import model.util.data.SimulationData;
 
-public abstract class Simulation {
+public abstract class Simulation implements Cloneable{
+    protected int id;
     protected Environment environment;
     protected int NetworkSize;
     protected int SeedSize;
     protected SimulationConfig simulationConfig;
     protected int periods;
 
-    public Simulation(SimulationConfig simulationConfig){
+    public Simulation(int id, SimulationConfig simulationConfig){
+        this.id = id;
         this.NetworkSize = simulationConfig.getNetworkSize();
         this.SeedSize = simulationConfig.getSeedSize();
         this.simulationConfig = simulationConfig;
         this.periods = simulationConfig.getPeriods();
-        //this.environment = env;
+        this.environment = new EnvironmentTwitter(id,periods, NetworkSize, SeedSize, simulationConfig.getAgentsConfigs());//Una simulacion tendra siempre un mismo ambiente
+        //Por lo mismo quizas es innecesario considerar un ambiente id.
+    }
+
+    public void initialize(){
+        this.environment.initialize();
     }
 
     public int getNetworkSize() {
@@ -34,5 +42,11 @@ public abstract class Simulation {
         this.simulationConfig = simulationConfig;
     }
 
-    public abstract SimulationData run(int run);
+    public abstract SimulationData run();
+
+    public abstract String toString();
+
+    public Object clone() throws CloneNotSupportedException{
+        return super.clone();
+    }
 }

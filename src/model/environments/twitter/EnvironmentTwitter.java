@@ -5,27 +5,23 @@ import model.essentials.Environment;
 import model.util.config.AgentConfig;
 import model.util.data.EnvironmentInfo;
 import model.util.data.StepInfo;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
 public class EnvironmentTwitter extends Environment {
-    final int STOP = -1;
-    final int WAITING = 0;
-    final int READ = 1;
-    final int SHARED = 2;
 
-    public EnvironmentTwitter(int periods,int NetworkSize, int SeedSize, ArrayList<AgentConfig> agentsConfig)  {
-        super(periods,NetworkSize, SeedSize, agentsConfig);
+    public EnvironmentTwitter(int id, int periods,int NetworkSize, int SeedSize, ArrayList<AgentConfig> agentsConfig)  {
+        super(id, periods,NetworkSize, SeedSize, agentsConfig);
     }
 
     @Override
     public StepInfo step() {
         System.out.println("Do Step ( "+ period + ") of "+periods);
         StepInfo stepInfo = new StepInfo(period, users);
-        if (period< periods && initialized){//Si esta inicializada y no es un periodo maximo
-            for (Agent agent: users ) {//Entonces todos los usuarios ejecutaran una accion
-                agent.doActions();
-            }
+        for (Agent agent: users ) {
+            agent.doActions();
         }
         stepInfos.add(stepInfo);
         return stepInfo;
@@ -35,25 +31,29 @@ public class EnvironmentTwitter extends Environment {
     public EnvironmentInfo run() {
         System.out.println("Starting in Environment ");
         ArrayList<int[]> states = new ArrayList<>();
-        for(int i = 0; i<periods; i++){
+        for(period = 0; period<periods; period++){
             states.add(countStates());
+            //Todo make clone all data of agents.
+
             step();
         }
+        //Todo clone after do last step.
         states.add(countStates());
         return new EnvironmentInfo(this.stepInfos);
     }
 
-    private int[] countStates() {
+    @Contract(" -> new")
+    private int @NotNull [] countStates() {
         int cantStop = 0;
         int cantWaiting = 0;
         int cantRead = 0;
         int cantShared = 0;
         for (Agent user: users) {
             switch (user.getState()) {
-                case STOP -> cantStop++;
-                case WAITING -> cantWaiting++;
-                case READ -> cantRead++;
-                case SHARED -> cantShared++;
+                case Agent.STOP -> cantStop++;
+                case Agent.WAITING -> cantWaiting++;
+                case Agent.READ -> cantRead++;
+                case Agent.SHARED -> cantShared++;
             }
         }
 
@@ -66,7 +66,7 @@ public class EnvironmentTwitter extends Environment {
         return new int[]{cantStop, cantWaiting, cantRead, cantShared};
     }
 
-    private void extraAnalysis(ArrayList<int[]> states){
+    private void extraAnalysis(@NotNull ArrayList<int[]> states){
         System.out.println("========================================================");
         System.out.println("STARTING EXTRA ANALYSIS");
         for(int i = 0; i<(states.size()-1); i++){
