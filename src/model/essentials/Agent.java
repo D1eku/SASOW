@@ -1,11 +1,12 @@
 package model.essentials;
 
 import model.command.Command;
+import model.util.data.RowData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public abstract class Agent implements Cloneable {
+public abstract class Agent {
     public static final int STOP = -1;
     public static final int WAITING = 0;
     public static final int READ = 1;
@@ -18,13 +19,20 @@ public abstract class Agent implements Cloneable {
     protected boolean isSeed;
     protected int agentConfig;
 
-    public Agent(int id, int state, ArrayList<Command> cmd_config, boolean isSeed, int agentConfig){
+    public Agent(int id, int state, ArrayList<Command> cmd_config, boolean isSeed, int agentConfig) {
         this.id = id;
         this.state = state;
         this.followers = new ArrayList<>();
         this.commands = cmd_config;
         this.isSeed = isSeed;
         this.agentConfig = agentConfig;
+    }
+
+    public RowData getData() {
+        RowData rd = new RowData(id);
+        rd.addRow(state);
+        rd.addRow(isSeed);
+        return rd;
     }
 
     public Object clone() throws CloneNotSupportedException{
@@ -110,5 +118,6 @@ public abstract class Agent implements Cloneable {
     public int  getAgentConfig() {
         return this.agentConfig;
     }
+
 
 }

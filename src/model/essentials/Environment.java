@@ -1,14 +1,12 @@
 package model.essentials;
 
 import model.environments.twitter.TwitterAgent;
-import model.util.data.StepInfo;
 import model.util.config.AgentConfig;
-import model.util.data.EnvironmentInfo;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public abstract class Environment implements Cloneable{
+public abstract class Environment{
     protected int id;
     protected int NetworkSize;
     protected int SeedSize;
@@ -21,7 +19,6 @@ public abstract class Environment implements Cloneable{
     protected ArrayList<Agent> seeds;
     protected ArrayList<AgentConfig> agentsConfigs;
 
-    protected ArrayList<StepInfo> stepInfos;
 
     public Environment(int id, int periods, int NetworkSize,int SeedSize, ArrayList<AgentConfig> agentsConfigs){
         this.id = id;
@@ -31,7 +28,6 @@ public abstract class Environment implements Cloneable{
         this.users = new ArrayList<>();
         this.seeds = new ArrayList<>();
         this.initialized = false;
-        this.stepInfos = new ArrayList<>();
         this.users_cant = -1;
         this.periods =periods;
     }
@@ -101,11 +97,8 @@ public abstract class Environment implements Cloneable{
         System.out.println("End Create agents");
     }
 
-    public abstract StepInfo step();
+    public abstract void step();
 
-    public abstract EnvironmentInfo run();
+    public abstract void run();
 
-    public Object clone() throws CloneNotSupportedException{
-        return super.clone();
-    }
 }

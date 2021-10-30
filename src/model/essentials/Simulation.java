@@ -2,9 +2,8 @@ package model.essentials;
 
 import model.environments.twitter.EnvironmentTwitter;
 import model.util.config.SimulationConfig;
-import model.util.data.SimulationData;
 
-public abstract class Simulation implements Cloneable{
+public abstract class Simulation {
     protected int id;
     protected Environment environment;
     protected int NetworkSize;
@@ -42,9 +41,7 @@ public abstract class Simulation implements Cloneable{
         this.simulationConfig = simulationConfig;
     }
 
-    public abstract SimulationData run();
-
-    public abstract String toString();
+    public abstract void run();
 
     public Object clone() throws CloneNotSupportedException{
         return super.clone();

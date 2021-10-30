@@ -2,8 +2,6 @@ package model.environments.twitter;
 
 import model.essentials.Simulation;
 import model.util.config.SimulationConfig;
-import model.util.data.EnvironmentInfo;
-import model.util.data.SimulationData;
 
 public class SimulationTwitter extends Simulation {
 
@@ -12,10 +10,9 @@ public class SimulationTwitter extends Simulation {
     }
 
     @Override
-    public SimulationData run() {
+    public void run() {
         System.out.println("Starting Run in Simulation");
-        EnvironmentInfo ei = environment.run();
-        return new SimulationData(ei);
+        environment.run();
     }
 
     @Override

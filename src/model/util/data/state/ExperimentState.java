@@ -1,4 +1,4 @@
-package model.util.data;
+package model.util.data.state;
 
 import model.essentials.Experiment;
 
@@ -6,10 +6,11 @@ public class ExperimentState {
     private Experiment experiment;
 
     public ExperimentState(Experiment experiment) throws CloneNotSupportedException {
-        experiment = (Experiment) experiment.clone();
+        this.experiment = (Experiment) experiment.clone();
     }
 
     public void printData(){
+
         System.out.println(experiment.toString());
     }
 

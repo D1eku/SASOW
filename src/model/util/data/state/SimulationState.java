@@ -1,4 +1,4 @@
-package model.util.data;
+package model.util.data.state;
 
 import model.essentials.Simulation;
 

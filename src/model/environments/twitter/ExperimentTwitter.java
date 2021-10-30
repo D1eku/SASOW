@@ -50,5 +50,10 @@ public class ExperimentTwitter extends Experiment {
 
     }
 
+    @Override
+    public String toString() {
+        return "EXPERIMENT TWITTER";
+    }
+
 
 }

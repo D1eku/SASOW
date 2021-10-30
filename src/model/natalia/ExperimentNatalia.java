@@ -76,4 +76,8 @@ public class ExperimentNatalia extends Experiment {
         simulation_config = new SimulationConfig(periods, networkSize, seedSize, agentsConfigs);
     }
 
+
+
+
+
 }

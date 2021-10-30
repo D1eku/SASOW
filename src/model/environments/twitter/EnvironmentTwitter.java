@@ -3,8 +3,6 @@ package model.environments.twitter;
 import model.essentials.Agent;
 import model.essentials.Environment;
 import model.util.config.AgentConfig;
-import model.util.data.EnvironmentInfo;
-import model.util.data.StepInfo;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,18 +15,15 @@ public class EnvironmentTwitter extends Environment {
     }
 
     @Override
-    public StepInfo step() {
+    public void step() {
         System.out.println("Do Step ( "+ period + ") of "+periods);
-        StepInfo stepInfo = new StepInfo(period, users);
         for (Agent agent: users ) {
             agent.doActions();
         }
-        stepInfos.add(stepInfo);
-        return stepInfo;
     }
 
     @Override
-    public EnvironmentInfo run() {
+    public void run() {
         System.out.println("Starting in Environment ");
         ArrayList<int[]> states = new ArrayList<>();
         for(period = 0; period<periods; period++){
@@ -39,7 +34,6 @@ public class EnvironmentTwitter extends Environment {
         }
         //Todo clone after do last step.
         states.add(countStates());
-        return new EnvironmentInfo(this.stepInfos);
     }
 
     @Contract(" -> new")

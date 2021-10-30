@@ -12,5 +12,8 @@ public class Main {
         System.out.println("Experiment Name: "+name);
         System.out.println("Experiment Description: "+description);
         exp.run();
+
+        //ExperimentState state = new ExperimentState(exp);
+        //state.printData();
     }
 }
