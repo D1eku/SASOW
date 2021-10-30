@@ -13,11 +13,7 @@ public class SimulationTwitter extends Simulation {
     public void run() {
         System.out.println("Starting Run in Simulation");
         environment.run();
-    }
-
-    @Override
-    public String toString() {
-        return "SIMULATION TWITTER";
+        System.out.println("Ending Run in Simulation");
     }
 
 }

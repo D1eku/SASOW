@@ -17,10 +17,6 @@ public class ExperimentTwitter extends Experiment {
 
     @Override
     public void configure() {
-        int STOP = -1;
-        int WAITING = 0;
-        int READ = 1;
-        int SHARED = 2;
 
         int networkSize = 10000;
         int seedSize = 100;
@@ -33,8 +29,8 @@ public class ExperimentTwitter extends Experiment {
         commands.add(cmdShare);
 
         //Crea los tipos de agentes
-        Agent avSeedAgent = new TwitterAgent(-1, SHARED, commands, true, 0);
-        Agent averageAgent = new TwitterAgent(-1, WAITING, commands, false, 1);
+        Agent avSeedAgent = new TwitterAgent(-1, Agent.STOP, commands, true, 0);
+        Agent averageAgent = new TwitterAgent(-1, Agent.WAITING, commands, false, 1);
 
         //Configura los agentes
         ArrayList<AgentConfig> agentConfigs = new ArrayList<>();
@@ -49,11 +45,5 @@ public class ExperimentTwitter extends Experiment {
         simulation_config = new SimulationConfig( periods,networkSize, seedSize, agentConfigs);
 
     }
-
-    @Override
-    public String toString() {
-        return "EXPERIMENT TWITTER";
-    }
-
 
 }

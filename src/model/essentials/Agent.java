@@ -2,7 +2,6 @@ package model.essentials;
 
 import model.command.Command;
 import model.util.data.RowData;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -13,14 +12,14 @@ public abstract class Agent {
     public static final int SHARED = 2;
 
     protected int state;
-    protected int id;
+    protected int agent_id;
     protected ArrayList<Agent> followers;
     protected ArrayList<Command> commands;
     protected boolean isSeed;
     protected int agentConfig;
 
     public Agent(int id, int state, ArrayList<Command> cmd_config, boolean isSeed, int agentConfig) {
-        this.id = id;
+        this.agent_id = id;
         this.state = state;
         this.followers = new ArrayList<>();
         this.commands = cmd_config;
@@ -29,14 +28,10 @@ public abstract class Agent {
     }
 
     public RowData getData() {
-        RowData rd = new RowData(id);
+        RowData rd = new RowData(agent_id);
         rd.addRow(state);
         rd.addRow(isSeed);
         return rd;
-    }
-
-    public Object clone() throws CloneNotSupportedException{
-        return super.clone();
     }
 
     public abstract void doActions();
@@ -58,9 +53,9 @@ public abstract class Agent {
         }
     }
 
-    public void addFriend(@NotNull Agent agent) {
+    public void addFriend(Agent agent) {
         boolean exist = false;
-        if(agent.getId() == this.id) {
+        if(agent.getId() == this.agent_id) {
             exist = true;
         }else{
             for(int i = 0; i<this.followers.size(); i++){
@@ -84,7 +79,7 @@ public abstract class Agent {
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.agent_id = id;
     }
 
     public void setFollowers(ArrayList<Agent> followers) {
@@ -100,7 +95,7 @@ public abstract class Agent {
     }
 
     public int getId(){
-        return this.id;
+        return this.agent_id;
     }
 
     public ArrayList<Agent> getFollowers(){

@@ -1,17 +1,21 @@
 package model.essentials;
 
 import model.environments.twitter.TwitterAgent;
+import model.util.DataHandler;
+import model.util.observer.IObservable;
 import model.util.config.AgentConfig;
-import org.jetbrains.annotations.NotNull;
+import model.util.data.RowData;
 
 import java.util.ArrayList;
 
-public abstract class Environment{
-    protected int id;
+public abstract class Environment implements IObservable {
+    protected DataHandler dataHandler;
+    protected int environment_id;
     protected int NetworkSize;
     protected int SeedSize;
     protected int periods;
     protected int period;
+    protected Simulation simulation;
 
     protected boolean initialized;
     protected ArrayList<Agent> users;
@@ -21,7 +25,7 @@ public abstract class Environment{
 
 
     public Environment(int id, int periods, int NetworkSize,int SeedSize, ArrayList<AgentConfig> agentsConfigs){
-        this.id = id;
+        this.environment_id = id;
         this.agentsConfigs = agentsConfigs;
         this.NetworkSize = NetworkSize;
         this.SeedSize = SeedSize;
@@ -30,6 +34,16 @@ public abstract class Environment{
         this.initialized = false;
         this.users_cant = -1;
         this.periods =periods;
+        this.dataHandler = DataHandler.getInstance();
+    }
+
+    public void setSimulation(Simulation simulation) {
+        this.simulation = simulation;
+    }
+
+    public void setPeriod(int p){
+        this.period = p;
+        this.notify(1);
     }
 
     public void initialize() {
@@ -81,7 +95,7 @@ public abstract class Environment{
         System.out.println("End Adding Followers");
     }
 
-    private void createAgents(@NotNull AgentConfig configAgent, boolean isSeed){
+    private void createAgents(AgentConfig configAgent, boolean isSeed){
         System.out.println("Starting Create agents");
         for(int j = 0; j<configAgent.getCantAgent(); j++){
             Agent info = configAgent.getAgentInfo();//Obten la informacion del agenteConfig
@@ -100,5 +114,27 @@ public abstract class Environment{
     public abstract void step();
 
     public abstract void run();
+
+    public RowData getData() {
+        RowData rdSimulation = this.simulation.getData();
+        rdSimulation.addRow(period);
+        return rdSimulation;
+    }
+
+    public void addData() {
+        for(Agent user: users){
+            RowData rd = new RowData();
+            rd.addRows(this.getData());
+            rd.addRows(user.getData());
+            dataHandler.addRow(rd);
+        }
+    }
+
+
+
+    @Override
+    public void notify(int change) {
+        this.dataHandler.update(change);
+    }
 
 }

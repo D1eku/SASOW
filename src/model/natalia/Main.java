@@ -1,9 +1,13 @@
 package model.natalia;
 
+import model.util.DataHandler;
+
 public class Main {
 
+    public static DataHandler dataHandler = new DataHandler();
+
     public static void main(String[] args) {
-        int runs = 10;
+        int runs = 1;
         String name = "Twitter Natalia";
         String description = "Analisis de cual agente es mejor para compartir mensajes";
         ExperimentNatalia exp = new ExperimentNatalia(runs, name, description);
