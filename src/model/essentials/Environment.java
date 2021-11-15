@@ -1,14 +1,15 @@
 package model.essentials;
 
 import model.environments.twitter.TwitterAgent;
-import model.util.DataHandler;
-import model.util.observer.IObservable;
+import model.util.datahandler.DataHandler;
+import model.util.data.IData;
+import model.util.datahandler.observer.IObservable;
 import model.util.config.AgentConfig;
 import model.util.data.RowData;
 
 import java.util.ArrayList;
 
-public abstract class Environment implements IObservable {
+public abstract class Environment implements IObservable, IData {
     protected DataHandler dataHandler;
     protected int environment_id;
     protected int NetworkSize;
@@ -43,7 +44,7 @@ public abstract class Environment implements IObservable {
 
     public void setPeriod(int p){
         this.period = p;
-        this.notify(1);
+        this.notifyData();
     }
 
     public void initialize() {
@@ -111,30 +112,41 @@ public abstract class Environment implements IObservable {
         System.out.println("End Create agents");
     }
 
+    public RowData getData() {
+        RowData rdEnvironment = new RowData();
+        rdEnvironment.addRow(period, "simulation_period");
+        return rdEnvironment;
+    }
+
+    public RowData getCountStates() {
+        RowData rd = new RowData();
+        int cantStop = 0;
+        int cantWaiting = 0;
+        int cantRead = 0;
+        int cantShared = 0;
+        for (Agent user: users) {
+            switch (user.getState()) {
+                case Agent.STOP -> cantStop++;
+                case Agent.WAITING -> cantWaiting++;
+                case Agent.READ -> cantRead++;
+                case Agent.SHARED -> cantShared++;
+            }
+        }
+        rd.addRow(cantStop, "state_count_stop");
+        rd.addRow(cantWaiting, "state_count_waiting");
+        rd.addRow(cantRead, "state_count_read");
+        rd.addRow(cantShared, "state_count_shared");
+        return rd ;
+    }
+
+    @Override
+    public void notifyData() {
+        this.dataHandler.update();
+    }
+
     public abstract void step();
 
     public abstract void run();
 
-    public RowData getData() {
-        RowData rdSimulation = this.simulation.getData();
-        rdSimulation.addRow(period);
-        return rdSimulation;
-    }
-
-    public void addData() {
-        for(Agent user: users){
-            RowData rd = new RowData();
-            rd.addRows(this.getData());
-            rd.addRows(user.getData());
-            dataHandler.addRow(rd);
-        }
-    }
-
-
-
-    @Override
-    public void notify(int change) {
-        this.dataHandler.update(change);
-    }
 
 }

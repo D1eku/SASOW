@@ -1,8 +1,8 @@
-package model.natalia;
+package model.main.natalia;
 
-import model.command.Command;
-import model.command.actions.CommandRead;
-import model.command.actions.CommandShare;
+import model.util.actions.Command;
+import model.util.actions.commands.CommandRead;
+import model.util.actions.commands.CommandShare;
 import model.environments.twitter.TwitterAgent;
 import model.essentials.Agent;
 import model.essentials.Experiment;

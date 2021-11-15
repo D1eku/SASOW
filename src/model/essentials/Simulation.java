@@ -2,9 +2,10 @@ package model.essentials;
 
 import model.environments.twitter.EnvironmentTwitter;
 import model.util.config.SimulationConfig;
+import model.util.data.IData;
 import model.util.data.RowData;
 
-public abstract class Simulation {
+public abstract class Simulation implements IData {
     protected Experiment experiment;
     protected int simulation_id;
     protected Environment environment;
@@ -51,14 +52,16 @@ public abstract class Simulation {
     public Environment getEnvironment() {
         return this.environment;
     }
+
     public abstract void run();
 
+    @Override
     public RowData getData() {
-        RowData rdExperiment = this.experiment.getData();
-        rdExperiment.addRow(simulation_id);
-        rdExperiment.addRow(NetworkSize);
-        rdExperiment.addRow(SeedSize);
-        rdExperiment.addRow(periods);
-        return rdExperiment;
+        RowData rdSimulation = new RowData();
+        rdSimulation.addRow(simulation_id, "simulation_id");
+        rdSimulation.addRow(NetworkSize, "network_size");
+        rdSimulation.addRow(SeedSize, "seed_size");
+        rdSimulation.addRow(periods, "periods");
+        return rdSimulation;
     }
 }

@@ -1,6 +1,6 @@
 package model.environments.twitter;
 
-import model.command.Command;
+import model.util.actions.Command;
 import model.essentials.Agent;
 import model.util.data.RowData;
 
@@ -24,7 +24,7 @@ public class TwitterAgent extends Agent {
     public RowData getData() {
         //ADD some info to add to csv file.
         RowData rd = super.getData();
-        rd.addRow("Some Data");
+        rd.addRow("Some Data", "name_some_data");
         return rd;
     }
 }

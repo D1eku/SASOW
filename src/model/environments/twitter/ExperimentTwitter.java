@@ -1,7 +1,8 @@
 package model.environments.twitter;
 
-import model.command.Command;
-import model.command.actions.CommandShare;
+import model.util.actions.Command;
+import model.util.actions.commands.CommandRead;
+import model.util.actions.commands.CommandShare;
 import model.essentials.Agent;
 import model.essentials.Experiment;
 import model.util.config.AgentConfig;
@@ -26,7 +27,9 @@ public class ExperimentTwitter extends Experiment {
         //Crea los comandos
         ArrayList<Command> commands = new ArrayList<>();
         CommandShare cmdShare = new CommandShare("SHARE", 0.03);
+        CommandRead lRead = new CommandRead("READ_LEADER", 0.5);
         commands.add(cmdShare);
+        commands.add(lRead);
 
         //Crea los tipos de agentes
         Agent avSeedAgent = new TwitterAgent(-1, Agent.STOP, commands, true, 0);

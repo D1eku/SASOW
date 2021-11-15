@@ -1,67 +1,45 @@
 package model.util.data;
 
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 public class RowData {
-    ArrayList<String> rows = new ArrayList<>();
+    private ArrayList<String> head;
+    private ArrayList<String> rows;
 
     public RowData(){
-
+        rows = new ArrayList<>();
+        head = new ArrayList<>();
     }
 
-    public RowData(String new_row) {
+    public void addRow(String new_row, String name) {
         rows.add(new_row);
+        head.add(name);
     }
 
-    public RowData(boolean new_row) {
+    public void addRow(Double new_row, String name) {
         rows.add(""+new_row);
+        head.add(name);
     }
 
-    public RowData(Double new_row) {
+    public void addRow(int new_row, String name) {
         rows.add(""+new_row);
+        head.add(name);
     }
 
-    public RowData(int new_row) {
+    public void addRow(boolean new_row, String name) {
         rows.add(""+new_row);
-    }
-
-    public void addRow(String new_row) {
-        rows.add(new_row);
-    }
-
-    public void addRow(Double new_row) {
-        rows.add(""+new_row);
-    }
-
-    public void addRow(int new_row) {
-        rows.add(""+new_row);
-    }
-
-    public void addRow(boolean new_row) {
-        rows.add(""+new_row);
-    }
-
-    public RowData addLeft(RowData toAdd) {
-        for(String row: rows) {
-            toAdd.addRow(row);
-        }
-
-        rows = toAdd.getRows();
-        return  this;
-    }
-
-    public RowData addRight(RowData toAdd) {
-        ArrayList<String> rows = toAdd.getRows();
-        for (String row: rows ) {
-            this.rows.add(row);
-        }
-        return  toAdd;
+        head.add(name);
     }
 
     public RowData addRows(RowData rowsData) {
         ArrayList<String> rows = rowsData.getRows();
-        for(String row: rows) {
-            this.rows.add(row);
+        ArrayList<String> heads = rowsData.getHead();
+        for(int i = 0; i < rows.size(); i++){
+            this.head.add(heads.get(i));
+            this.rows.add(rows.get(i));
         }
         return this;
     }
@@ -70,11 +48,27 @@ public class RowData {
         return this.rows;
     }
 
+    public ArrayList<String> getHead() {
+        return this.head;
+    }
+
     public String toCSVFormat() {
-        String toOut = "";
-        for(String row: rows) {
-            toOut += row+",";
+        return getStringed(rows);
+    }
+
+    public String getHeadCSVFormat() {
+        return getStringed(head);
+    }
+
+    @NotNull
+    private String getStringed(ArrayList<String> head) {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i< head.size(); i++) {
+            sb.append(head.get(i));
+            if(i+1 != head.size()){
+                sb.append(",");
+            }
         }
-        return toOut;
+        return sb.toString();
     }
 }

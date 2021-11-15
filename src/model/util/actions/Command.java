@@ -1,4 +1,4 @@
-package model.command;
+package model.util.actions;
 
 import model.essentials.Agent;
 

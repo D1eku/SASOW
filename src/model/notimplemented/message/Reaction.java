@@ -1,7 +1,6 @@
-package model.message;
+package model.notimplemented.message;
 
 import model.essentials.Agent;
-import model.message.Emotion;
 
 public class Reaction {
     private Emotion emotion;

@@ -1,4 +1,4 @@
-package model.message;
+package model.notimplemented.message;
 
 public class Emotion {
     private String name;

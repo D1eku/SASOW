@@ -1,4 +1,4 @@
-package model.message;
+package model.notimplemented.message;
 
 public class MetaInfoMessage {
     private String name;

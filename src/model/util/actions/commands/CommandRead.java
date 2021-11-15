@@ -1,6 +1,6 @@
-package model.command.actions;
+package model.util.actions.commands;
 
-import model.command.Command;
+import model.util.actions.Command;
 import model.essentials.Agent;
 
 public class CommandRead extends Command {

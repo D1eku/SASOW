@@ -1,6 +1,6 @@
 package model.util.config;
 
-import model.command.Command;
+import model.util.actions.Command;
 import model.essentials.Agent;
 
 import java.util.ArrayList;

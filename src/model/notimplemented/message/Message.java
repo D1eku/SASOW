@@ -1,4 +1,4 @@
-package model.message;
+package model.notimplemented.message;
 
 
 import java.util.ArrayList;

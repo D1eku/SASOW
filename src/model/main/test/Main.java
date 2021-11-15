@@ -1,4 +1,4 @@
-package model.main;
+package model.main.test;
 
 import model.environments.twitter.ExperimentTwitter;
 
@@ -7,7 +7,7 @@ public class Main {
 
     public static void main(String[] args) throws CloneNotSupportedException {
 
-        int runs = 1;
+        int runs = 25;
         String name = "Twitter Manuela Run";
         String description = "Experiment to test influence and saturation of a one message";
         ExperimentTwitter exp = new ExperimentTwitter(runs, name, description);

@@ -1,11 +1,12 @@
 package model.essentials;
 
-import model.command.Command;
+import model.util.actions.Command;
+import model.util.data.IData;
 import model.util.data.RowData;
 
 import java.util.ArrayList;
 
-public abstract class Agent {
+public abstract class Agent implements IData {
     public static final int STOP = -1;
     public static final int WAITING = 0;
     public static final int READ = 1;
@@ -27,10 +28,18 @@ public abstract class Agent {
         this.agentConfig = agentConfig;
     }
 
+    @Override
     public RowData getData() {
-        RowData rd = new RowData(agent_id);
-        rd.addRow(state);
-        rd.addRow(isSeed);
+        RowData rd = new RowData();
+        rd.addRow(agent_id, "agent_id");
+        rd.addRow(state, "agent_state");
+        rd.addRow(isSeed, "agent_seed");
+        for(int i = 0;i<commands.size(); i++)  {
+            Command c = commands.get(i);
+            String name = c.getName();
+            String prob = ""+c.getProbability();
+            rd.addRow(prob, name);
+        }
         return rd;
     }
 

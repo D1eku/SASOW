@@ -1,13 +1,13 @@
 package model.essentials;
 
 import model.environments.twitter.SimulationTwitter;
-import model.util.DataHandler;
-import model.util.observer.IObservable;
+import model.util.datahandler.DataHandler;
+import model.util.data.IData;
+import model.util.datahandler.observer.IObservable;
 import model.util.config.SimulationConfig;
 import model.util.data.RowData;
 
-public abstract class Experiment implements IObservable {
-    //protected ArrayList<Object> simulationArrayList;
+public abstract class Experiment implements IObservable, IData {
     protected DataHandler dataHandler;
     protected SimulationConfig simulation_config;
     protected Simulation simulation;
@@ -22,12 +22,10 @@ public abstract class Experiment implements IObservable {
         this.description = description;
         this.dataHandler = DataHandler.getInstance();
         configure();
-
     }
 
     public void run() {
         System.out.println("Starting to running in Experiment");
-        setRun(0);
         while(run < runs) {
             System.out.println("Starting run ( "+(run)+ ") of "+(runs - 1 ));
             initialize(run);
@@ -35,33 +33,38 @@ public abstract class Experiment implements IObservable {
             setRun(++run);
             System.out.println("Ending run ( "+run+ ") of "+(runs - 1 ));
         }
+
+        dataHandler.writeCSVFile();
     }
 
     public void initialize(int id) {
         simulation = new SimulationTwitter(id,simulation_config);
         simulation.setExperiment(this);
         simulation.initialize();
-        this.dataHandler.setEnvironment(this.simulation.getEnvironment());
+        this.dataHandler.setExperiment(this);
+        this.dataHandler.setSimulation(simulation);
+        this.dataHandler.setEnvironment(simulation.getEnvironment());
     }
 
+    @Override
     public RowData getData(){
-        RowData rd = new RowData(name);
-        rd.addRow(description);
-        rd.addRow(runs);
-        rd.addRow(run);
+        RowData rd = new RowData();
+        rd.addRow(name, "experiment_name");
+        rd.addRow(description, "experiment_description");
+        rd.addRow(runs, "experiment_runs");
+        rd.addRow(run, "experiment_run");
         return  rd;
     }
 
     public void setRun(int run) {
-        System.out.println("PASO ESTO ? ");
         this.run = run;
-        notify(0);
+        notifyData();
     }
 
     public abstract void configure();
 
     @Override
-    public void notify(int change) {
-        this.dataHandler.update(change);
+    public void notifyData() {
+        this.dataHandler.update();
     }
 }

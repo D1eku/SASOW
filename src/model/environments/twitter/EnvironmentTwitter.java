@@ -3,7 +3,6 @@ package model.environments.twitter;
 import model.essentials.Agent;
 import model.essentials.Environment;
 import model.util.config.AgentConfig;
-import model.util.data.RowData;
 
 import java.util.ArrayList;
 
@@ -32,32 +31,7 @@ public class EnvironmentTwitter extends Environment {
     }
 
 
-    public RowData countStates() {
-        RowData rd = new RowData();
-        int cantStop = 0;
-        int cantWaiting = 0;
-        int cantRead = 0;
-        int cantShared = 0;
-        for (Agent user: users) {
-            switch (user.getState()) {
-                case Agent.STOP -> cantStop++;
-                case Agent.WAITING -> cantWaiting++;
-                case Agent.READ -> cantRead++;
-                case Agent.SHARED -> cantShared++;
-            }
-        }
 
-        //System.out.println("Count States: ");
-        //System.out.println("Cant Stop: "+cantStop);
-        //System.out.println("Cant Wait: "+cantWaiting);
-        //System.out.println("Cant Read: "+cantRead);
-        //System.out.println("Cant Shared: "+cantShared);
-        rd.addRow(cantStop);
-        rd.addRow(cantWaiting);
-        rd.addRow(cantRead);
-        rd.addRow(cantShared);
-        return rd ;
-    }
 
 
 }
