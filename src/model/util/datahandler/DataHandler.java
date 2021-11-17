@@ -89,4 +89,14 @@ public class DataHandler implements IObserver {
         simulationData.addRow(rd);
     }
 
+    public void configData() {
+        MatrixData configMatrix = new MatrixData();
+
+    }
+
+    public void detailedAgentData(){
+        MatrixData detailedAgentMatrix = new MatrixData();
+
+    }
+
 }
