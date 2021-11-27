@@ -32,8 +32,8 @@ public class ExperimentTwitter extends Experiment {
         commands.add(lRead);
 
         //Crea los tipos de agentes
-        Agent avSeedAgent = new TwitterAgent(-1, Agent.STOP, commands, true, 0);
-        Agent averageAgent = new TwitterAgent(-1, Agent.WAITING, commands, false, 1);
+        Agent avSeedAgent = new TwitterAgent(-1, Agent.STOP, commands, true, null);
+        Agent averageAgent = new TwitterAgent(-1, Agent.WAITING, commands, false, null);
 
         //Configura los agentes
         ArrayList<AgentConfig> agentConfigs = new ArrayList<>();

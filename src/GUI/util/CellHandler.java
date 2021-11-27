@@ -50,8 +50,13 @@ public class CellHandler extends DefaultTableCellRenderer {
                 this.setHorizontalAlignment(JLabel.CENTER);
                 this.setText((String) value);
                 //Color newColor = new Color(255, 255,255)
-                //this.setBackground((isSelected) ? backgroundColor : Color.WHITE);
+                this.setBackground((isSelected) ? backgroundColor : Color.WHITE);
                 this.setFont(bold);
+                return this;
+            case "bool":
+                //this.setHorizontalAlignment(JCheckBox.CENTER);
+                //this.setFont(normal);
+                this.setBackground((isSelected) ? backgroundColor : Color.WHITE);
                 return this;
         }
 

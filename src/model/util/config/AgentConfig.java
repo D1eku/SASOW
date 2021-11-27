@@ -32,7 +32,7 @@ public class AgentConfig {
         return this.name;
     }
 
-    public boolean getIsSeed() {
+    public Boolean getIsSeed() {
         return this.agentInfo.isSeed();
     }
 

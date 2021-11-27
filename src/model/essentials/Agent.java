@@ -1,6 +1,7 @@
 package model.essentials;
 
 import model.util.actions.Action;
+import model.util.config.AgentConfig;
 import model.util.data.IData;
 import model.util.data.RowData;
 
@@ -16,16 +17,25 @@ public abstract class Agent implements IData {
     protected int agent_id;
     protected ArrayList<Agent> followers;
     protected ArrayList<Action> commands;
-    protected boolean isSeed;
-    protected int agentConfig;
+    protected Boolean isSeed;
+    protected int agentConfigInt;
+    protected AgentConfig agentConfig;
 
-    public Agent(int id, int state, ArrayList<Action> cmd_config, boolean isSeed, int agentConfig) {
+    public Agent(int id, int state, ArrayList<Action> cmd_config, boolean isSeed, AgentConfig agentConfig) {
         this.agent_id = id;
         this.state = state;
         this.followers = new ArrayList<>();
         this.commands = cmd_config;
         this.isSeed = isSeed;
         this.agentConfig = agentConfig;
+    }
+
+    public Agent(int id, int state, ArrayList<Action> cmd_config, boolean isSeed) {
+        this.agent_id = id;
+        this.state = state;
+        this.followers = new ArrayList<>();
+        this.commands = cmd_config;
+        this.isSeed = isSeed;
     }
 
     @Override
@@ -119,9 +129,14 @@ public abstract class Agent implements IData {
         return this.isSeed;
     }
 
-    public int  getAgentConfig() {
-        return this.agentConfig;
+    public int  getAgentConfigInt() {
+        return this.agentConfigInt;
     }
+
+    public AgentConfig getAgentConfig() {
+        return agentConfig;
+    }
+
 
     public void makeSeed(boolean isSeed){
         this.isSeed = isSeed;

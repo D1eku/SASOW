@@ -58,8 +58,8 @@ public class ExperimentNatalia extends Experiment {
 
 
         //Configuracion de agentes
-        agentConfigFactory.addAgentConfig(agentFactory.createAgentSeed(actionsLeader), seedSize, followersHub);
-        agentConfigFactory.addAgentConfig(agentFactory.createAgent(actionsAverage), networkSize - seedSize, followersAvr);
+        agentConfigFactory.addAgentConfig(agentFactory.createTwitterAgentSeed(actionsLeader), seedSize, followersHub);
+        agentConfigFactory.addAgentConfig(agentFactory.createTwitterAgent(actionsAverage), networkSize - seedSize, followersAvr);
 
         simulation_config = new SimulationConfig(periods, networkSize, seedSize, agentConfigFactory.createAgentConfig());
     }

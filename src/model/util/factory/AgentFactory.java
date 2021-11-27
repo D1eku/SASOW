@@ -13,11 +13,11 @@ public class AgentFactory {
         this.cantAgentsConfigs = 0;
     }
 
-    public Agent createAgentSeed(ArrayList<Action> actionsList){
-        return new TwitterAgent(-1, Agent.WAITING, actionsList, true, cantAgentsConfigs++);
+    public Agent createTwitterAgentSeed(ArrayList<Action> actionsList){
+        return new TwitterAgent(-1, Agent.WAITING, actionsList, true, null);
     }
 
-    public Agent createAgent(ArrayList<Action> actionsList) {
-        return new TwitterAgent(-1, Agent.WAITING, actionsList, false, cantAgentsConfigs++);
+    public Agent createTwitterAgent(ArrayList<Action> actionsList) {
+        return new TwitterAgent(-1, Agent.WAITING, actionsList, false, null);
     }
 }

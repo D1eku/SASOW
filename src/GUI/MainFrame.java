@@ -1,6 +1,6 @@
 package GUI;
 
-import GUI.util.CellHandler;
+import GUI.util.AgentConfiguratorData;
 import GUI.util.ModelAgentConfigsTable;
 import model.util.actions.Action;
 import model.util.config.AgentConfig;
@@ -16,11 +16,21 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class MainFrame extends JFrame{
-    private JComboBox comboBoxSimulation;
+    //Reference for this ... is obviously...
+    private MainFrame obviouslyThis;
+    //Panels
+    private JPanel mainPanel;
+    private JPanel leftPanel;
+    private JPanel rightPanel;
+    private JPanel startSimulationPanel;
+    private JPanel bottomPanel;
+    //Buttons
     private JButton addButton;
     private JButton deleteButton;
-    private JPanel mainPanel;
     private JButton startSimulationButton;
+
+    //FieldsData
+    private JComboBox comboBoxSimulation;
     private JTextField NetworkSizeField;
     private JTextArea DescriptionField;
     private JTextField NameExperimentField;
@@ -31,29 +41,47 @@ public class MainFrame extends JFrame{
     private JCheckBox essentialDataCheckBox;
     private JCheckBox detailedDataCheckBox;
     private JTextArea outputTextArea;
-    private JPanel leftPanel;
-    private JPanel rightPanel;
-    private JPanel startSimulationPanel;
-    private JPanel bottomPanel;
+
+
 
     //Variables para manejar las configuraciones de los agentes.
     private ModelAgentConfigsTable model;//Modelo que utilizara el JTABLE
     private JTable agentsConfigDataTable;//El JTABLE OBVIO
     private JScrollPane agentConfigJScrollPane;//Panel para la Jtable
-    private ArrayList<AgentConfig> agentConfigsData;//Data de los agentConfig
+    //private ArrayList<AgentConfig> agentConfigsData;//Data de los agentConfig
+    private ArrayList<AgentConfiguratorData> auxListAgentConfiguratorData;//Data de los agentConfig
+
+
+    //Factory
+
+    private ActionFactory actionFactory;
+    private AgentFactory agentFactory;
+    private AgentConfigFactory agentConfigFactory;
 
     public MainFrame() {
+        //Factory
+        actionFactory = new ActionFactory();
+        agentFactory = new AgentFactory();
+        agentConfigFactory = new AgentConfigFactory();
+        //Factory
+        //Panel Config
+        obviouslyThis = this;
         setContentPane(mainPanel);
         setTitle("OPEN WOM");
         setSize(650, 480);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
+
+        //Table Configuration
         configureTable();
+        pack();
+
+
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //AgentSelectorFrame agF = new AgentSelectorFrame(AgentsList, model);
-                AgentConfigurator agentConfigurator = new AgentConfigurator();
+                AgentConfigurator agentConfigurator = new AgentConfigurator(auxListAgentConfiguratorData, obviouslyThis);
             }
         });
 
@@ -75,29 +103,68 @@ public class MainFrame extends JFrame{
             }
         });
 
-        pack();
+
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int col = agentsConfigDataTable.getSelectedColumn();
+                int row = agentsConfigDataTable.getSelectedRow();
+                System.out.println("Start to delete element in position: ");
+                System.out.println("Row: "+row+ " Col: "+ col);
+                System.out.println("The row in position: "+row+ " will be eliminated");
+                System.out.println("The data at this row is: ");
+                if(row != -1){
+                    String data = model.getDataVector().get(row).toString();
+                    System.out.println(data);
+                    model.getDataVector().remove(row);
+                    agentsConfigDataTable.updateUI();
+                }
+
+            }
+        });
+
+
+
+
     }
 
     private void configureTable(){
         agentsConfigDataTable.setBackground(Color.WHITE);
-        agentsConfigDataTable.setBorder(new BevelBorder(BevelBorder.RAISED,null,null,null,null));
+        agentsConfigDataTable.setBorder(new BevelBorder(BevelBorder.RAISED,
+                null,
+                null,
+                null,
+                null));
         agentsConfigDataTable.setOpaque(false);
         makeTable();
     }
 
     private void makeTable(){
-        this.agentConfigsData = testData();
+        //Todo fix this --> this.agentConfigsData = new ArrayList<>();
+        this.auxListAgentConfiguratorData = new ArrayList<>();
         String[] headList = {"name", "Quantity Agent", "isSeed"};
         Object[][] data = getDataMatrix(headList);
         makeTable(headList, data);
     }
 
     private void makeTable(String[] head, Object[][] data){
-        model = new ModelAgentConfigsTable(data, head);
+        model = new ModelAgentConfigsTable(data, head) {
+
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                switch (columnIndex){
+                    case 0:
+                        return String.class;
+                    case 1:
+                        return Integer.class;
+                    case 2:
+                        return Boolean.class;
+                    default:
+                        return String.class;
+                }
+            }
+        };
         this.agentsConfigDataTable.setModel(model);
-        agentsConfigDataTable.getColumnModel().getColumn(0).setCellRenderer(new CellHandler("text"));
-        agentsConfigDataTable.getColumnModel().getColumn(1).setCellRenderer(new CellHandler("int"));
-        agentsConfigDataTable.getColumnModel().getColumn(2).setCellRenderer(new CellHandler("text"));
         agentsConfigDataTable.getTableHeader().setReorderingAllowed(false);
         agentsConfigDataTable.setRowHeight(25);
         agentsConfigDataTable.setGridColor(new Color(0,0,0));
@@ -106,44 +173,34 @@ public class MainFrame extends JFrame{
     }
 
     private Object[][] getDataMatrix(String[] headList) {
-        String[][] data = new String[this.agentConfigsData.size()][headList.length];
+        Object[][] data = new Object[this.agentConfigsData.size()][headList.length];
 
         for(int i = 0; i < data.length; i++){
             data[i][0] = this.agentConfigsData.get(i).getName();
             data[i][1] = this.agentConfigsData.get(i).getCantAgent()+"";
-            data[i][2] = this.agentConfigsData.get(i).getIsSeed()+"";
+            data[i][2] = this.agentConfigsData.get(i).getIsSeed();
         }
 
         return data;
     }
 
-    public ArrayList<AgentConfig> testData() {
-        //Se que esto se puede convertir en una funcion
-        ActionFactory actionFactory = new ActionFactory();
-        AgentFactory agentFactory = new AgentFactory();
-        AgentConfigFactory agentConfigFactory = new AgentConfigFactory();
-
-        //Agente Average
-        ArrayList<model.util.actions.Action> actionsAverage = new ArrayList<>();
-        actionsAverage.add(actionFactory.createReadAction(0.5));
-        actionsAverage.add(actionFactory.createShareAction(0.5));
-
-        //Agente HUB
-        ArrayList<model.util.actions.Action> actionsHub = new ArrayList<>();
-        actionsHub.add(actionFactory.createReadAction(0.9));
-        actionsHub.add(actionFactory.createShareAction(0.8));
-
-
-        //Agente Leader
-        ArrayList<Action> actionsLeader = new ArrayList<>();
-        actionsLeader.add(actionFactory.createReadAction(0.1));
-        actionsLeader.add(actionFactory.createShareAction(0.3));
-
-
-        //Configuracion de agentes
-        agentConfigFactory.addAgentConfig(agentFactory.createAgentSeed(actionsLeader), 100, 5);
-        agentConfigFactory.addAgentConfig(agentFactory.createAgent(actionsAverage), 50, 5);
-
-        return agentConfigFactory.createAgentConfig();
+    public void updateData() {
+        System.out.println("UPDATE DATA");
+        this.updateModel();
+        this.agentsConfigDataTable.updateUI();
     }
+
+    public void updateModel() {
+        for(int i = 0; i<auxListAgentConfiguratorData.size(); i++){//Por cada dato que hay en la lista de datos
+            AgentConfiguratorData agentConfiguratorData = auxListAgentConfiguratorData.get(i);//
+            ArrayList<Action> actions = new ArrayList<>();
+            //actions.add(actionFactory.createReadAction(agentConfiguratorData.getPRead()));
+            //actions.add(actionFactory.createShareAction(agentConfiguratorData.getPShare()));
+            AgentConfig a = new AgentConfig(this.agentFactory.createTwitterAgent(actions), 0, agentConfiguratorData.getFollowers(), agentConfiguratorData.getAgentConfigName());
+            this.agentConfigsData.add(a);
+            Object[] row = {a.getName(), a.getCantAgent(), a.getIsSeed()};
+            this.model.addRow(row);
+        }
+    }
+
 }
