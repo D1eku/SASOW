@@ -33,7 +33,7 @@ public abstract class Environment implements IObservable, IData {
         this.users = new ArrayList<>();
         this.seeds = new ArrayList<>();
         this.initialized = false;
-        this.users_cant = -1;
+        this.users_cant = 0;
         this.periods =periods;
         this.dataHandler = DataHandler.getInstance();
     }
@@ -51,7 +51,7 @@ public abstract class Environment implements IObservable, IData {
         System.out.println("Initializing in Environment: ");
         for(int i = 0; i<agentsConfigs.size(); i++){
             AgentConfig configAgent = agentsConfigs.get(i);//Obtener i esima configuracion de tipo de agente
-            createAgents(configAgent, i==0);
+            createAgents(configAgent, configAgent.getIsSeed());
         }
 
         this.initialized = true;
@@ -73,7 +73,7 @@ public abstract class Environment implements IObservable, IData {
         }
 
         for (Agent u: users) {
-            AgentConfig ag = this.agentsConfigs.get(u.getAgentConfig());
+            AgentConfig ag = u.getAgentConfig();
             if(u.getFollowers().size() != ag.getCantFollowers()){
                 isDone = false;
                 break;
@@ -86,8 +86,9 @@ public abstract class Environment implements IObservable, IData {
     private void addFollowers(){
         System.out.println("Adding Followers");
         for (Agent user: this.users) {//Por cada agente, Obten N agentes que tengan su id diferente a alguna indexada
-            int agentConfig = user.getAgentConfig();
-            while(user.getFollowers().size() != (agentsConfigs.get(agentConfig).getCantFollowers())) {
+            //int agentConfig = user.getAgentConfig();
+            AgentConfig agentConfig = user.getAgentConfig();
+            while(user.getFollowers().size() != (agentConfig.getCantFollowers())) {
                 int max = this.users.size();
                 int randomIndex = (int) (Math.random() * ((max - 1) + 1) + 0);
                 user.addFriend(this.users.get(randomIndex));
@@ -101,7 +102,7 @@ public abstract class Environment implements IObservable, IData {
         for(int j = 0; j<configAgent.getCantAgent(); j++){
             Agent info = configAgent.getAgentInfo();//Obten la informacion del agenteConfig
 
-            Agent newAgent =  new TwitterAgent(this.users_cant, info.getState(), info.getCommands(), isSeed, this.agentsConfigs.indexOf(configAgent));//Crea un nuevo agente
+            Agent newAgent =  new TwitterAgent(this.users_cant, info.getState(), info.getCommands(), isSeed,configAgent);//Crea un nuevo agente
             users.add(newAgent);//Agregalo a la lista de agentes.
             if(newAgent.isSeed()){
                 newAgent.setState(Agent.STOP);

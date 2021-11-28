@@ -1,6 +1,7 @@
 package model.essentials;
 
-import model.util.actions.Command;
+import model.util.actions.Action;
+import model.util.config.AgentConfig;
 import model.util.data.IData;
 import model.util.data.RowData;
 
@@ -15,17 +16,31 @@ public abstract class Agent implements IData {
     protected int state;
     protected int agent_id;
     protected ArrayList<Agent> followers;
-    protected ArrayList<Command> commands;
-    protected boolean isSeed;
-    protected int agentConfig;
+    protected ArrayList<Action> commands;
+    protected Boolean isSeed;
+    protected int agentConfigInt;
+    protected AgentConfig agentConfig;
 
-    public Agent(int id, int state, ArrayList<Command> cmd_config, boolean isSeed, int agentConfig) {
+    public Agent(int id, int state, ArrayList<Action> cmd_config, boolean isSeed, AgentConfig agentConfig) {
         this.agent_id = id;
         this.state = state;
         this.followers = new ArrayList<>();
         this.commands = cmd_config;
         this.isSeed = isSeed;
         this.agentConfig = agentConfig;
+        System.out.println("Agente: "+ id);
+        System.out.println("Cantidad de acciones: "+ commands.size());
+        System.out.println("Accion 0: "+commands.get(0).getName()+" Probabilidad: "+commands.get(0).getProbability());
+        System.out.println("Accion 1: "+commands.get(1).getName()+" Probabilidad: "+commands.get(1).getProbability());
+
+    }
+
+    public Agent(int id, int state, ArrayList<Action> cmd_config, boolean isSeed) {
+        this.agent_id = id;
+        this.state = state;
+        this.followers = new ArrayList<>();
+        this.commands = cmd_config;
+        this.isSeed = isSeed;
     }
 
     @Override
@@ -35,7 +50,7 @@ public abstract class Agent implements IData {
         rd.addRow(state, "agent_state");
         rd.addRow(isSeed, "agent_seed");
         for(int i = 0;i<commands.size(); i++)  {
-            Command c = commands.get(i);
+            Action c = commands.get(i);
             String name = c.getName();
             String prob = ""+c.getProbability();
             rd.addRow(prob, name);
@@ -54,9 +69,8 @@ public abstract class Agent implements IData {
     }
 
     public void receiveMessage() {
-        //Si recibo un mensaje, agrega a la Queue que este agente debe realizar la accion.
         if(state != STOP && state != SHARED) {
-            for (Command c : this.commands) {
+            for (Action c : this.commands) {
                 c.Execute(this);
             }
         }
@@ -95,7 +109,7 @@ public abstract class Agent implements IData {
         this.followers = followers;
     }
 
-    public void setCommands(ArrayList<Command> commands) {
+    public void setCommands(ArrayList<Action> commands) {
         this.commands = commands;
     }
 
@@ -111,7 +125,7 @@ public abstract class Agent implements IData {
         return this.followers;
     }
 
-    public ArrayList<Command> getCommands(){
+    public ArrayList<Action> getCommands(){
         return this.commands;
     }
 
@@ -119,9 +133,17 @@ public abstract class Agent implements IData {
         return this.isSeed;
     }
 
-    public int  getAgentConfig() {
-        return this.agentConfig;
+    public int  getAgentConfigInt() {
+        return this.agentConfigInt;
     }
 
+    public AgentConfig getAgentConfig() {
+        return agentConfig;
+    }
+
+
+    public void makeSeed(boolean isSeed){
+        this.isSeed = isSeed;
+    }
 
 }

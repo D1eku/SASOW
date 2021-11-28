@@ -1,8 +1,8 @@
 package model.environments.twitter;
 
-import model.util.actions.Command;
-import model.util.actions.commands.CommandRead;
-import model.util.actions.commands.CommandShare;
+import model.util.actions.Action;
+import model.util.actions.commands.ActionRead;
+import model.util.actions.commands.ActionShare;
 import model.essentials.Agent;
 import model.essentials.Experiment;
 import model.util.config.AgentConfig;
@@ -25,23 +25,23 @@ public class ExperimentTwitter extends Experiment {
 
 
         //Crea los comandos
-        ArrayList<Command> commands = new ArrayList<>();
-        CommandShare cmdShare = new CommandShare("SHARE", 0.03);
-        CommandRead lRead = new CommandRead("READ_LEADER", 0.5);
+        ArrayList<Action> commands = new ArrayList<>();
+        ActionShare cmdShare = new ActionShare("SHARE", 0.03);
+        ActionRead lRead = new ActionRead("READ_LEADER", 0.5);
         commands.add(cmdShare);
         commands.add(lRead);
 
         //Crea los tipos de agentes
-        Agent avSeedAgent = new TwitterAgent(-1, Agent.STOP, commands, true, 0);
-        Agent averageAgent = new TwitterAgent(-1, Agent.WAITING, commands, false, 1);
+        Agent avSeedAgent = new TwitterAgent(-1, Agent.STOP, commands, true, null);
+        Agent averageAgent = new TwitterAgent(-1, Agent.WAITING, commands, false, null);
 
         //Configura los agentes
         ArrayList<AgentConfig> agentConfigs = new ArrayList<>();
 
-        AgentConfig seedConfig = new AgentConfig(avSeedAgent, seedSize, 100, commands);
+        AgentConfig seedConfig = new AgentConfig(avSeedAgent, seedSize, 100);
         agentConfigs.add(seedConfig);
 
-        AgentConfig averageConfig = new AgentConfig(averageAgent, networkSize - seedSize, 10, commands);
+        AgentConfig averageConfig = new AgentConfig(averageAgent, networkSize - seedSize, 10);
         agentConfigs.add(averageConfig);
 
         //Configura la simulacion
