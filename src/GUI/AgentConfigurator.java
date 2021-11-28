@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class AgentConfigurator extends JFrame {
     //Panels
@@ -39,7 +40,7 @@ public class AgentConfigurator extends JFrame {
     private JScrollPane actionsJScroll;
     private DefaultTableModel modelActions;
 
-    public AgentConfigurator(ArrayList<AgentConfiguratorData> auxListAgentConfiguratorData, MainFrame mainFrame) {
+    public AgentConfigurator(MainFrame mainFrame) {
         //Initialize and configure windows
         this.mainFrame = mainFrame;
         setContentPane(agentConfiguratorPanel);
@@ -71,8 +72,11 @@ public class AgentConfigurator extends JFrame {
                         agentData.setAgentConfigName(name);
                         agentData.setFollowers(followers);
                         agentData.setFollowings(followings);
-
-                        auxListAgentConfiguratorData.add(agentData);
+                        agentData.setSeed(false);
+                        agentData.setQuantityAgent(0);
+                        //auxListAgentConfiguratorData.add(agentData);
+                        fixData();
+                        mainFrame.addDataConfig(agentData);
                         mainFrame.updateData();
                         obviouslyThis.dispose();
                     }else{
@@ -99,8 +103,8 @@ public class AgentConfigurator extends JFrame {
                 System.out.println("Combo Actions: "+ comboActions.getSelectedItem().toString());
                 ActionData a = new ActionData(name, defProb, type);
                 addElementActionData(a);
-                //comboActions.removeItem(comboActions.getSelectedIndex());
-                System.out.println("Deleted item ._. ");
+                //comboActions.remove(0);
+                //comboActions.updateUI();
             }
         });
 
@@ -115,6 +119,7 @@ public class AgentConfigurator extends JFrame {
                     if(modelActions.getDataVector().size() > 0 && row != -1){
                         ActionData a = deleteAction(row);
                         //comboActions.addItem(a.getType());
+                        //comboActions.updateUI();
                     }
 
                     System.out.println("Selected Row: " + row);
@@ -228,5 +233,14 @@ public class AgentConfigurator extends JFrame {
         }
 
         return  true;
+    }
+
+    public void fixData() {
+        for (int i = 0; i< this.modelActions.getDataVector().size(); i++) {
+            Vector a = this.modelActions.getDataVector().get(i);
+            ActionData ad = this.agentData.getActionsData().get(i);
+            ad.setName((String) a.get(0));
+            ad.setProbability((double) a.get(1));
+        }
     }
 }

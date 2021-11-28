@@ -9,6 +9,8 @@ public class AgentConfiguratorData {
     private int followings;
     private String agentTypo;
     private ArrayList<ActionData> actionsData;
+    private boolean seed;
+    private int quantityAgent;
 
     public AgentConfiguratorData(String name, String agentTypo, int followers, int followings, ArrayList<ActionData> actionsData){
         this.agentConfigName = name;
@@ -61,4 +63,22 @@ public class AgentConfiguratorData {
     public void setActionsData(ArrayList<ActionData> actionsData){
         this.actionsData = actionsData;
     }
+
+    public boolean isSeed() {
+        return this.seed;
+    }
+
+    public int getQuantityAgent() {
+        return this.quantityAgent;
+    }
+
+    public void setSeed(boolean seed) {
+        this.seed = seed;
+    }
+
+    public void setQuantityAgent(int quantityAgent){
+        this.quantityAgent = quantityAgent;
+    }
+
+
 }

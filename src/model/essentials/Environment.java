@@ -33,7 +33,7 @@ public abstract class Environment implements IObservable, IData {
         this.users = new ArrayList<>();
         this.seeds = new ArrayList<>();
         this.initialized = false;
-        this.users_cant = -1;
+        this.users_cant = 0;
         this.periods =periods;
         this.dataHandler = DataHandler.getInstance();
     }
@@ -51,7 +51,7 @@ public abstract class Environment implements IObservable, IData {
         System.out.println("Initializing in Environment: ");
         for(int i = 0; i<agentsConfigs.size(); i++){
             AgentConfig configAgent = agentsConfigs.get(i);//Obtener i esima configuracion de tipo de agente
-            createAgents(configAgent, i==0);
+            createAgents(configAgent, configAgent.getIsSeed());
         }
 
         this.initialized = true;

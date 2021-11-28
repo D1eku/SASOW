@@ -28,6 +28,11 @@ public abstract class Agent implements IData {
         this.commands = cmd_config;
         this.isSeed = isSeed;
         this.agentConfig = agentConfig;
+        System.out.println("Agente: "+ id);
+        System.out.println("Cantidad de acciones: "+ commands.size());
+        System.out.println("Accion 0: "+commands.get(0).getName()+" Probabilidad: "+commands.get(0).getProbability());
+        System.out.println("Accion 1: "+commands.get(1).getName()+" Probabilidad: "+commands.get(1).getProbability());
+
     }
 
     public Agent(int id, int state, ArrayList<Action> cmd_config, boolean isSeed) {
@@ -64,7 +69,6 @@ public abstract class Agent implements IData {
     }
 
     public void receiveMessage() {
-        //Si recibo un mensaje, agrega a la Queue que este agente debe realizar la accion.
         if(state != STOP && state != SHARED) {
             for (Action c : this.commands) {
                 c.Execute(this);

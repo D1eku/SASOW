@@ -17,4 +17,6 @@ public class ModelAgentConfigsTable extends DefaultTableModel {
     public boolean isCellEditable(int row, int column) {
         return super.isCellEditable(row, column);
     }
+
+
 }
