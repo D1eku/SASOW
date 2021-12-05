@@ -14,17 +14,23 @@ public class TwitterAgent extends Agent {
 
     @Override
     public void doActions()  {
-
-        for (Action command : commands) {
-            command.Execute(this);
-        }
-
+        share();
     }
 
     @Override
-    public RowData getData() {
+    public RowData getDataDetailed() {
         //ADD some info to add to csv file.
-        RowData rd = super.getData();
+        RowData rd = super.getDataDetailed();
         return rd;
+    }
+
+    private void share(){
+        if(state == PREPARE_FOR_SHARE){
+            for(int i = 0; i<getFollowers().size() ; i++){
+                Agent f = getFollowers().get(i);
+                f.receiveMessage();
+            }
+            setState(Agent.SHARED);
+        }
     }
 }

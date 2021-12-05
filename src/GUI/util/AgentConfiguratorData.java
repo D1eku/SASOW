@@ -5,14 +5,14 @@ import java.util.ArrayList;
 public class AgentConfiguratorData {
 
     private String agentConfigName;
-    private int followers;
-    private int followings;
+    private double followers;
+    private double followings;
     private String agentTypo;
     private ArrayList<ActionData> actionsData;
     private boolean seed;
     private int quantityAgent;
 
-    public AgentConfiguratorData(String name, String agentTypo, int followers, int followings, ArrayList<ActionData> actionsData){
+    public AgentConfiguratorData(String name, String agentTypo, double followers, double followings, ArrayList<ActionData> actionsData){
         this.agentConfigName = name;
         this.agentTypo = agentTypo;
         this.followings = followings;
@@ -28,11 +28,11 @@ public class AgentConfiguratorData {
         this.agentConfigName = name;
     }
 
-    public void setFollowers(int followers) {
+    public void setFollowers(double followers) {
         this.followers = followers;
     }
 
-    public void setFollowings(int followings) {
+    public void setFollowings(double followings) {
         this.followings = followings;
     }
 
@@ -44,11 +44,11 @@ public class AgentConfiguratorData {
         return this.agentConfigName;
     }
 
-    public int getFollowers() {
+    public double getFollowers() {
         return this.followers;
     }
 
-    public int getFollowings() {
+    public double getFollowings() {
         return this.followings;
     }
 
@@ -80,5 +80,12 @@ public class AgentConfiguratorData {
         this.quantityAgent = quantityAgent;
     }
 
+    public int getFollowersByNetwork(int network){
+        return (int) (network*this.followers);
+    }
+
+    public int getFollowingsByNetwork(int network){
+        return (int) (network*followings);
+    }
 
 }

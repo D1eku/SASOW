@@ -1,7 +1,10 @@
 package model.util.datahandler.observer;
 
-public interface IObserver {
+import model.essentials.Agent;
 
-    void update ();
-    //void update();
+public interface IObserver {
+    //Todo configurationData; --> updateConfiguration ?
+
+    void updateEssential ();
+    void updateDetailed (Agent a);
 }

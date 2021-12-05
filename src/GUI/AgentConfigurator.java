@@ -57,15 +57,15 @@ public class AgentConfigurator extends JFrame {
         addConfigButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("====================================================================");
-                System.out.println("agentConfigNameField: " + agentConfigNameField.getText());
-                System.out.println("followersQuantityField: " + followersQuantityField.getText());
-                System.out.println("followingsQuantityField: " + followingsQuantityField.getText());
-                System.out.println("agentTypeCombo: " + agentTypeCombo.getSelectedItem());
+                //System.out.println("====================================================================");
+                //System.out.println("agentConfigNameField: " + agentConfigNameField.getText());
+                //System.out.println("followersQuantityField: " + followersQuantityField.getText());
+                //System.out.println("followingsQuantityField: " + followingsQuantityField.getText());
+                //System.out.println("agentTypeCombo: " + agentTypeCombo.getSelectedItem());
                 try {
                     if(itsAllOk()){
-                        int followers = Integer.parseInt(followersQuantityField.getText());
-                        int followings = Integer.parseInt(followingsQuantityField.getText());
+                        Double followers = Double.parseDouble(followersQuantityField.getText());
+                        Double followings = Double.parseDouble(followingsQuantityField.getText());
                         String name = agentConfigNameField.getText();
                         String agentTypo = agentTypeCombo.getSelectedItem().toString();
                         agentData.setAgentTypo(agentTypo);
@@ -80,11 +80,11 @@ public class AgentConfigurator extends JFrame {
                         mainFrame.updateData();
                         obviouslyThis.dispose();
                     }else{
-                        //todo Popup verify your data !!
+                        JOptionPane.showMessageDialog(null, "Error to Add your Config, Verify your Data");
                     }
                 }catch (Exception exp){
                     System.out.println(exp);
-                    //todo Send message
+                    JOptionPane.showMessageDialog(null, "Error to Add your Config, Verify your Data");
                 }
             }
         });
@@ -121,10 +121,8 @@ public class AgentConfigurator extends JFrame {
                         //comboActions.addItem(a.getType());
                         //comboActions.updateUI();
                     }
-
-                    System.out.println("Selected Row: " + row);
                 }catch (Exception exp){
-                    System.out.println(exp.toString());
+                    exp.printStackTrace();
                 }
 
             }
@@ -216,8 +214,9 @@ public class AgentConfigurator extends JFrame {
             return false;
         } else {
             try {
-                int aux = Integer.parseInt(followersQuantityField.getText());
+                double aux = Double.parseDouble(followersQuantityField.getText());
             }catch (Exception exception){
+                System.out.println("Exception Followers Percentage cant Convert");
                 return false;
             }
         }
@@ -226,8 +225,9 @@ public class AgentConfigurator extends JFrame {
             return false;
         }else {
             try {
-                int aux = Integer.parseInt(followingsQuantityField.getText());
+                double aux = Double.parseDouble(followingsQuantityField.getText());
             }catch (Exception exception){
+                System.out.println("Exception Followings Percentage cant Convert");
                 return false;
             }
         }
@@ -243,4 +243,5 @@ public class AgentConfigurator extends JFrame {
             ad.setProbability((double) a.get(1));
         }
     }
+
 }

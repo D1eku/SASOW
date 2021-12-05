@@ -2,5 +2,7 @@ package model.util.data;
 
 public interface IData {
 
-    RowData getData();
+    RowData getDataEssential();
+    RowData getDataDetailed();
+
 }

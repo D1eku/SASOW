@@ -9,21 +9,24 @@ public class AgentConfig {
     private Agent agentInfo;
     private int cantAgent;
     private int  cantFollowers;
+    private int cantFollowings;
     private ArrayList<Action> actions;
     private String name;
 
-    public AgentConfig(Agent agent, int cantAgent, int followers){
+    public AgentConfig(Agent agent, int cantAgent, int followers, int followings){
         this.cantAgent = cantAgent;
         this.agentInfo = agent;
         this.cantFollowers = followers;
+        this.cantFollowings = followings;
         this.actions = agent.getCommands();
         this.name = "agentDefault";
     }
 
-    public AgentConfig(Agent agent, int cantAgent, int followers, String name ){
+    public AgentConfig(Agent agent, int cantAgent, int followers, int followings, String name ){
         this.cantAgent = cantAgent;
         this.agentInfo = agent;
         this.cantFollowers = followers;
+        this.cantFollowings = followings;
         this.actions = agent.getCommands();
         this.name = name;
     }
@@ -48,12 +51,20 @@ public class AgentConfig {
         return this.cantFollowers;
     }
 
+    public int getCantFollowings(){
+        return this.cantFollowings;
+    }
+
     public ArrayList<Action> getActions(){
         return this.actions;
     }
 
-    public void setCantFollowers(int cantFollowers) {
-        this.cantFollowers = cantFollowers;
+    public void setCantFollowers(int followers) {
+        this.cantFollowers = followers;
+    }
+
+    public void setCantFollowings(int followings) {
+        this.cantFollowings = followings;
     }
 
     public void setAgentInfo(Agent agentClass){

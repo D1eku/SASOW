@@ -2,6 +2,8 @@ package experiments.main.natalia;
 
 import model.essentials.Experiment;
 import model.util.actions.Action;
+import model.util.config.AgentConfig;
+import model.util.config.DataHandlerConfig;
 import model.util.config.SimulationConfig;
 import model.util.factory.ActionFactory;
 import model.util.factory.AgentConfigFactory;
@@ -10,15 +12,16 @@ import model.util.factory.AgentFactory;
 import java.util.ArrayList;
 
 public class ExperimentNatalia extends Experiment {
-    public ExperimentNatalia(int runs, String name, String description) {
-        super(runs, name, description);
+    public ExperimentNatalia(int runs, String name, String description, DataHandlerConfig dataHandlerConfig) {
+        super(runs, name, description,dataHandlerConfig);
     }
 
     @Override
     public void configure() {
 
-        int networkSize = 10000;
+        int networkSize = 10105;
         int seedSize = networkSize * 5/100;
+        seedSize = 0;
         int periods = 25;
 
         int followersLeader = 108;
@@ -31,37 +34,33 @@ public class ExperimentNatalia extends Experiment {
 
         double pRead = 0.2;
 
-        //Todo Agent Factory
-        //Todo Command Factory
-        //Todo Make function to configure ?
 
         //Se que esto se puede convertir en una funcion
         ActionFactory actionFactory = new ActionFactory();
         AgentFactory agentFactory = new AgentFactory();
         AgentConfigFactory agentConfigFactory = new AgentConfigFactory();
 
-        //Agente Average
-        ArrayList<Action> actionsAverage = new ArrayList<>();
-        actionsAverage.add(actionFactory.createReadAction(pRead));
-        actionsAverage.add(actionFactory.createShareAction(pRTAvr));
-
-        //Agente HUB
-        ArrayList<Action> actionsHub = new ArrayList<>();
-        actionsHub.add(actionFactory.createReadAction(pRead));
-        actionsHub.add(actionFactory.createShareAction(pRTHub));
+        ArrayList<AgentConfig> ags = new ArrayList<>();
 
 
-        //Agente Leader
-        ArrayList<Action> actionsLeader = new ArrayList<>();
-        actionsLeader.add(actionFactory.createReadAction(pRead));
-        actionsLeader.add(actionFactory.createShareAction(pRTLeader));
+        ArrayList<Action> actList_oscar = new ArrayList<>();
+        actList_oscar.add(actionFactory.createReadAction(0.5));
+        actList_oscar.add(actionFactory.createShareAction(0.5));
+        ags.add(agentConfigFactory.createAgentConfig(agentFactory.createTwitterAgent(actList_oscar), 10000, 50,0));
+
+        ArrayList<Action> actList_casz3 = new ArrayList<>();
+        actList_casz3.add(actionFactory.createReadAction(0.5));
+        actList_casz3.add(actionFactory.createShareAction(0.3));
+        ags.add(agentConfigFactory.createAgentConfig(agentFactory.createTwitterAgentSeed(actList_casz3), 5, 5,0));
 
 
-        //Configuracion de agentes
-        agentConfigFactory.addAgentConfig(agentFactory.createTwitterAgentSeed(actionsLeader), seedSize, followersHub);
-        agentConfigFactory.addAgentConfig(agentFactory.createTwitterAgent(actionsAverage), networkSize - seedSize, followersAvr);
+        ArrayList<Action> actList_lukk = new ArrayList<>();
+        actList_lukk.add(actionFactory.createReadAction(0.5));
+        actList_lukk.add(actionFactory.createShareAction(0.2));
+        ags.add(agentConfigFactory.createAgentConfig(agentFactory.createTwitterAgent(actList_lukk), 100, 50, 0));
 
-        simulation_config = new SimulationConfig(periods, networkSize, seedSize, agentConfigFactory.createAgentConfig());
+
+        simulationConfig = new SimulationConfig(periods, networkSize, seedSize, ags);
     }
 
 

@@ -1,34 +1,35 @@
 package model.util.datahandler;
 
+import model.essentials.Agent;
 import model.essentials.Environment;
 import model.essentials.Experiment;
 import model.essentials.Simulation;
-import model.util.DataFile;
+import model.util.config.DataHandlerConfig;
+import model.util.config.ExperimentConfig;
 import model.util.data.MatrixData;
 import model.util.data.RowData;
 import model.util.datahandler.observer.IObserver;
 
 import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class DataHandler implements IObserver {
-    private static String name_file = "default_filename_";
     private static DataHandler instance;
 
+    //Vars to access after to get data to write ._.
     private Experiment experiment;
     private Environment environment;
     private Simulation simulation;
+    private ExperimentConfig experimentConfig;
 
-    private MatrixData simulationData;
-    private int fileNumber;
+    private MatrixData essentialData;
+    private MatrixData detailedData;
 
-    private ArrayList<DataFile> files;
+    private DataHandlerConfig dataHandlerConfig;
 
-
+    /* Constructor */
     public DataHandler(){
-        simulationData = new MatrixData();
-        fileNumber = 0;
+        essentialData = new MatrixData();
+        detailedData = new MatrixData();
     }
 
     public static DataHandler getInstance(){
@@ -38,30 +39,81 @@ public class DataHandler implements IObserver {
         return  instance;
     }
 
-    public void writeCSVFile() {
-        writeCSVFile(this.simulationData);
+    public void clearInstance() {
+        this.instance = null;
     }
 
-    private void writeCSVFile(MatrixData data) {
-        //Todo write csv file
-        try {
-            System.out.println("Starting to write the file.");
-            FileWriter myWriter = new FileWriter(name_file+fileNumber+".csv");
-            myWriter.write(data.getCSVFormat());
-            myWriter.close();
-            System.out.println("Successfully wrote to the file.");
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+    /* Update by interfaces and util  */
+
+    @Override
+    public void updateEssential() {
+        if(dataHandlerConfig.isEssentialData()){
+            addLineEssential();
         }
-        System.out.println("Do Write csv");
     }
 
     @Override
-    public void update() {
-        addLine();
-        //En teoria se tendria que llamar
+    public void updateDetailed(Agent a) {
+        if(dataHandlerConfig.isDetailedData()){
+            addLineDetailed(a);
+        }
     }
+
+
+    public void addLineEssential(){
+        RowData rd = new RowData();
+        RowData rdSimulation = simulation.getDataEssential();
+        RowData rdEnvironment = environment.getDataEssential();
+        //RowData rdAgentCountStates = environment.getCountStates();
+        rd.addRows(rdSimulation);
+        rd.addRows(rdEnvironment);
+        //rd.addRows(rdAgentCountStates);
+        essentialData.addRow(rd);
+    }
+
+    public void addLineDetailed(Agent a){
+        RowData rd = new RowData();
+        RowData dataSim = this.simulation.getDataDetailed();
+        RowData dataEnv = this.environment.getDataDetailed();
+        RowData dataAgent = a.getDataDetailed();
+
+        rd.addRows(dataSim);
+        rd.addRows(dataEnv);
+        rd.addRows(dataAgent);
+
+        detailedData.addRow(rd);
+    }
+
+
+    /* Write Files Functions */
+
+    public void writeCSVFile() {
+        //Todo write csv file
+        //Todo configurationData to Write CSV
+        //Todo detailed data
+        if(dataHandlerConfig.isEssentialData()){
+            WriteFileData(essentialData, "essential");
+        }
+        if(dataHandlerConfig.isDetailedData()){
+            WriteFileData(detailedData, "detailed");
+        }
+    }
+
+    private void WriteFileData(MatrixData data, String mode){
+        try{
+            System.out.println("Starting to write the file --> " +mode+" .");
+            FileWriter myWriter = new FileWriter(dataHandlerConfig.getExperimentName()+"_"+mode+".csv");
+            myWriter.write(data.getCSVFormat());
+            myWriter.close();
+            System.out.println("Successfully wrote to the file --> " +mode+" .");
+        }catch (Exception exp){
+            System.out.println("Exception trying to write CSV files in mode: "+mode);
+            exp.printStackTrace();
+        }
+    }
+
+
+    /* Getters and Setters*/
 
     public void setEnvironment(Environment environment) {
         this.environment = environment;
@@ -75,28 +127,15 @@ public class DataHandler implements IObserver {
         this.simulation = simulation;
     }
 
-    public void addLine(){
-        RowData rd = new RowData();
-        RowData rdSimulation = simulation.getData();
-        RowData rdEnvironment = environment.getData();
-        RowData rdAgentCountStates = environment.getCountStates();
-        rd.addRows(rdSimulation);
-        rd.addRows(rdEnvironment);
-        rd.addRows(rdAgentCountStates);
-        //System.out.println("Simulation: "+rdSimulation.toCSVFormat());
-        //System.out.println("Environment: "+ rdEnvironment.toCSVFormat());
-        //System.out.println("agentCountStates: "+ rdAgentCountStates.toCSVFormat());
-        simulationData.addRow(rd);
+    public DataHandlerConfig getDataHandlerConfig() {
+        return dataHandlerConfig;
     }
 
-    public void configData() {
-        MatrixData configMatrix = new MatrixData();
-
+    public void setDataHandlerConfig(DataHandlerConfig dataHandlerConfig) {
+        this.dataHandlerConfig = dataHandlerConfig;
     }
 
-    public void detailedAgentData(){
-        MatrixData detailedAgentMatrix = new MatrixData();
-
+    public void setExperimentConfig(ExperimentConfig experimentConfigData) {
+        this.experimentConfig = experimentConfigData;
     }
-
 }

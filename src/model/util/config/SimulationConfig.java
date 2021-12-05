@@ -3,32 +3,22 @@ package model.util.config;
 import java.util.ArrayList;
 
 public class SimulationConfig {
-    private int NetworkSize;
-    private AgentConfig seedConfig;
+    private int networkSize;
     private ArrayList<AgentConfig> agentsConfigs;
     private int periods;
 
 
     public SimulationConfig(int periods, int NetworkSize, int SeedSize, ArrayList<AgentConfig> agentConfigs) {
-        this.NetworkSize = NetworkSize;
-        //this.SeedSize = SeedSize;
+        this.networkSize = NetworkSize;
         this.agentsConfigs = agentConfigs;
-        this.seedConfig = this.agentsConfigs.get(0);
-        //this.SeedAgentClass = SeedAgentClass;
         this.periods = periods;
     }
 
-    public AgentConfig getSeedConfig(){
-        return this.seedConfig;
-    }
 
     public int getNetworkSize() {
-        return this.NetworkSize;
+        return this.networkSize;
     }
 
-    public int getSeedSize() {
-        return this.seedConfig.getCantAgent();
-    }
 
     public ArrayList<AgentConfig> getAgentsConfigs(){
         return this.agentsConfigs;
@@ -36,6 +26,16 @@ public class SimulationConfig {
 
     public int getPeriods(){
         return this.periods;
+    }
+
+    public int getSeedSize(){
+        int total = 0;
+        for(int i = 0; i<agentsConfigs.size(); i++) {
+            if(agentsConfigs.get(i).getIsSeed()){
+                total+= agentsConfigs.get(i).getCantAgent();
+            }
+        }
+        return total;
     }
 
 

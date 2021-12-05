@@ -2,10 +2,11 @@ package model.essentials;
 
 import model.environments.twitter.EnvironmentTwitter;
 import model.util.config.SimulationConfig;
-import model.util.data.IData;
+import model.util.data.IDataDetailed;
+import model.util.data.IDataEssential;
 import model.util.data.RowData;
 
-public abstract class Simulation implements IData {
+public abstract class Simulation implements IDataEssential, IDataDetailed {
     protected Experiment experiment;
     protected int simulation_id;
     protected Environment environment;
@@ -56,12 +57,18 @@ public abstract class Simulation implements IData {
     public abstract void run();
 
     @Override
-    public RowData getData() {
+    public RowData getDataEssential() {
         RowData rdSimulation = new RowData();
         rdSimulation.addRow(simulation_id, "simulation_id");
         rdSimulation.addRow(NetworkSize, "network_size");
         rdSimulation.addRow(SeedSize, "seed_size");
         rdSimulation.addRow(periods, "periods");
         return rdSimulation;
+    }
+
+    public RowData getDataDetailed() {
+        RowData rd = new RowData();
+        rd.addRow(simulation_id, "simulation_id");
+        return rd;
     }
 }

@@ -2,11 +2,12 @@ package GUI;
 
 import GUI.util.ActionData;
 import GUI.util.AgentConfiguratorData;
-import GUI.util.ExperimentDataConfig;
+import GUI.util.ExperimentConfigData;
 import GUI.util.ModelAgentConfigsTable;
 import model.environments.twitter.ExperimentTwitter;
 import model.util.actions.Action;
 import model.util.config.AgentConfig;
+import model.util.config.DataHandlerConfig;
 import model.util.config.SimulationConfig;
 import model.util.factory.ActionFactory;
 import model.util.factory.AgentConfigFactory;
@@ -15,9 +16,13 @@ import model.util.factory.AgentFactory;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.Vector;
 
 public class MainFrame extends JFrame{
@@ -37,12 +42,11 @@ public class MainFrame extends JFrame{
     //FieldsData
     private JComboBox comboBoxSimulation;
     private JTextField NetworkSizeField;
-    private JTextArea DescriptionField;
+    private JTextPane DescriptionField;
     private JTextField NameExperimentField;
     private JTextField RepetitionsField;
     private JTextField PeriodsField;
     private JTextField SeedSizeField;
-    private JCheckBox configurationDataCheckBox;
     private JCheckBox essentialDataCheckBox;
     private JCheckBox detailedDataCheckBox;
     private JTextArea outputTextArea;
@@ -53,8 +57,12 @@ public class MainFrame extends JFrame{
     private ModelAgentConfigsTable model;//Modelo que utilizara el JTABLE
     private JTable agentsConfigDataTable;//El JTABLE OBVIO
     private JScrollPane agentConfigJScrollPane;//Panel para la Jtable
+    private JButton loadExperimentConfigFileButton;
+    private JButton saveExperimentConfigFileButton;
+    private JButton newExperimentConfigButton;
+    private JPanel topPanel;
     //private ArrayList<AgentConfiguratorData> auxListAgentConfiguratorData;//Data de los agentConfig
-    private ExperimentDataConfig expConfig;
+    private ExperimentConfigData expConfig;
 
     //Factory
 
@@ -63,7 +71,7 @@ public class MainFrame extends JFrame{
     private AgentConfigFactory agentConfigFactory;
 
     public MainFrame() {
-        expConfig = new ExperimentDataConfig();
+        expConfig = new ExperimentConfigData();
         //Factory
         actionFactory = new ActionFactory();
         agentFactory = new AgentFactory();
@@ -98,23 +106,27 @@ public class MainFrame extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
+                    fixData();
                     int periods = Integer.parseInt(PeriodsField.getText());
                     String name = NameExperimentField.getText();
                     String description = DescriptionField.getText();
                     int repetitions = Integer.parseInt(RepetitionsField.getText());
-                    int NetworkSize = Integer.parseInt(NetworkSizeField.getText());
-                    int SeedSize = Integer.parseInt(SeedSizeField.getText());
+                    int networkSize = Integer.parseInt(NetworkSizeField.getText());
+                    int seedSize = Integer.parseInt(SeedSizeField.getText());
                     ArrayList<AgentConfig> agentConfigs = createAgentConfigs();
-                    ExperimentTwitter exp = new ExperimentTwitter(repetitions, name, description){
+                    DataHandlerConfig dataHandlerConfig = new DataHandlerConfig(name);
+                    dataHandlerConfig.setDetailedData(detailedDataCheckBox.isSelected());
+                    dataHandlerConfig.setEssentialData(essentialDataCheckBox.isSelected());
+                    ExperimentTwitter exp = new ExperimentTwitter(repetitions, name, description, dataHandlerConfig){
                         @Override
                         public void configure() {
-                            this.simulation_config = new SimulationConfig(periods, NetworkSize, SeedSize, agentConfigs);
+                            this.simulationConfig = new SimulationConfig(periods, networkSize, seedSize, agentConfigs);
                         }
                     };
                     exp.run();
                 }catch (Exception exp) {
-                    System.out.println(exp);
-                    //TODO add popup error message
+                    exp.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error Can't Start Simulation, Verify your Config");
                 }
             }
         });
@@ -133,9 +145,105 @@ public class MainFrame extends JFrame{
                         agentsConfigDataTable.updateUI();
                     }
                 }catch (Exception exp) {
-                    //Todo send message in popup
                     System.out.println(exp);
                 }
+            }
+        });
+
+        /*
+        Listener for JTable when has keyboard focus
+         */
+        agentsConfigDataTable.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                super.focusLost(e);
+                fixData();
+            }
+        });
+        /*
+        Listener for JTable when has keyboard focus
+         */
+        agentsConfigDataTable.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                super.focusGained(e);
+                fixData();
+            }
+        });
+
+        /*
+        Button for open file configuration for experiment;
+         */
+        loadExperimentConfigFileButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                int response = fileChooser.showOpenDialog(null);
+                if(response == JFileChooser.APPROVE_OPTION) {
+                    String route = fileChooser.getSelectedFile().getAbsolutePath();
+                    Properties prop = new Properties();
+                    try {
+                        System.out.println(route);
+                        FileInputStream fiStream = new FileInputStream(route);
+                        prop.load(fiStream);
+                        loadExperimentConfigFile(prop);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+
+                }
+            }
+        });
+
+        /*
+        Button for save file configuration for experiment;
+         */
+        saveExperimentConfigFileButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                int response = fileChooser.showSaveDialog(null);
+                if(response == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        String route = fileChooser.getSelectedFile().getAbsolutePath()+".cfg";
+                        Properties p = saveExperimentConfigFile();
+                        p.store(new FileOutputStream(route), null);
+                    } catch (FileNotFoundException ex) {
+                        ex.printStackTrace();
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+            }
+        });
+        /*
+
+         */
+        agentsConfigDataTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                fixData();
+            }
+        });
+        newExperimentConfigButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                expConfig = new ExperimentConfigData();
+                makeTable();
+                fixData();
+                agentsConfigDataTable.updateUI();
+                //Actualizar JCheckBoxes.
+                detailedDataCheckBox.setSelected(false);
+                essentialDataCheckBox.setSelected(false);
+                //Actualizar Labels
+                SeedSizeField.setText("");
+                NetworkSizeField.setText("");
+                DescriptionField.setText("");
+                NameExperimentField.setText("");
+                PeriodsField.setText("");
+                RepetitionsField.setText("");
+                pack();
             }
         });
     }
@@ -152,7 +260,6 @@ public class MainFrame extends JFrame{
     }
 
     private void makeTable(){
-        //Todo fix this --> this.agentConfigsData = new ArrayList<>();
         String[] headList = {"name", "Quantity Agent", "isSeed"};
         Object[][] data = getDataMatrix(headList);
         makeTable(headList, data);
@@ -164,8 +271,6 @@ public class MainFrame extends JFrame{
             @Override
             public Class getColumnClass(int columnIndex) {
                 switch (columnIndex){
-                    case 0:
-                        return String.class;
                     case 1:
                         return Integer.class;
                     case 2:
@@ -205,20 +310,6 @@ public class MainFrame extends JFrame{
         this.model.addRow(row);
     }
 
-    public void printAgentConfiguratorData(){
-        System.out.println("===========================================");
-        System.out.println("Agent Configurator Data in --> AUX ");
-        for(int i = 0; i<expConfig.getAgentConfData().size(); i++) {
-            System.out.println(expConfig.getAgentConfData().get(i));
-        }
-
-        System.out.println("===========================================");
-        System.out.println("Agent Configurator Data in --> model ");
-        for(int i = 0; i<this.model.getDataVector().size(); i++) {
-            System.out.println(this.model.getDataVector().get(i));
-        }
-    }
-
     private ArrayList<AgentConfig> createAgentConfigs(){
         fixData();
         ArrayList<AgentConfig> list = new ArrayList<>();
@@ -229,21 +320,31 @@ public class MainFrame extends JFrame{
                 ActionData ad = dataAgent.getActionsData().get(j);
                 String type = ad.getType();
                 if(type.equals("Read")){
-                    actionsAgent.add(actionFactory.createReadAction(ad.getName(), ad.getProbability()));
+                    actionsAgent.add(actionFactory.createReadAction(ad.getProbability()));
                 }else {
-                    actionsAgent.add(actionFactory.createShareAction(ad.getName(), ad.getProbability()));
+                    actionsAgent.add(actionFactory.createShareAction(ad.getProbability()));
                 }
             }
             if(dataAgent.isSeed()){
-                list.add(agentConfigFactory.createAgentConfig(agentFactory.createTwitterAgentSeed(actionsAgent), dataAgent.getQuantityAgent(), dataAgent.getFollowers()));
+                list.add(agentConfigFactory.createAgentConfig(
+                        agentFactory.createTwitterAgentSeed(actionsAgent),
+                        dataAgent.getQuantityAgent(),
+                        dataAgent.getFollowersByNetwork(getNetworkSize()),
+                        dataAgent.getFollowingsByNetwork(getNetworkSize())));
             }else{
-                list.add(agentConfigFactory.createAgentConfig(agentFactory.createTwitterAgent(actionsAgent), dataAgent.getQuantityAgent(), dataAgent.getFollowers()));
+                list.add(agentConfigFactory.createAgentConfig(
+                        agentFactory.createTwitterAgent(actionsAgent),
+                        dataAgent.getQuantityAgent(),
+                        dataAgent.getFollowersByNetwork(getNetworkSize()),
+                        dataAgent.getFollowingsByNetwork(getNetworkSize())));
             }
         }
         return list;
     }
 
     private void fixData(){
+        SeedSizeField.setText(""+getSeeds());
+        NetworkSizeField.setText(""+(getNetworkSize()+getSeeds()));
         for(int i = 0; i<this.model.getDataVector().size(); i++){
             Vector aux = this.model.getDataVector().get(i);
             String new_name = (String) aux.get(0);
@@ -256,12 +357,84 @@ public class MainFrame extends JFrame{
         }
     }
 
-    public void saveExperimentConfigFile(){
-
+    public Properties saveExperimentConfigFile(){
+        fixData();
+        saveOnExperimentDataConfigState();
+        return expConfig.toCFGFile();
     }
 
-    public void loadExperimentConfigFile(){
-        
+    public void loadExperimentConfigFile(Properties prop){
+        expConfig = new ExperimentConfigData();
+        makeTable();
+        expConfig.loadFromCFG(prop);
+        //Actualizar JTable
+        ArrayList<AgentConfiguratorData> acd = expConfig.getAgentConfData();
+        for(int i = 0; i<acd.size(); i++){
+            AgentConfiguratorData dataAgentToAdd = acd.get(i);
+            Vector row = new Vector();
+            row.add(dataAgentToAdd.getAgentConfigName());
+            row.add(dataAgentToAdd.getQuantityAgent());
+            row.add(dataAgentToAdd.isSeed());
+            this.model.addRow(row);
+        }
+        agentsConfigDataTable.updateUI();
+        //Actualizar JCheckBoxes.
+        detailedDataCheckBox.setSelected(expConfig.isDetailedData());
+        System.out.println("expConfig.isDetailedData(): "+expConfig.isDetailedData());
+        essentialDataCheckBox.setSelected(expConfig.isEssentialData());
+        System.out.println("expConfig.isEssentialData(): "+expConfig.isEssentialData());
+        //Actualizar Labels
+        SeedSizeField.setText(""+getSeeds());
+        NetworkSizeField.setText(""+(getNetworkSize()+getSeeds()));
+        DescriptionField.setText(expConfig.getDescription());
+        NameExperimentField.setText(expConfig.getName());
+        PeriodsField.setText(expConfig.getPeriods()+"");
+        RepetitionsField.setText(expConfig.getRepetitions()+"");
+        fixData();
+        this.pack();
+    }
+
+    public void saveOnExperimentDataConfigState(){
+        try {
+            //Todo quizas no deberias convertir a int aca los valores ....
+            int periods = Integer.parseInt(PeriodsField.getText());
+            String name = NameExperimentField.getText();
+            String description = DescriptionField.getText();
+            int repetitions = Integer.parseInt(RepetitionsField.getText());
+            int networkSize = Integer.parseInt(NetworkSizeField.getText());
+            int seedSize = Integer.parseInt(SeedSizeField.getText());
+            expConfig.setName(name);
+            expConfig.setDescription(description);
+            expConfig.setPeriods(periods);
+            expConfig.setRepetitions(repetitions);
+            expConfig.setNetworkSize(networkSize);
+            expConfig.setSeedSize(seedSize);
+            expConfig.setEssentialData(Boolean.getBoolean(essentialDataCheckBox.getText()));
+            expConfig.setDetailedData(Boolean.getBoolean(detailedDataCheckBox.getText()));
+        } catch (Exception exp){
+            exp.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error on Save, Verify your data");
+        }
+    }
+
+    public int getSeeds(){
+        int total = 0;
+        for(int i = 0; i<model.getDataVector().size(); i++){
+            if((boolean) model.getDataVector().get(i).get(2)){
+                total +=  (int) model.getDataVector().get(i).get(1);
+            }
+        }
+        return total;
+    }
+
+    public int getNetworkSize(){
+        int total = 0;
+        for(int i = 0; i<model.getDataVector().size(); i++){
+            if(!(boolean) model.getDataVector().get(i).get(2)){
+                total +=  (int) model.getDataVector().get(i).get(1);
+            }
+        }
+        return total;
     }
 
 
