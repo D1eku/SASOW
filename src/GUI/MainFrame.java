@@ -62,6 +62,7 @@ public class MainFrame extends JFrame{
     private JButton saveExperimentConfigFileButton;
     private JButton newExperimentConfigButton;
     private JPanel topPanel;
+    private JScrollPane jscrollOutPut;
     //private ArrayList<AgentConfiguratorData> auxListAgentConfiguratorData;//Data de los agentConfig
     private ExperimentConfigData expConfig;
 
@@ -88,6 +89,7 @@ public class MainFrame extends JFrame{
 
         //Table Configuration
         configureTable();
+        jscrollOutPut.setViewportView(outputTextArea);
         pack();
 
 
@@ -98,6 +100,7 @@ public class MainFrame extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
+                    outputTextArea.setText("");
                     fixData();
                     int periods = Integer.parseInt(PeriodsField.getText());
                     String name = NameExperimentField.getText();
@@ -253,6 +256,7 @@ public class MainFrame extends JFrame{
                 NameExperimentField.setText("");
                 PeriodsField.setText("");
                 RepetitionsField.setText("");
+                outputTextArea.setText("");
                 pack();
             }
         });
@@ -449,6 +453,8 @@ public class MainFrame extends JFrame{
 
     public void appendLineToOutput(String line){
         this.outputTextArea.append(line);
+        this.outputTextArea.updateUI();
+        obviouslyThis.pack();
     }
 
     public static MainFrame getInstance(){
