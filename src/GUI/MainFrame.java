@@ -9,6 +9,7 @@ import model.util.actions.Action;
 import model.util.config.AgentConfig;
 import model.util.config.DataHandlerConfig;
 import model.util.config.SimulationConfig;
+import model.util.datahandler.DataHandler;
 import model.util.factory.ActionFactory;
 import model.util.factory.AgentConfigFactory;
 import model.util.factory.AgentFactory;
@@ -42,7 +43,7 @@ public class MainFrame extends JFrame{
     //FieldsData
     private JComboBox comboBoxSimulation;
     private JTextField NetworkSizeField;
-    private JTextPane DescriptionField;
+    private JTextArea DescriptionField;
     private JTextField NameExperimentField;
     private JTextField RepetitionsField;
     private JTextField PeriodsField;
@@ -89,15 +90,6 @@ public class MainFrame extends JFrame{
         configureTable();
         pack();
 
-        /*
-        Open the AgentConfigurator Window
-         */
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                AgentConfigurator agentConfigurator = new AgentConfigurator(obviouslyThis);
-            }
-        });
 
         /*
         Start Simulation Button ._.
@@ -132,6 +124,16 @@ public class MainFrame extends JFrame{
         });
 
         /*
+        Open the AgentConfigurator Window
+         */
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AgentConfigurator agentConfigurator = new AgentConfigurator(obviouslyThis);
+            }
+        });
+
+        /*
         Delete Agent Config from table button
         */
         deleteButton.addActionListener(new ActionListener() {
@@ -150,6 +152,7 @@ public class MainFrame extends JFrame{
             }
         });
 
+
         /*
         Listener for JTable when has keyboard focus
          */
@@ -167,6 +170,17 @@ public class MainFrame extends JFrame{
             @Override
             public void focusGained(FocusEvent e) {
                 super.focusGained(e);
+                fixData();
+            }
+        });
+
+        /*
+        Other listener when the table has focused, then the data in table is updated.
+         */
+        agentsConfigDataTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
                 fixData();
             }
         });
@@ -216,19 +230,14 @@ public class MainFrame extends JFrame{
                 }
             }
         });
-        /*
 
+        /*
+        Button for create a new experiment, this function or button clear all data in experiment.
          */
-        agentsConfigDataTable.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                fixData();
-            }
-        });
         newExperimentConfigButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                DataHandler.clearInstance();
                 expConfig = new ExperimentConfigData();
                 makeTable();
                 fixData();
@@ -329,14 +338,14 @@ public class MainFrame extends JFrame{
                 list.add(agentConfigFactory.createAgentConfig(
                         agentFactory.createTwitterAgentSeed(actionsAgent),
                         dataAgent.getQuantityAgent(),
-                        dataAgent.getFollowersByNetwork(getNetworkSize()),
-                        dataAgent.getFollowingsByNetwork(getNetworkSize())));
+                        dataAgent.getFollowers(),
+                        dataAgent.getFollowings()));
             }else{
                 list.add(agentConfigFactory.createAgentConfig(
                         agentFactory.createTwitterAgent(actionsAgent),
                         dataAgent.getQuantityAgent(),
-                        dataAgent.getFollowersByNetwork(getNetworkSize()),
-                        dataAgent.getFollowingsByNetwork(getNetworkSize())));
+                        dataAgent.getFollowers(),
+                        dataAgent.getFollowings()));
             }
         }
         return list;
@@ -409,8 +418,8 @@ public class MainFrame extends JFrame{
             expConfig.setRepetitions(repetitions);
             expConfig.setNetworkSize(networkSize);
             expConfig.setSeedSize(seedSize);
-            expConfig.setEssentialData(Boolean.getBoolean(essentialDataCheckBox.getText()));
-            expConfig.setDetailedData(Boolean.getBoolean(detailedDataCheckBox.getText()));
+            expConfig.setEssentialData(essentialDataCheckBox.isSelected());
+            expConfig.setDetailedData(essentialDataCheckBox.isSelected());
         } catch (Exception exp){
             exp.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error on Save, Verify your data");

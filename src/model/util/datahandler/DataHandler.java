@@ -39,8 +39,8 @@ public class DataHandler implements IObserver {
         return  instance;
     }
 
-    public void clearInstance() {
-        this.instance = null;
+    public static void clearInstance() {
+        instance = null;
     }
 
     /* Update by interfaces and util  */

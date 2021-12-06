@@ -81,11 +81,29 @@ public class AgentConfiguratorData {
     }
 
     public int getFollowersByNetwork(int network){
-        return (int) (network*this.followers);
+        System.out.println("gettingFollowersBy Network:");
+        System.out.println("Network: "+network);
+        System.out.println("Followers: "+followers);
+        double realPerce = followers/100;
+        System.out.println(realPerce);
+        System.out.println("Result: "+ (int) (network*realPerce));
+        if(followers == 0){
+            return 0;
+        }else{
+            return (int) (network*followers/100);
+        }
     }
 
     public int getFollowingsByNetwork(int network){
-        return (int) (network*followings);
+        System.out.println("gettingFollowingsBy Network:");
+        System.out.println("Network: "+network);
+        System.out.println("Followings"+followings);
+        System.out.println("Result: "+ (int) (network*followings/100));
+        if(followings == 0){
+            return 0;
+        }else{
+            return (int) (network*followings/100);
+        }
     }
 
 }

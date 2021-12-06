@@ -8,25 +8,27 @@ import java.util.ArrayList;
 public class AgentConfig {
     private Agent agentInfo;
     private int cantAgent;
-    private int  cantFollowers;
-    private int cantFollowings;
+    private double percentageFollowers;
+    private double percentageFollowings;
     private ArrayList<Action> actions;
     private String name;
 
-    public AgentConfig(Agent agent, int cantAgent, int followers, int followings){
+    public AgentConfig(Agent agent, int cantAgent, double followers, double followings){
         this.cantAgent = cantAgent;
         this.agentInfo = agent;
-        this.cantFollowers = followers;
-        this.cantFollowings = followings;
+        this.percentageFollowers = followers;
+        this.percentageFollowings = followings;
         this.actions = agent.getCommands();
         this.name = "agentDefault";
+        System.out.println("Followers in agentConfig: "+followers+" --> "+name);
+        System.out.println("Followings in agentConfig: "+followings+" --> "+name);
     }
 
-    public AgentConfig(Agent agent, int cantAgent, int followers, int followings, String name ){
+    public AgentConfig(Agent agent, int cantAgent, double followers, double followings, String name ){
         this.cantAgent = cantAgent;
         this.agentInfo = agent;
-        this.cantFollowers = followers;
-        this.cantFollowings = followings;
+        this.percentageFollowers = followers;
+        this.percentageFollowings = followings;
         this.actions = agent.getCommands();
         this.name = name;
     }
@@ -47,24 +49,24 @@ public class AgentConfig {
         return this.cantAgent;
     }
 
-    public int getCantFollowers(){
-        return this.cantFollowers;
+    public double getPercentageFollowers(){
+        return this.percentageFollowers;
     }
 
-    public int getCantFollowings(){
-        return this.cantFollowings;
+    public double getPercentageFollowings(){
+        return this.percentageFollowings;
     }
 
     public ArrayList<Action> getActions(){
         return this.actions;
     }
 
-    public void setCantFollowers(int followers) {
-        this.cantFollowers = followers;
+    public void setPercentageFollowers(int followers) {
+        this.percentageFollowers = followers;
     }
 
-    public void setCantFollowings(int followings) {
-        this.cantFollowings = followings;
+    public void setPercentageFollowings(int followings) {
+        this.percentageFollowings = followings;
     }
 
     public void setAgentInfo(Agent agentClass){
@@ -87,5 +89,12 @@ public class AgentConfig {
         this.getAgentInfo().makeSeed(isSeed);
     }
 
+    public int getQuantityFollowersByNetwork(int network){
+        return (int) (this.percentageFollowers *network/100);
+    }
+
+    public int getQuantityFollowingsByNetwork(int network){
+        return (int) (this.percentageFollowings *network/100);
+    }
 
 }

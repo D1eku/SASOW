@@ -215,6 +215,9 @@ public class AgentConfigurator extends JFrame {
         } else {
             try {
                 double aux = Double.parseDouble(followersQuantityField.getText());
+                if(aux > 99 || aux < 0){
+                    return false;
+                }
             }catch (Exception exception){
                 System.out.println("Exception Followers Percentage cant Convert");
                 return false;
@@ -226,6 +229,9 @@ public class AgentConfigurator extends JFrame {
         }else {
             try {
                 double aux = Double.parseDouble(followingsQuantityField.getText());
+                if(aux > 99 || aux < 0){
+                    return false;
+                }
             }catch (Exception exception){
                 System.out.println("Exception Followings Percentage cant Convert");
                 return false;

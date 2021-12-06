@@ -58,6 +58,7 @@ public abstract class Environment implements IObservable, IDataEssential, IDataD
         this.initialized = true;
         this.addFollowers();
         this.addFollowings();
+
         if(!this.allDone()){
             System.out.println("ERROR AL INICIALIZAR");
             System.exit(1);
@@ -79,7 +80,7 @@ public abstract class Environment implements IObservable, IDataEssential, IDataD
 
         for (Agent u: users) {
             AgentConfig ag = u.getAgentConfig();
-            if(u.getFollowers().size() != ag.getCantFollowers()){
+            if(u.getFollowers().size() != ag.getQuantityFollowersByNetwork(NetworkSize)){
                 System.out.println("Error en la cantidad de seguidores del usuario: "+u.getId());
                 isDone = false;
                 break;
@@ -91,9 +92,11 @@ public abstract class Environment implements IObservable, IDataEssential, IDataD
 
     private void addFollowings() {
         System.out.println("Adding Followings");
+        //System.out.println("Users size: "+users.size());
         for (Agent user: this.users) {//Por cada agente, Obten N agentes que tengan su id diferente a alguna indexada
             AgentConfig agentConfig = user.getAgentConfig();
-            while(user.getFollowings().size() != (agentConfig.getCantFollowings())) {
+            int total = (int) (agentConfig.getPercentageFollowings()* NetworkSize/100);
+            while(user.getFollowings().size() != total) {
                 int max = this.users.size();
                 int randomIndex = (int) (Math.random() * ((max - 1) + 1) + 0);
                 user.addFollowing(this.users.get(randomIndex));
@@ -104,9 +107,16 @@ public abstract class Environment implements IObservable, IDataEssential, IDataD
 
     private void addFollowers(){
         System.out.println("Adding Followers");
+        //System.out.println("Users size: "+users.size());
+        int i = 0;
         for (Agent user: this.users) {//Por cada agente, Obten N agentes que tengan su id diferente a alguna indexada
             AgentConfig agentConfig = user.getAgentConfig();
-            while(user.getFollowers().size() != (agentConfig.getCantFollowers())) {
+            //System.out.println("agentConfig.getCantFollowers(): "+agentConfig.getQuantityFollowers());
+            int total = agentConfig.getQuantityFollowersByNetwork(NetworkSize);
+            System.out.println("Total in followers: "+total);
+            System.out.println("FollowersSize: "+user.getFollowers().size()+ " i--> "+i);
+            i++;
+            while(user.getFollowers().size() != total) {
                 int max = this.users.size();
                 int randomIndex = (int) (Math.random() * ((max - 1) + 1) + 0);
                 user.addFriend(this.users.get(randomIndex));

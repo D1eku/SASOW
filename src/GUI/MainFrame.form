@@ -42,7 +42,9 @@
                         <preferred-size width="150" height="-1"/>
                       </grid>
                     </constraints>
-                    <properties/>
+                    <properties>
+                      <editable value="false"/>
+                    </properties>
                   </component>
                   <component id="16313" class="javax.swing.JLabel">
                     <constraints>
@@ -68,7 +70,10 @@
                         <preferred-size width="150" height="-1"/>
                       </grid>
                     </constraints>
-                    <properties/>
+                    <properties>
+                      <editable value="false"/>
+                      <enabled value="true"/>
+                    </properties>
                   </component>
                   <component id="b7139" class="javax.swing.JLabel">
                     <constraints>
@@ -121,6 +126,7 @@
                       </grid>
                     </constraints>
                     <properties>
+                      <editable value="true"/>
                       <text value=""/>
                     </properties>
                   </component>
@@ -183,9 +189,12 @@
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <component id="cde76" class="javax.swing.JTextPane" binding="DescriptionField">
+                      <component id="1292e" class="javax.swing.JTextArea" binding="DescriptionField">
                         <constraints/>
-                        <properties/>
+                        <properties>
+                          <lineWrap value="true"/>
+                          <wrapStyleWord value="true"/>
+                        </properties>
                       </component>
                     </children>
                   </scrollpane>
@@ -378,7 +387,11 @@
                 <children>
                   <component id="5bfc" class="javax.swing.JTextArea" binding="outputTextArea">
                     <constraints/>
-                    <properties/>
+                    <properties>
+                      <editable value="false"/>
+                      <lineWrap value="true"/>
+                      <wrapStyleWord value="true"/>
+                    </properties>
                   </component>
                 </children>
               </scrollpane>
