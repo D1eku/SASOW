@@ -1,6 +1,5 @@
 package model.essentials;
 
-import model.environments.twitter.SimulationTwitter;
 import model.util.config.DataHandlerConfig;
 import model.util.config.ExperimentConfig;
 import model.util.config.SimulationConfig;
@@ -43,14 +42,7 @@ public abstract class Experiment implements IObservable, IDataEssential {
         dataHandler.writeCSVFile();
     }
 
-    public void initialize(int id) {
-        simulation = new SimulationTwitter(id, simulationConfig);
-        simulation.setExperiment(this);
-        simulation.initialize();
-        this.dataHandler.setExperiment(this);
-        this.dataHandler.setSimulation(simulation);
-        this.dataHandler.setEnvironment(simulation.getEnvironment());
-    }
+    public abstract void initialize(int id);
 
     @Override
     public RowData getDataEssential(){

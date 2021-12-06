@@ -7,6 +7,7 @@ public class SimulationTwitter extends Simulation {
 
     public SimulationTwitter(int id,SimulationConfig simulationConfig) {
         super(id, simulationConfig);
+        this.environment = new EnvironmentTwitter(id,periods, NetworkSize, SeedSize, simulationConfig.getAgentsConfigs());
     }
 
     @Override

@@ -50,4 +50,14 @@ public class ExperimentTwitter extends Experiment {
 
     }
 
+    @Override
+    public void initialize(int id) {
+        simulation = new SimulationTwitter(id, simulationConfig);
+        simulation.setExperiment(this);
+        simulation.initialize();
+        this.dataHandler.setExperiment(this);
+        this.dataHandler.setSimulation(simulation);
+        this.dataHandler.setEnvironment(simulation.getEnvironment());
+    }
+
 }

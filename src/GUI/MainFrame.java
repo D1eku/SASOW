@@ -4,6 +4,7 @@ import GUI.util.ActionData;
 import GUI.util.AgentConfiguratorData;
 import GUI.util.ExperimentConfigData;
 import GUI.util.ModelAgentConfigsTable;
+import model.environments.facebook.ExperimentFacebook;
 import model.environments.twitter.ExperimentTwitter;
 import model.util.actions.Action;
 import model.util.config.AgentConfig;
@@ -63,6 +64,7 @@ public class MainFrame extends JFrame{
     private JButton newExperimentConfigButton;
     private JPanel topPanel;
     private JScrollPane jscrollOutPut;
+    private JComboBox comboBoxEnvironment;
     //private ArrayList<AgentConfiguratorData> auxListAgentConfiguratorData;//Data de los agentConfig
     private ExperimentConfigData expConfig;
 
@@ -83,9 +85,16 @@ public class MainFrame extends JFrame{
         //obviouslyThis = this;
         setContentPane(mainPanel);
         setTitle("OPEN WOM");
-        setSize(650, 480);
+        setSize(1280, 1100);
+        //setMaximumSize(new Dimension(1280, 1100));
+        //setMinimumSize(new Dimension(1280, 1100));
+        setPreferredSize(new Dimension(1280, 1100));
+        //setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
+
+        //Charge combo-boxes
+        loadConfigurationOptions();
 
         //Table Configuration
         configureTable();
@@ -99,30 +108,14 @@ public class MainFrame extends JFrame{
         startSimulationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try{
-                    outputTextArea.setText("");
-                    fixData();
-                    int periods = Integer.parseInt(PeriodsField.getText());
-                    String name = NameExperimentField.getText();
-                    String description = DescriptionField.getText();
-                    int repetitions = Integer.parseInt(RepetitionsField.getText());
-                    int networkSize = Integer.parseInt(NetworkSizeField.getText());
-                    int seedSize = Integer.parseInt(SeedSizeField.getText());
-                    ArrayList<AgentConfig> agentConfigs = createAgentConfigs();
-                    DataHandlerConfig dataHandlerConfig = new DataHandlerConfig(name);
-                    dataHandlerConfig.setDetailedData(detailedDataCheckBox.isSelected());
-                    dataHandlerConfig.setEssentialData(essentialDataCheckBox.isSelected());
-                    ExperimentTwitter exp = new ExperimentTwitter(repetitions, name, description, dataHandlerConfig){
-                        @Override
-                        public void configure() {
-                            DataHandler.getInstance().setWithInterface(true);//MMMMMM
-                            this.simulationConfig = new SimulationConfig(periods, networkSize, seedSize, agentConfigs);
-                        }
-                    };
-                    exp.run();
-                }catch (Exception exp) {
-                    exp.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Error Can't Start Simulation, Verify your Config");
+
+                System.out.println("Windod Size: "+getSize());
+                //System.out.println("Action listener del combo simulation, selected: "+comboBoxSimulation.getSelectedItem());
+                if(comboBoxSimulation.getSelectedItem().equals("FacebookSimulation")){
+                    doExperimentFacebook();
+                }else if(comboBoxSimulation.getSelectedItem().equals("TwitterSimulation")){
+                    //System.out.println("Twitter");
+                    doExperimentTwitter();
                 }
             }
         });
@@ -133,7 +126,14 @@ public class MainFrame extends JFrame{
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AgentConfigurator agentConfigurator = new AgentConfigurator(obviouslyThis);
+                String type = "";
+                if(comboBoxSimulation.getSelectedItem().equals("FacebookSimulation")){
+                    type = "Facebook";
+                }else if(comboBoxSimulation.getSelectedItem().equals("TwitterSimulation")){
+                    //System.out.println("Twitter");
+                    type = "Twitter";
+                }
+                AgentConfigurator agentConfigurator = new AgentConfigurator(obviouslyThis, type);
             }
         });
 
@@ -260,6 +260,13 @@ public class MainFrame extends JFrame{
                 pack();
             }
         });
+        comboBoxSimulation.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Action listener del combo simulation, selected: "+comboBoxSimulation.getSelectedItem());
+                updateCombos();
+            }
+        });
     }
 
     private void configureTable(){
@@ -324,9 +331,51 @@ public class MainFrame extends JFrame{
         this.model.addRow(row);
     }
 
-    private ArrayList<AgentConfig> createAgentConfigs(){
+    private ArrayList<AgentConfig> createAgentConfigs(String Type){
         fixData();
         ArrayList<AgentConfig> list = new ArrayList<>();
+        if(Type.equals("Twitter")){
+            return createTwitter(list);
+        }else if(Type.equals("Facebook")){
+            return createFacebook(list);
+        }else {
+            System.out.println("Error maligno en create agent configs privado en mainframe, quiero llorar :c");
+            return null;
+        }
+    }
+
+    private ArrayList<AgentConfig> createFacebook(ArrayList<AgentConfig> list){
+        for (int i = 0; i<expConfig.getAgentConfData().size(); i++) {
+            AgentConfiguratorData dataAgent = expConfig.getAgentConfData().get(i);
+            ArrayList<Action> actionsAgent = new ArrayList<>();
+            for( int j = 0 ; j< dataAgent.getActionsData().size(); j++) {
+                ActionData ad = dataAgent.getActionsData().get(j);
+                String type = ad.getType();
+                if(type.equals("Read")){
+                    actionsAgent.add(actionFactory.createReadAction(ad.getProbability()));
+                }else {
+                    actionsAgent.add(actionFactory.createShareAction(ad.getProbability()));
+                }
+            }
+            if(dataAgent.isSeed()){
+                list.add(agentConfigFactory.createAgentConfig(
+                        agentFactory.createFacebookAgentSeed(actionsAgent),
+                        dataAgent.getQuantityAgent(),
+                        dataAgent.getFollowers(),
+                        dataAgent.getFollowings()));
+            }else{
+                list.add(agentConfigFactory.createAgentConfig(
+                        agentFactory.createFacebookAgent(actionsAgent),
+                        dataAgent.getQuantityAgent(),
+                        dataAgent.getFollowers(),
+                        dataAgent.getFollowings()));
+            }
+        }
+        return list;
+    }
+
+    private ArrayList<AgentConfig> createTwitter(ArrayList<AgentConfig> list){
+        //ArrayList<AgentConfig> list = new ArrayList<>();
         for (int i = 0; i<expConfig.getAgentConfData().size(); i++) {
             AgentConfiguratorData dataAgent = expConfig.getAgentConfData().get(i);
             ArrayList<Action> actionsAgent = new ArrayList<>();
@@ -392,11 +441,12 @@ public class MainFrame extends JFrame{
             this.model.addRow(row);
         }
         agentsConfigDataTable.updateUI();
+        //Actualizar ComboBox
+        comboBoxSimulation.setSelectedItem(expConfig.getExperimentType());
+        updateCombos();
         //Actualizar JCheckBoxes.
         detailedDataCheckBox.setSelected(expConfig.isDetailedData());
-        System.out.println("expConfig.isDetailedData(): "+expConfig.isDetailedData());
         essentialDataCheckBox.setSelected(expConfig.isEssentialData());
-        System.out.println("expConfig.isEssentialData(): "+expConfig.isEssentialData());
         //Actualizar Labels
         SeedSizeField.setText(""+getSeeds());
         NetworkSizeField.setText(""+(getNetworkSize()+getSeeds()));
@@ -417,6 +467,7 @@ public class MainFrame extends JFrame{
             int repetitions = Integer.parseInt(RepetitionsField.getText());
             int networkSize = Integer.parseInt(NetworkSizeField.getText());
             int seedSize = Integer.parseInt(SeedSizeField.getText());
+            expConfig.setExperimentType((String)comboBoxSimulation.getSelectedItem());
             expConfig.setName(name);
             expConfig.setDescription(description);
             expConfig.setPeriods(periods);
@@ -454,7 +505,7 @@ public class MainFrame extends JFrame{
     public void appendLineToOutput(String line){
         this.outputTextArea.append(line);
         this.outputTextArea.updateUI();
-        obviouslyThis.pack();
+        //obviouslyThis.pack();
     }
 
     public static MainFrame getInstance(){
@@ -464,4 +515,81 @@ public class MainFrame extends JFrame{
         return  obviouslyThis;
     }
 
+    public void loadConfigurationOptions(){
+        comboBoxSimulation.addItem("TwitterSimulation");
+        comboBoxSimulation.addItem("FacebookSimulation");
+    }
+
+    public void doExperimentTwitter(){
+        try{
+            outputTextArea.setText("");
+            fixData();
+            int periods = Integer.parseInt(PeriodsField.getText());
+            String name = NameExperimentField.getText();
+            String description = DescriptionField.getText();
+            int repetitions = Integer.parseInt(RepetitionsField.getText());
+            int networkSize = Integer.parseInt(NetworkSizeField.getText());
+            int seedSize = Integer.parseInt(SeedSizeField.getText());
+            ArrayList<AgentConfig> agentConfigs = createAgentConfigs("Twitter");
+            DataHandlerConfig dataHandlerConfig = new DataHandlerConfig(name);
+            dataHandlerConfig.setDetailedData(detailedDataCheckBox.isSelected());
+            dataHandlerConfig.setEssentialData(essentialDataCheckBox.isSelected());
+            ExperimentTwitter exp = new ExperimentTwitter(repetitions, name, description, dataHandlerConfig){
+                @Override
+                public void configure() {
+                    DataHandler.getInstance().setWithInterface(true);//MMMMMM
+                    this.simulationConfig = new SimulationConfig(periods, networkSize, seedSize, agentConfigs);
+                }
+            };
+            exp.run();
+        }catch (Exception exp) {
+            exp.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error Can't Start Simulation, Verify your Config");
+        }
+        this.pack();
+
+    }
+
+    public void doExperimentFacebook(){
+        try{
+            outputTextArea.setText("");
+            fixData();
+            int periods = Integer.parseInt(PeriodsField.getText());
+            String name = NameExperimentField.getText();
+            String description = DescriptionField.getText();
+            int repetitions = Integer.parseInt(RepetitionsField.getText());
+            int networkSize = Integer.parseInt(NetworkSizeField.getText());
+            int seedSize = Integer.parseInt(SeedSizeField.getText());
+            ArrayList<AgentConfig> agentConfigs = createAgentConfigs("Facebook");
+            DataHandlerConfig dataHandlerConfig = new DataHandlerConfig(name);
+            dataHandlerConfig.setDetailedData(detailedDataCheckBox.isSelected());
+            dataHandlerConfig.setEssentialData(essentialDataCheckBox.isSelected());
+            ExperimentFacebook exp = new ExperimentFacebook(repetitions, name, description, dataHandlerConfig){
+                @Override
+                public void configure() {
+                    DataHandler.getInstance().setWithInterface(true);//MMMMMM
+                    this.simulationConfig = new SimulationConfig(periods, networkSize, seedSize, agentConfigs);
+                }
+            };
+            exp.run();
+        }catch (Exception exp) {
+            exp.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error Can't Start Simulation, Verify your Config");
+        }
+        this.pack();
+    }
+
+    public void updateCombos(){
+        if(comboBoxSimulation.getSelectedItem().equals("FacebookSimulation")){
+            System.out.println("Facebook");
+            comboBoxEnvironment.removeAllItems();
+            comboBoxEnvironment.addItem("FacebookEnvironment");
+            comboBoxEnvironment.setSelectedItem("FacebookEnvironment");
+        }else if(comboBoxSimulation.getSelectedItem().equals("TwitterSimulation")){
+            System.out.println("Twitter");
+            comboBoxEnvironment.removeAllItems();
+            comboBoxEnvironment.addItem("TwitterEnvironment");
+            comboBoxEnvironment.setSelectedItem("TwitterEnvironment");
+        }
+    }
 }

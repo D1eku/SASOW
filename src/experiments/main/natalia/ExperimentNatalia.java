@@ -1,5 +1,6 @@
 package experiments.main.natalia;
 
+import model.environments.twitter.SimulationTwitter;
 import model.essentials.Experiment;
 import model.util.actions.Action;
 import model.util.config.AgentConfig;
@@ -63,6 +64,15 @@ public class ExperimentNatalia extends Experiment {
         simulationConfig = new SimulationConfig(periods, networkSize, seedSize, ags);
     }
 
+    @Override
+    public void initialize(int id) {
+        simulation = new SimulationTwitter(id, simulationConfig);
+        simulation.setExperiment(this);
+        simulation.initialize();
+        this.dataHandler.setExperiment(this);
+        this.dataHandler.setSimulation(simulation);
+        this.dataHandler.setEnvironment(simulation.getEnvironment());
+    }
 
 
 

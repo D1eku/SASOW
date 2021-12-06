@@ -166,7 +166,7 @@ public class DataHandler implements IObserver {
         StringBuilder str = new StringBuilder();
         str.append(" Essential - ");
         for(int i = 0; i<data.getRows().size(); i++){
-            String toAppend = data.getHead().get(i)+ " :" + data.getRows().get(i);
+            String toAppend = " "+data.getHead().get(i)+ " :" + data.getRows().get(i);
             str.append(toAppend);
         }
         str.append(" \n");
@@ -177,7 +177,7 @@ public class DataHandler implements IObserver {
         StringBuilder str = new StringBuilder();
         str.append(" Detailed - ");
         for(int i = 0; i<data.getRows().size(); i++){
-            String toAppend = data.getHead().get(i)+ " :" + data.getRows().get(i);
+            String toAppend = " "+data.getHead().get(i)+ " :" + data.getRows().get(i);
             str.append(toAppend);
         }
         str.append(" \n");

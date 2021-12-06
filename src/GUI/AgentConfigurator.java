@@ -40,7 +40,10 @@ public class AgentConfigurator extends JFrame {
     private JScrollPane actionsJScroll;
     private DefaultTableModel modelActions;
 
-    public AgentConfigurator(MainFrame mainFrame) {
+    //Other
+    String mode;
+
+    public AgentConfigurator(MainFrame mainFrame, String mode) {
         //Initialize and configure windows
         this.mainFrame = mainFrame;
         setContentPane(agentConfiguratorPanel);
@@ -48,7 +51,7 @@ public class AgentConfigurator extends JFrame {
         setVisible(true);
         configureComboActions();
         configureActionsList();
-
+        this.mode = mode;
         //Pack XD
         pack();
         /*
@@ -247,6 +250,16 @@ public class AgentConfigurator extends JFrame {
             ActionData ad = this.agentData.getActionsData().get(i);
             ad.setName((String) a.get(0));
             ad.setProbability((double) a.get(1));
+        }
+    }
+
+    private void configureCombo(){
+        if(mode.equals("Facebook")){
+            agentTypeCombo.addItem("FacebookAgent");
+            agentTypeCombo.setSelectedItem("FacebookAgent");
+        }else if(mode.equals("Twitter")){
+            agentTypeCombo.addItem("TwitterAgent");
+            agentTypeCombo.setSelectedItem("TwitterAgent");
         }
     }
 

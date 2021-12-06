@@ -13,6 +13,7 @@ public class ExperimentConfigData {
     private int periods;
     private boolean essentialData;
     private boolean detailedData;
+    private String experimentType;
 
 
     public ExperimentConfigData(){
@@ -91,6 +92,14 @@ public class ExperimentConfigData {
         this.essentialData = essentialData;
     }
 
+    public void setExperimentType(String type){
+        this.experimentType = type;
+    }
+
+    public String getExperimentType() {
+        return this.experimentType;
+    }
+
     public Properties toCFGFile(){
         Properties prop = new Properties();
         prop.setProperty("experimentName", this.name);
@@ -102,12 +111,13 @@ public class ExperimentConfigData {
         prop.setProperty("essentialData",""+this.essentialData);
         prop.setProperty("detailedData",""+this.detailedData);
         prop.setProperty("agentConfigSize",this.agentConfData.size()+"");
+        prop.setProperty("experiment_type",this.experimentType);
         for(int i = 0; i<this.agentConfData.size(); i++){
             AgentConfiguratorData a = this.agentConfData.get(i);
             prop.setProperty("name_"+i,a.getAgentConfigName());
             prop.setProperty("agentTypo_"+i, a.getAgentTypo());
-            prop.setProperty("followers_"+i,""+ a.getFollowersByNetwork(networkSize));
-            prop.setProperty("followings_"+i, ""+a.getFollowingsByNetwork(networkSize));
+            prop.setProperty("followers_"+i,""+ a.getFollowers());
+            prop.setProperty("followings_"+i, ""+a.getFollowings());
             prop.setProperty("seed_"+i, ""+a.isSeed());
             prop.setProperty("quantityAgent_"+i,""+ a.getQuantityAgent());
             prop.setProperty("actionsSizeAgent_"+i,a.getActionsData().size()+"");
@@ -131,6 +141,7 @@ public class ExperimentConfigData {
         this.periods = Integer.parseInt(prop.getProperty("periods"));
         this.essentialData = Boolean.parseBoolean(prop.getProperty("essentialData"));
         this.detailedData = Boolean.parseBoolean(prop.getProperty("detailedData"));
+        this.experimentType = prop.getProperty("experiment_type");
         int agentConfigSize = Integer.parseInt(prop.getProperty("agentConfigSize"));
         for(int i = 0; i<agentConfigSize; i++){
             AgentConfiguratorData a = new AgentConfiguratorData();

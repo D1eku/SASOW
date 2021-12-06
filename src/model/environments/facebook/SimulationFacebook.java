@@ -6,6 +6,7 @@ import model.util.config.SimulationConfig;
 public class SimulationFacebook extends Simulation {
     public SimulationFacebook(int id, SimulationConfig simulationConfig) {
         super(id, simulationConfig);
+        this.environment = new EnvironmentFacebook(id,periods, NetworkSize, SeedSize, simulationConfig.getAgentsConfigs());
     }
 
     @Override

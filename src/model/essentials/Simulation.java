@@ -1,6 +1,5 @@
 package model.essentials;
 
-import model.environments.twitter.EnvironmentTwitter;
 import model.util.config.SimulationConfig;
 import model.util.data.IDataDetailed;
 import model.util.data.IDataEssential;
@@ -21,13 +20,15 @@ public abstract class Simulation implements IDataEssential, IDataDetailed {
         this.SeedSize = simulationConfig.getSeedSize();
         this.simulationConfig = simulationConfig;
         this.periods = simulationConfig.getPeriods();
-        this.environment = new EnvironmentTwitter(id,periods, NetworkSize, SeedSize, simulationConfig.getAgentsConfigs());//Una simulacion tendra siempre un mismo ambiente
-        this.environment.setSimulation(this);
+        //this.environment = //Una simulacion tendra siempre un mismo ambiente
+
         //Por lo mismo quizas es innecesario considerar un ambiente id.
     }
 
     public void initialize(){
+        this.environment.setSimulation(this);
         this.environment.initialize();
+
     }
 
     public int getNetworkSize() {
