@@ -83,23 +83,8 @@ public class MainFrame extends JFrame{
         //Factory
         //Panel Config
         //obviouslyThis = this;
-        setContentPane(mainPanel);
-        setTitle("OPEN WOM");
-        setSize(1280, 1100);
-        //setMaximumSize(new Dimension(1280, 1100));
-        //setMinimumSize(new Dimension(1280, 1100));
-        setPreferredSize(new Dimension(1280, 1100));
-        //setResizable(false);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setVisible(true);
 
-        //Charge combo-boxes
-        loadConfigurationOptions();
-
-        //Table Configuration
-        configureTable();
-        jscrollOutPut.setViewportView(outputTextArea);
-        pack();
+        configureWindow();
 
 
         /*
@@ -143,6 +128,7 @@ public class MainFrame extends JFrame{
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("Window Size: "+mainPanel.getSize());
                 int row = agentsConfigDataTable.getSelectedRow();
                 try {
                     if( model.getDataVector().size() > 0 && row != -1){
@@ -591,5 +577,33 @@ public class MainFrame extends JFrame{
             comboBoxEnvironment.addItem("TwitterEnvironment");
             comboBoxEnvironment.setSelectedItem("TwitterEnvironment");
         }
+    }
+
+    private void configureWindow(){
+        setContentPane(mainPanel);
+        setTitle("OPEN WOM");
+        Dimension dim = new Dimension(1280, 830);
+        setSize(dim);
+        setMaximumSize(dim);
+        setMinimumSize(dim);
+        setPreferredSize(dim);
+        setResizable(false);
+
+
+
+
+
+
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setVisible(true);
+
+        //Charge combo-boxes
+        loadConfigurationOptions();
+
+        //Table Configuration
+        configureTable();
+        jscrollOutPut.setViewportView(outputTextArea);
+        pack();
+
     }
 }

@@ -52,8 +52,11 @@ public class AgentConfigurator extends JFrame {
         configureComboActions();
         configureActionsList();
         this.mode = mode;
+        configureCombo();
         //Pack XD
         pack();
+        configureWindow();
+
         /*
         When you want to add a new Config Agent to Experiment Config
          */
@@ -261,6 +264,16 @@ public class AgentConfigurator extends JFrame {
             agentTypeCombo.addItem("TwitterAgent");
             agentTypeCombo.setSelectedItem("TwitterAgent");
         }
+    }
+
+    private void configureWindow(){
+        System.out.println(getSize());
+        Dimension dim = new Dimension(490, 730);
+        setPreferredSize(dim);
+        setSize(dim);
+        setMaximumSize(dim);
+        setMinimumSize(dim);
+        setResizable(false);
     }
 
 }

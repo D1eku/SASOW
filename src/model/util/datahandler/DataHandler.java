@@ -71,7 +71,10 @@ public class DataHandler implements IObserver {
         rd.addRows(rdSimulation);
         rd.addRows(rdEnvironment);
         //rd.addRows(rdAgentCountStates);
-        MainFrame.getInstance().appendLineToOutput(this.handleDataToString(rd, "essential"));
+        if(withInterface){
+            MainFrame.getInstance().appendLineToOutput(this.handleDataToString(rd, "essential"));
+        }
+
         essentialData.addRow(rd);
     }
 
@@ -164,23 +167,23 @@ public class DataHandler implements IObserver {
 
     private String handleStringEssential(RowData data){
         StringBuilder str = new StringBuilder();
-        str.append(" Essential - ");
+        str.append(" Essential: \n");
         for(int i = 0; i<data.getRows().size(); i++){
-            String toAppend = " "+data.getHead().get(i)+ " :" + data.getRows().get(i);
+            String toAppend = " ---- "+data.getHead().get(i)+ " :" + data.getRows().get(i)+"\n";
             str.append(toAppend);
         }
-        str.append(" \n");
+        //str.append(" \n");
         return str.toString();
     }
 
     private String handleStringDetailed(RowData data){
         StringBuilder str = new StringBuilder();
-        str.append(" Detailed - ");
+        str.append(" Detailed: \n");
         for(int i = 0; i<data.getRows().size(); i++){
-            String toAppend = " "+data.getHead().get(i)+ " :" + data.getRows().get(i);
+            String toAppend = " ----> "+data.getHead().get(i)+ " :" + data.getRows().get(i)+"\n";
             str.append(toAppend);
         }
-        str.append(" \n");
+        //str.append(" \n");
         return str.toString();
     }
 }
