@@ -123,8 +123,8 @@ public class ExperimentConfigData {
     }
 
     public void loadFromCFG(Properties prop){
-        this.name = (String) prop.getProperty("experimentName");
-        this.description = (String) prop.getProperty("description");
+        this.name = prop.getProperty("experimentName");
+        this.description = prop.getProperty("description");
         this.repetitions = Integer.parseInt(prop.getProperty("repetitions")) ;
         this.networkSize = Integer.parseInt(prop.getProperty("networkSize"));
         this.seedSize = Integer.parseInt(prop.getProperty("seedSize"));
@@ -134,8 +134,8 @@ public class ExperimentConfigData {
         int agentConfigSize = Integer.parseInt(prop.getProperty("agentConfigSize"));
         for(int i = 0; i<agentConfigSize; i++){
             AgentConfiguratorData a = new AgentConfiguratorData();
-            a.setAgentConfigName((String) prop.getProperty("name_"+i));
-            a.setAgentTypo((String) prop.getProperty("agentTypo_"+i));
+            a.setAgentConfigName(prop.getProperty("name_"+i));
+            a.setAgentTypo(prop.getProperty("agentTypo_"+i));
             //int cantFollowers = quantityByNetwork(networkSize, Double.parseDouble(prop.getProperty("followers_"+i)));
             double cantFollowers = Double.parseDouble(prop.getProperty("followers_"+i));
             System.out.println("Cantidad de seguidores en loadFromCfg: "+cantFollowers);
@@ -158,50 +158,6 @@ public class ExperimentConfigData {
                 ActionData ad = new ActionData(nameAction,probAction,typeAction);
                 list.add(ad);
             }
-        }
-    }
-
-    public String toCFGFileWithString(){
-        String data  = "";
-        data += name+"\n";
-        data += description+"\n";
-        data += repetitions+"\n";
-        data += networkSize+"\n";
-        data += periods+"\n";
-        data += essentialData+"\n";
-        data += detailedData+"\n";
-        data += this.agentConfData.size()+"\n";
-        for(int i = 0; i<this.agentConfData.size(); i++){
-            AgentConfiguratorData a = this.agentConfData.get(i);
-            data += a.getAgentConfigName()+"\n";
-            data += a.getAgentTypo()+"\n";
-            data += a.getFollowersByNetwork(networkSize)+"\n";
-            data += a.getFollowingsByNetwork(networkSize)+"\n";
-            data += a.isSeed()+"\n";
-            data += a.getQuantityAgent()+"\n";
-            data += a.getActionsData().size()+"\n";
-            for(int j = 0; j<a.getActionsData().size(); j++){
-                ActionData ad = a.getActionsData().get(j);
-                data += ad.getName()+"\n";
-                data += ad.getProbability()+"\n";
-                data += ad.getType()+"\n";
-            }
-
-        }
-        return data;
-    }
-
-    private int quantityByNetwork(int network, double percentage){
-        System.out.println("QuantityByNetwork IN EXPERIMENT CONFIG DATA: ");
-        System.out.println("Network: "+network);
-        System.out.println("Percentage: "+percentage);
-
-        int result = (int) (network*percentage/100);
-        System.out.println("Resulto: "+ result);
-        if(percentage == 0){
-            return 0;
-        }else {
-            return result;
         }
     }
 

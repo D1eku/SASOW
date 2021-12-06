@@ -22,7 +22,7 @@ public class CellHandler extends DefaultTableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         //Definicion de colores, no lo necesito
 
-        Color backgroundColor = null;
+        Color backgroundColor;
         Color backgroundColorDefault = new Color(192,192,192);
         Color backgroundColorSelection = new Color(140, 140, 140);
 

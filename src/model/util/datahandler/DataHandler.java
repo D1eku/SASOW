@@ -1,5 +1,6 @@
 package model.util.datahandler;
 
+import GUI.MainFrame;
 import model.essentials.Agent;
 import model.essentials.Environment;
 import model.essentials.Experiment;
@@ -23,6 +24,8 @@ public class DataHandler implements IObserver {
 
     private MatrixData essentialData;
     private MatrixData detailedData;
+
+    private boolean withInterface = false;
 
     private DataHandlerConfig dataHandlerConfig;
 
@@ -68,6 +71,7 @@ public class DataHandler implements IObserver {
         rd.addRows(rdSimulation);
         rd.addRows(rdEnvironment);
         //rd.addRows(rdAgentCountStates);
+        MainFrame.getInstance().appendLineToOutput(this.handleDataToString(rd, "essential"));
         essentialData.addRow(rd);
     }
 
@@ -80,7 +84,7 @@ public class DataHandler implements IObserver {
         rd.addRows(dataSim);
         rd.addRows(dataEnv);
         rd.addRows(dataAgent);
-
+        //MainFrame.getInstance().appendLineToOutput(this.handleDataToString(rd, "detailed"));
         detailedData.addRow(rd);
     }
 
@@ -137,5 +141,46 @@ public class DataHandler implements IObserver {
 
     public void setExperimentConfig(ExperimentConfig experimentConfigData) {
         this.experimentConfig = experimentConfigData;
+    }
+
+    public void setWithInterface(boolean withInterface){
+        this.withInterface = withInterface;
+    }
+
+    public boolean isWithInterface(){
+        return this.withInterface;
+    }
+
+    private String handleDataToString(RowData data, String mode){
+        if(mode.equals("essential")){
+            return handleStringEssential(data);
+        //}else if(mode.equals("detailed")){
+        //    return handleStringDetailed(data);
+        }else{
+            System.out.println("Error in dataHandler to handleDataToString, mode not know");
+            return "ERROR-->ERROR--> MODE";
+        }
+    }
+
+    private String handleStringEssential(RowData data){
+        StringBuilder str = new StringBuilder();
+        str.append(" Essential - ");
+        for(int i = 0; i<data.getRows().size(); i++){
+            String toAppend = data.getHead().get(i)+ " :" + data.getRows().get(i);
+            str.append(toAppend);
+        }
+        str.append(" \n");
+        return str.toString();
+    }
+
+    private String handleStringDetailed(RowData data){
+        StringBuilder str = new StringBuilder();
+        str.append(" Detailed - ");
+        for(int i = 0; i<data.getRows().size(); i++){
+            String toAppend = data.getHead().get(i)+ " :" + data.getRows().get(i);
+            str.append(toAppend);
+        }
+        str.append(" \n");
+        return str.toString();
     }
 }

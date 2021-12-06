@@ -28,7 +28,7 @@ import java.util.Vector;
 
 public class MainFrame extends JFrame{
     //Reference for this ... is obviously...
-    private MainFrame obviouslyThis;
+    private static MainFrame obviouslyThis;
     //Panels
     private JPanel mainPanel;
     private JPanel leftPanel;
@@ -79,7 +79,7 @@ public class MainFrame extends JFrame{
         agentConfigFactory = new AgentConfigFactory();
         //Factory
         //Panel Config
-        obviouslyThis = this;
+        //obviouslyThis = this;
         setContentPane(mainPanel);
         setTitle("OPEN WOM");
         setSize(650, 480);
@@ -112,6 +112,7 @@ public class MainFrame extends JFrame{
                     ExperimentTwitter exp = new ExperimentTwitter(repetitions, name, description, dataHandlerConfig){
                         @Override
                         public void configure() {
+                            DataHandler.getInstance().setWithInterface(true);//MMMMMM
                             this.simulationConfig = new SimulationConfig(periods, networkSize, seedSize, agentConfigs);
                         }
                     };
@@ -446,5 +447,15 @@ public class MainFrame extends JFrame{
         return total;
     }
 
+    public void appendLineToOutput(String line){
+        this.outputTextArea.append(line);
+    }
+
+    public static MainFrame getInstance(){
+        if(obviouslyThis == null) {
+            obviouslyThis = new MainFrame();
+        }
+        return  obviouslyThis;
+    }
 
 }

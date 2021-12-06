@@ -64,8 +64,8 @@ public class AgentConfigurator extends JFrame {
                 //System.out.println("agentTypeCombo: " + agentTypeCombo.getSelectedItem());
                 try {
                     if(itsAllOk()){
-                        Double followers = Double.parseDouble(followersQuantityField.getText());
-                        Double followings = Double.parseDouble(followingsQuantityField.getText());
+                        double followers = Double.parseDouble(followersQuantityField.getText());
+                        double followings = Double.parseDouble(followingsQuantityField.getText());
                         String name = agentConfigNameField.getText();
                         String agentTypo = agentTypeCombo.getSelectedItem().toString();
                         agentData.setAgentTypo(agentTypo);
@@ -202,15 +202,15 @@ public class AgentConfigurator extends JFrame {
     }
 
     private boolean itsAllOk() {
-        if(agentConfigNameField.getText() == "") {
+        if(agentConfigNameField.getText().equals("")) {
             return false;
         }
 
-        if(agentConfigNameField.getText() == ""){
+        if(agentConfigNameField.getText().equals("")){
             return false;
         }
 
-        if(followersQuantityField.getText() == "" ) {
+        if(followersQuantityField.getText().equals("")) {
             return false;
         } else {
             try {
@@ -224,7 +224,7 @@ public class AgentConfigurator extends JFrame {
             }
         }
 
-        if(followingsQuantityField.getText() == "") {
+        if(followingsQuantityField.getText().equals("")) {
             return false;
         }else {
             try {
