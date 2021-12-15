@@ -52,10 +52,12 @@ public class EnvironmentTwitter extends Environment {
     @Override
     public void run() {
         System.out.println("Starting in Environment ");
-        setPeriod(0);
-        while(period < periods) {
+        int p = 0;
+        setPeriod(p);
+        while(period < (periods-1)) {
             step();
-            setPeriod(++period);
+            ++p;
+            setPeriod(p);
         }
     }
 

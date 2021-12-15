@@ -31,7 +31,7 @@ public class EnvironmentFacebook extends Environment {
     public void run() {
         System.out.println("Starting in Environment Facebook ");
         setPeriod(0);
-        while(period < periods) {
+        while(period < periods-1) {
             step();
             setPeriod(++period);
         }
