@@ -1,7 +1,7 @@
 package GUI;
 
-import GUI.util.ActionData;
-import GUI.util.AgentConfiguratorData;
+import GUI.util.config.ActionData;
+import GUI.util.config.AgentConfiguratorData;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;

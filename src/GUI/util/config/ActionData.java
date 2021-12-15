@@ -1,4 +1,4 @@
-package GUI.util;
+package GUI.util.config;
 
 
 public class ActionData {

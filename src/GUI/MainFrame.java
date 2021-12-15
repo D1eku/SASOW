@@ -1,10 +1,9 @@
 package GUI;
 
-import GUI.util.ActionData;
-import GUI.util.AgentConfiguratorData;
-import GUI.util.ExperimentConfigData;
+import GUI.util.config.ActionData;
+import GUI.util.config.AgentConfiguratorData;
+import GUI.util.config.ExperimentConfigData;
 import GUI.util.ModelAgentConfigsTable;
-import com.formdev.flatlaf.intellijthemes.FlatArcDarkIJTheme;
 import model.environments.facebook.ExperimentFacebook;
 import model.environments.twitter.ExperimentTwitter;
 import model.util.actions.Action;
@@ -580,17 +579,8 @@ public class MainFrame extends JFrame{
         }
     }
 
-    private void setLookAndFeel(){
-        try {
-            FlatArcDarkIJTheme.setup();
-        } catch (Exception e){
-            System.out.println("Error trying to configure look and feel");
-            e.printStackTrace();
-        }
-    }
 
     private void configureWindow(){
-        setLookAndFeel();
         setContentPane(mainPanel);
 
         setTitle("SASOW - Agent Based Modeling System ");
