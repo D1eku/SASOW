@@ -1,4 +1,4 @@
-package experiments.main.test;
+package experiments.main.mainGUI;
 
 import GUI.MainFrame;
 import com.formdev.flatlaf.intellijthemes.FlatArcOrangeIJTheme;
