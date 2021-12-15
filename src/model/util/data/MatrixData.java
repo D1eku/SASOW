@@ -25,7 +25,7 @@ public class MatrixData {
         this.head = head;
     }
 
-    private String getStringedArray(ArrayList<String> x) {
+    private StringBuilder getStringedArray(ArrayList<String> x) {
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i< x.size(); i++) {
             sb.append(x.get(i));
@@ -33,7 +33,7 @@ public class MatrixData {
                 sb.append(",");
             }
         }
-        return sb.toString();
+        return sb;
     }
 
 
@@ -43,11 +43,14 @@ public class MatrixData {
         //sb.append(getStringedArray(this.head)+"\n");
         for(int i = 0; i<columns.size(); i++) {
             sb.append(getStringedArray(columns.get(i)));
+            //sb.insert();
+
             if(i+1 != columns.size()) {
                 sb.append("\n");
             }
         }
-
+        System.out.println("sb.length(): "+sb.length());
+        System.out.println("SIZE OF CSV Format: "+ columns.size());
         return sb.toString();
     }
 }

@@ -12,6 +12,7 @@ import model.util.data.RowData;
 import model.util.datahandler.observer.IObserver;
 
 import java.io.FileWriter;
+import java.util.ArrayList;
 
 public class DataHandler implements IObserver {
     private static DataHandler instance;
@@ -48,21 +49,32 @@ public class DataHandler implements IObserver {
 
     /* Update by interfaces and util  */
 
+
+    //public void updateEssential() {
+    //    if(dataHandlerConfig.isEssentialData()){
+    //        addLineEssential();
+    //    }
+    //}
+
+    //public void updateDetailed() {
+    //    if(dataHandlerConfig.isDetailedData()){
+    //        addLineDetailed();
+    //    }
+    //}
+
     @Override
-    public void updateEssential() {
+    public void update() {
         if(dataHandlerConfig.isEssentialData()){
             addLineEssential();
         }
-    }
-
-    @Override
-    public void updateDetailed(Agent a) {
         if(dataHandlerConfig.isDetailedData()){
-            addLineDetailed(a);
+            addLineDetailed();
         }
     }
 
-
+    /*
+    Este metodo se deberia llamar cada vez que se setea el period en environment
+     */
     public void addLineEssential(){
         RowData rd = new RowData();
         RowData rdSimulation = simulation.getDataEssential();
@@ -78,17 +90,18 @@ public class DataHandler implements IObserver {
         essentialData.addRow(rd);
     }
 
-    public void addLineDetailed(Agent a){
-        RowData rd = new RowData();
+    public void addLineDetailed(){
         RowData dataSim = this.simulation.getDataDetailed();
         RowData dataEnv = this.environment.getDataDetailed();
-        RowData dataAgent = a.getDataDetailed();
+        ArrayList<Agent> users = this.environment.getUsers();
 
-        rd.addRows(dataSim);
-        rd.addRows(dataEnv);
-        rd.addRows(dataAgent);
-        //MainFrame.getInstance().appendLineToOutput(this.handleDataToString(rd, "detailed"));
-        detailedData.addRow(rd);
+        for(Agent user: users){
+            RowData rd = new RowData();
+            rd.addRows(dataSim);
+            rd.addRows(dataEnv);
+            rd.addRows(user.getDataDetailed());
+            detailedData.addRow(rd);
+        }
     }
 
 
@@ -100,9 +113,11 @@ public class DataHandler implements IObserver {
         //Todo detailed data
         if(dataHandlerConfig.isEssentialData()){
             WriteFileData(essentialData, "essential");
+            essentialData = new MatrixData();
         }
         if(dataHandlerConfig.isDetailedData()){
             WriteFileData(detailedData, "detailed");
+            detailedData = new MatrixData();
         }
     }
 
@@ -155,10 +170,8 @@ public class DataHandler implements IObserver {
     }
 
     private String handleDataToString(RowData data, String mode){
-        if(mode.equals("essential")){
+        if(!mode.equals("essential") || !mode.equals("detailed")){
             return handleStringEssential(data);
-        //}else if(mode.equals("detailed")){
-        //    return handleStringDetailed(data);
         }else{
             System.out.println("Error in dataHandler to handleDataToString, mode not know");
             return "ERROR-->ERROR--> MODE";
@@ -172,7 +185,6 @@ public class DataHandler implements IObserver {
             String toAppend = " ---- "+data.getHead().get(i)+ " :" + data.getRows().get(i)+"\n";
             str.append(toAppend);
         }
-        //str.append(" \n");
         return str.toString();
     }
 

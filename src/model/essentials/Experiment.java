@@ -56,14 +56,14 @@ public abstract class Experiment implements IObservable, IDataEssential {
 
     public void setRun(int run) {
         this.run = run;
-        notifyData();
+        //notifyData();
     }
 
     public abstract void configure();
 
     @Override
     public void notifyData() {
-        this.dataHandler.updateEssential();
+        //this.dataHandler.updateEssential();
     }
 
     public DataHandler getDataHandler() {
