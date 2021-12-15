@@ -587,7 +587,6 @@ public class MainFrame extends JFrame{
             System.out.println("Error trying to configure look and feel");
             e.printStackTrace();
         }
-        JFrame.setDefaultLookAndFeelDecorated(true);
     }
 
     private void configureWindow(){
