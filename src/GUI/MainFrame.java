@@ -4,6 +4,7 @@ import GUI.util.ActionData;
 import GUI.util.AgentConfiguratorData;
 import GUI.util.ExperimentConfigData;
 import GUI.util.ModelAgentConfigsTable;
+import com.formdev.flatlaf.intellijthemes.FlatArcDarkIJTheme;
 import model.environments.facebook.ExperimentFacebook;
 import model.environments.twitter.ExperimentTwitter;
 import model.util.actions.Action;
@@ -579,20 +580,29 @@ public class MainFrame extends JFrame{
         }
     }
 
+    private void setLookAndFeel(){
+        try {
+            FlatArcDarkIJTheme.setup();
+        } catch (Exception e){
+            System.out.println("Error trying to configure look and feel");
+            e.printStackTrace();
+        }
+        JFrame.setDefaultLookAndFeelDecorated(true);
+    }
+
     private void configureWindow(){
+        setLookAndFeel();
         setContentPane(mainPanel);
-        setTitle("OPEN WOM");
+
+        setTitle("SASOW - Agent Based Modeling System ");
         Dimension dim = new Dimension(1280, 830);
+
+
         setSize(dim);
         setMaximumSize(dim);
         setMinimumSize(dim);
         setPreferredSize(dim);
         setResizable(false);
-
-
-
-
-
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
