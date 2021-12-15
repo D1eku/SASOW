@@ -135,10 +135,6 @@ public class AgentConfigurator extends JFrame {
     }
 
     private void configureActionsList() {
-        //We need to create an initialized model
-        //actionsTable.setBackground(Color.white);
-        //actionsTable.setBorder(new BevelBorder(BevelBorder.RAISED,null,null,null,null));
-        //actionsTable.setOpaque(false);
         makeTable();
     }
 
@@ -167,9 +163,10 @@ public class AgentConfigurator extends JFrame {
         actionsTable.setModel(modelActions);
         actionsTable.getTableHeader().setReorderingAllowed(false);
         actionsTable.setRowHeight(25);
-        actionsTable.setGridColor(new Color(0,0,0));
+        //actionsTable.setGridColor(new Color(0,0,0));
         actionsTable.getColumnModel().getColumn(0).setPreferredWidth(150);
         actionsJScroll.setViewportView(actionsTable);
+
     }
 
     private Object[][] getDataMatrix(String[] headList,ArrayList<ActionData> dataActions) {

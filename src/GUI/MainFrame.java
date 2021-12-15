@@ -233,7 +233,7 @@ public class MainFrame extends JFrame{
                 agentsConfigDataTable.updateUI();
                 //Actualizar JCheckBoxes.
                 detailedDataCheckBox.setSelected(false);
-                essentialDataCheckBox.setSelected(false);
+                essentialDataCheckBox.setSelected(true);
                 //Actualizar Labels
                 SeedSizeField.setText("");
                 NetworkSizeField.setText("");
@@ -255,13 +255,6 @@ public class MainFrame extends JFrame{
     }
 
     private void configureTable(){
-        //agentsConfigDataTable.setBackground(Color.WHITE);
-        //agentsConfigDataTable.setBorder(new BevelBorder(BevelBorder.RAISED,
-        //        null,
-        //        null,
-        //        null,
-        //        null));
-        //agentsConfigDataTable.setOpaque(false);
         makeTable();
     }
 
@@ -289,9 +282,10 @@ public class MainFrame extends JFrame{
         this.agentsConfigDataTable.setModel(model);
         agentsConfigDataTable.getTableHeader().setReorderingAllowed(false);
         agentsConfigDataTable.setRowHeight(25);
-        agentsConfigDataTable.setGridColor(new Color(0,0,0));
+        //agentsConfigDataTable.setGridColor(new Color(0,0,0));
         agentsConfigDataTable.getColumnModel().getColumn(0).setPreferredWidth(150);
         agentConfigJScrollPane.setViewportView(agentsConfigDataTable);
+        agentsConfigDataTable.updateUI();
     }
 
     private Object[][] getDataMatrix(String[] headList) {
@@ -431,7 +425,7 @@ public class MainFrame extends JFrame{
         updateCombos();
         //Actualizar JCheckBoxes.
         detailedDataCheckBox.setSelected(expConfig.isDetailedData());
-        essentialDataCheckBox.setSelected(expConfig.isEssentialData());
+        essentialDataCheckBox.setSelected(expConfig.isEssentialData());//if this make error verify if your cfg file have true = essentialData
         //Actualizar Labels
         SeedSizeField.setText(""+getSeeds());
         NetworkSizeField.setText(""+(getNetworkSize()+getSeeds()));
