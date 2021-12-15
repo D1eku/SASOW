@@ -42,11 +42,17 @@ public class AgentConfigurator extends JFrame {
     //Other
     String mode;
 
+    private void configureIco(){
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\dieku\\IdeaProjects\\ArchOpenWom\\images\\ico.png");
+        this.setIconImage(icon);
+    }
+
     public AgentConfigurator(MainFrame mainFrame, String mode) {
         //Initialize and configure windows
+        configureIco();
         this.mainFrame = mainFrame;
         setContentPane(agentConfiguratorPanel);
-        setTitle("Agent Configurator Tool");
+        setTitle("SASOW -  Agent Configurator Tool");
         setVisible(true);
         configureComboActions();
         configureActionsList();

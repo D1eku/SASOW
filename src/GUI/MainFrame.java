@@ -572,8 +572,14 @@ public class MainFrame extends JFrame{
         }
     }
 
+    private void configureIco(){
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\dieku\\IdeaProjects\\ArchOpenWom\\images\\ico.png");
+        this.setIconImage(icon);
+
+    }
 
     private void configureWindow(){
+        configureIco();
         setContentPane(mainPanel);
 
         setTitle("SASOW - Agent Based Modeling System ");

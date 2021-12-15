@@ -2,7 +2,7 @@ package experiments.main.natalia;
 
 import model.util.config.DataHandlerConfig;
 
-public class Main {
+public class MainExampleWithoutGUI {
 
 
 
@@ -11,7 +11,13 @@ public class Main {
         String name = "Twitter Natalia";
         String description = "Analisis de cual agente es mejor para compartir mensajes";
         DataHandlerConfig dconfig = new DataHandlerConfig("Casz", true, true);
-        ExperimentNatalia exp = new ExperimentNatalia(runs, name, description, dconfig);
+        ExperimentNatalia exp = new ExperimentNatalia(runs, name, description, dconfig){
+            @Override
+            public void configure() {
+                super.configure();
+                //Add more stuff for configure ;
+            }
+        };
 
         //do config
         System.out.println("Starting Experiment in Main with : "+ runs+ "runs");
