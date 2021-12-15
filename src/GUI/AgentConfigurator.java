@@ -4,7 +4,6 @@ import GUI.util.config.ActionData;
 import GUI.util.config.AgentConfiguratorData;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -137,9 +136,9 @@ public class AgentConfigurator extends JFrame {
 
     private void configureActionsList() {
         //We need to create an initialized model
-        actionsTable.setBackground(Color.white);
-        actionsTable.setBorder(new BevelBorder(BevelBorder.RAISED,null,null,null,null));
-        actionsTable.setOpaque(false);
+        //actionsTable.setBackground(Color.white);
+        //actionsTable.setBorder(new BevelBorder(BevelBorder.RAISED,null,null,null,null));
+        //actionsTable.setOpaque(false);
         makeTable();
     }
 

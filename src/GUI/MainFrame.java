@@ -1,9 +1,9 @@
 package GUI;
 
+import GUI.util.ModelAgentConfigsTable;
 import GUI.util.config.ActionData;
 import GUI.util.config.AgentConfiguratorData;
 import GUI.util.config.ExperimentConfigData;
-import GUI.util.ModelAgentConfigsTable;
 import model.environments.facebook.ExperimentFacebook;
 import model.environments.twitter.ExperimentTwitter;
 import model.util.actions.Action;
@@ -16,7 +16,6 @@ import model.util.factory.AgentConfigFactory;
 import model.util.factory.AgentFactory;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.FileInputStream;
@@ -256,13 +255,13 @@ public class MainFrame extends JFrame{
     }
 
     private void configureTable(){
-        agentsConfigDataTable.setBackground(Color.WHITE);
-        agentsConfigDataTable.setBorder(new BevelBorder(BevelBorder.RAISED,
-                null,
-                null,
-                null,
-                null));
-        agentsConfigDataTable.setOpaque(false);
+        //agentsConfigDataTable.setBackground(Color.WHITE);
+        //agentsConfigDataTable.setBorder(new BevelBorder(BevelBorder.RAISED,
+        //        null,
+        //        null,
+        //        null,
+        //        null));
+        //agentsConfigDataTable.setOpaque(false);
         makeTable();
     }
 

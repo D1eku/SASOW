@@ -1,7 +1,7 @@
 package experiments.main.test;
 
 import GUI.MainFrame;
-import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDarkerIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatArcDarkOrangeIJTheme;
 
 public class Main {
 
@@ -13,7 +13,7 @@ public class Main {
 
     private static void configureLookAndFeel() {
         try {
-            FlatMaterialDarkerIJTheme.setup();
+            FlatArcDarkOrangeIJTheme.setup();
         } catch (Exception e){
             System.out.println("Error trying to configure look and feel");
             e.printStackTrace();
