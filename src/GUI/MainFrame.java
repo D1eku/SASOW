@@ -392,7 +392,7 @@ public class MainFrame extends JFrame{
         SeedSizeField.setText(""+getSeeds());
         NetworkSizeField.setText(""+(getNetworkSize()+getSeeds()));
         for(int i = 0; i<this.model.getDataVector().size(); i++){
-            Vector aux = this.model.getDataVector().get(i);
+            Vector aux = (Vector) this.model.getDataVector().get(i);
             String new_name = (String) aux.get(0);
             int new_quantity = (int) aux.get(1);
             boolean new_seed = (boolean) aux.get(2);
@@ -468,8 +468,8 @@ public class MainFrame extends JFrame{
     public int getSeeds(){
         int total = 0;
         for(int i = 0; i<model.getDataVector().size(); i++){
-            if((boolean) model.getDataVector().get(i).get(2)){
-                total +=  (int) model.getDataVector().get(i).get(1);
+            if((boolean) ((Vector) model.getDataVector().get(i) ).get(2)){
+                total +=  (int) ((Vector) model.getDataVector().get(i) ).get(1);
             }
         }
         return total;
@@ -478,8 +478,8 @@ public class MainFrame extends JFrame{
     public int getNetworkSize(){
         int total = 0;
         for(int i = 0; i<model.getDataVector().size(); i++){
-            if(!(boolean) model.getDataVector().get(i).get(2)){
-                total +=  (int) model.getDataVector().get(i).get(1);
+            if(!(boolean) ((Vector) model.getDataVector().get(i) ).get(2)){
+                total +=  (int) ((Vector) model.getDataVector().get(i) ).get(1);
             }
         }
         return total;

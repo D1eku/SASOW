@@ -46,10 +46,18 @@ public class EnvironmentFacebook extends Environment {
         int shared = 0;
         for (Agent user: users) {
             switch (user.getState()) {
-                case Agent.PREPARE_FOR_SHARE -> prepared++;
-                case Agent.NOREAD -> noread++;
-                case Agent.READ -> read++;
-                case Agent.SHARED -> shared++;
+                case Agent.PREPARE_FOR_SHARE:
+                    prepared++;
+                    break;
+                case Agent.NOREAD:
+                    noread++;
+                    break;
+                case Agent.READ:
+                    read++;
+                    break;
+                case Agent.SHARED:
+                    shared++;
+                    break;
             }
         }
         rd.addRow(noread, "state_noread");//Son los que no hicieron nada

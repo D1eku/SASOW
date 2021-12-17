@@ -251,7 +251,7 @@ public class AgentConfigurator extends JFrame {
 
     public void fixData() {
         for (int i = 0; i< this.modelActions.getDataVector().size(); i++) {
-            Vector a = this.modelActions.getDataVector().get(i);
+            Vector a = (Vector) this.modelActions.getDataVector().get(i);
             ActionData ad = this.agentData.getActionsData().get(i);
             ad.setName((String) a.get(0));
             ad.setProbability((double) a.get(1));
