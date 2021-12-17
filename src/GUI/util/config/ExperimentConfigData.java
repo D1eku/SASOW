@@ -127,7 +127,6 @@ public class ExperimentConfigData {
                 prop.setProperty("probabilityAction_"+i+"_"+j,""+ad.getProbability());
                 prop.setProperty("typeAction_"+i+"_"+j,ad.getType());
             }
-
         }
         return prop;
     }

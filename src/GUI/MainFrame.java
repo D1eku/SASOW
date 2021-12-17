@@ -341,13 +341,15 @@ public class MainFrame extends JFrame{
                         agentFactory.createFacebookAgentSeed(actionsAgent),
                         dataAgent.getQuantityAgent(),
                         dataAgent.getFollowers(),
-                        dataAgent.getFollowings()));
+                        dataAgent.getFollowings(),
+                        dataAgent.getAgentConfigName()));
             }else{
                 list.add(agentConfigFactory.createAgentConfig(
                         agentFactory.createFacebookAgent(actionsAgent),
                         dataAgent.getQuantityAgent(),
                         dataAgent.getFollowers(),
-                        dataAgent.getFollowings()));
+                        dataAgent.getFollowings(),
+                        dataAgent.getAgentConfigName()));
             }
         }
         return list;
@@ -372,13 +374,15 @@ public class MainFrame extends JFrame{
                         agentFactory.createTwitterAgentSeed(actionsAgent),
                         dataAgent.getQuantityAgent(),
                         dataAgent.getFollowers(),
-                        dataAgent.getFollowings()));
+                        dataAgent.getFollowings(),
+                        dataAgent.getAgentConfigName()));
             }else{
                 list.add(agentConfigFactory.createAgentConfig(
                         agentFactory.createTwitterAgent(actionsAgent),
                         dataAgent.getQuantityAgent(),
                         dataAgent.getFollowers(),
-                        dataAgent.getFollowings()));
+                        dataAgent.getFollowings(),
+                        dataAgent.getAgentConfigName()));
             }
         }
         return list;

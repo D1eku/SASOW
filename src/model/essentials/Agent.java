@@ -37,6 +37,7 @@ public abstract class Agent implements IDataDetailed, IObservable {
         rd.addRow(agent_id, "agent_id");
         rd.addRow(state, "agent_state");
         rd.addRow(isSeed, "agent_seed");
+        rd.addRow(agentConfig.getName(),"agent_type");
         return rd;
     }
 
