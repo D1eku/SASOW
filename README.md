@@ -6,6 +6,8 @@ Si quieres usar SASOW software, tendras que descargar el proyecto o codigo fuent
 
 ![image](https://user-images.githubusercontent.com/45185542/146491346-7dd4ef8e-7c98-4f41-a5da-a98a75597b4a.png)
 
+or "git clone https://github.com/D1eku/SASOW.git"
+
 Una vez descargado, extrae el proyecto donde prefieras y sigue los siguientes pasos segun su modo de uso.
 
 ### Normal Mode
