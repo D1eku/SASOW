@@ -14,7 +14,7 @@ clone or download repository
 ![image](https://user-images.githubusercontent.com/45185542/146491346-7dd4ef8e-7c98-4f41-a5da-a98a75597b4a.png)
 
 ### Ubuntu 20.04 
-You will need java, you can install it using 
+You will need java for execute, install it using 
 - ```sudo apt install openjdk-11-jre```
 - ```cd SASOW```
 - ```java -jar dist/sasow\ jar\ file/sasow.jar```
