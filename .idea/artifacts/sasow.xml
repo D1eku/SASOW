@@ -2,11 +2,11 @@
   <artifact type="jar" build-on-make="true" name="sasow">
     <output-path>$PROJECT_DIR$/out/artifacts/sasow</output-path>
     <root id="archive" name="sasow.jar">
-      <element id="file-copy" path="$MAVEN_REPOSITORY$/org/jetbrains/annotations/20.1.0/annotations-20.1.0.jar" />
-      <element id="library" level="project" name="IntelliJ IDEA GridLayout" />
-      <element id="library" level="project" name="flatlaf-1.6.5" />
-      <element id="library" level="project" name="flatlaf-intellij-themes-1.6.5" />
       <element id="module-output" name="OpenWOM" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/flatlaf-intellij-themes-1.6.5.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/annotations/20.1.0/annotations-20.1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/intellij_forms_rt.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/flatlaf-1.6.5.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
