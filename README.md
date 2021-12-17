@@ -53,8 +53,7 @@ and then the experiment load from you interface and now you can start simulation
 ![image](https://user-images.githubusercontent.com/45185542/146492817-3b547c6a-45b5-4e77-b4e6-fb40fd465364.png)
 
 ![image](https://user-images.githubusercontent.com/45185542/146492888-8b5be642-6d9f-48f7-8e46-2a2cdf12601f.png)
-
-before you can use other tools for data tratament
+after you can use other tools for data tratament
 
 ![image](https://user-images.githubusercontent.com/45185542/146492956-cb436e74-4e0e-4596-9b87-27096dfd363d.png)
 
