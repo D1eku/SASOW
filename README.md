@@ -5,7 +5,7 @@
 ![image](https://user-images.githubusercontent.com/45185542/146555223-42e49c93-cc9e-4834-b86e-fc9335c5df5d.png)
 
 ## Installation
-if you want to use SASOW software, you need to install following the documentation
+if you want to use SASOW software, you need to install and following the documentation
 
 clone or download repository
 
