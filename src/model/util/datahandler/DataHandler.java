@@ -12,7 +12,10 @@ import model.util.data.RowData;
 import model.util.datahandler.observer.IObserver;
 
 import java.io.FileWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DataHandler implements IObserver {
     private static DataHandler instance;
@@ -124,7 +127,9 @@ public class DataHandler implements IObserver {
     private void WriteFileData(MatrixData data, String mode){
         try{
             System.out.println("Starting to write the file --> " +mode+" .");
-            FileWriter myWriter = new FileWriter(dataHandlerConfig.getExperimentName()+"_"+mode+".csv");
+            DateFormat df = new SimpleDateFormat("dd-MM-yy(HH-mm-ss)");
+            String date = "_" + df.format(new Date());
+            FileWriter myWriter = new FileWriter(dataHandlerConfig.getExperimentName()+date+"_"+mode+".csv");
             myWriter.write(data.getCSVFormat());
             myWriter.close();
             System.out.println("Successfully wrote to the file --> " +mode+" .");
