@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" build-on-make="true" name="sasow">
-    <output-path>$PROJECT_DIR$/out/artifacts/sasow</output-path>
+    <output-path>$PROJECT_DIR$/dist/sasow jar file</output-path>
     <root id="archive" name="sasow.jar">
       <element id="module-output" name="OpenWOM" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/flatlaf-intellij-themes-1.6.5.jar" path-in-jar="/" />
