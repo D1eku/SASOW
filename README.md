@@ -2,14 +2,29 @@
 
 #### SASOW is an Open Agent Based Simulation based in online WOM
 
-Si quieres usar SASOW software, tendras que descargar el proyecto o codigo fuente.
+![image](https://user-images.githubusercontent.com/45185542/146555223-42e49c93-cc9e-4834-b86e-fc9335c5df5d.png)
+
+## Installation
+if you want to use SASOW software, you need to install following the documentation
+
+clone or download repository
+
+- ```git clone https://github.com/D1eku/SASOW.git```
 
 ![image](https://user-images.githubusercontent.com/45185542/146491346-7dd4ef8e-7c98-4f41-a5da-a98a75597b4a.png)
 
-or "git clone https://github.com/D1eku/SASOW.git"
+### Ubuntu 20.04 
+You will need java, you can install it using 
+- ```sudo apt install openjdk-11-jre```
+- ```cd SASOW```
+- ```java -jar dist/sasow\ jar\ file/sasow.jar```
+- enjoyed!
 
-Una vez descargado, extrae el proyecto donde prefieras y sigue los siguientes pasos segun su modo de uso.
+### Windows
 
+donwload or clone, extract where you like and have fun!
+
+## Usage 
 ### Normal Mode
 
 For his use in normal mode, first go to the proyect folder and then go to "dist" folder
@@ -55,6 +70,7 @@ and then the experiment load from you interface and now you can start simulation
 ![image](https://user-images.githubusercontent.com/45185542/146492817-3b547c6a-45b5-4e77-b4e6-fb40fd465364.png)
 
 ![image](https://user-images.githubusercontent.com/45185542/146492888-8b5be642-6d9f-48f7-8e46-2a2cdf12601f.png)
+
 after you can use other tools for data tratament
 
 ![image](https://user-images.githubusercontent.com/45185542/146492956-cb436e74-4e0e-4596-9b87-27096dfd363d.png)
@@ -62,9 +78,8 @@ after you can use other tools for data tratament
 ![image](https://user-images.githubusercontent.com/45185542/146493094-9c11b94c-94df-4274-998c-e516f4f2f44b.png)
 
 
-## Expert Mode
+### Expert Mode
 
-If you need more funcionaliti feel freedom to enter and edit the code supporting you with the essential model
-datahandler, and more classes!!
+If you need more functionality feel freedom to enter and edit the code supporting you with the essential model datahandler, and more classes !! 
 
-//Todo edit Expert mode.
+//Todo add information for Expert mode.
