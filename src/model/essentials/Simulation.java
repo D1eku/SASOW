@@ -28,7 +28,6 @@ public abstract class Simulation implements IDataEssential, IDataDetailed {
     public void initialize(){
         this.environment.setSimulation(this);
         this.environment.initialize();
-
     }
 
     public int getNetworkSize() {

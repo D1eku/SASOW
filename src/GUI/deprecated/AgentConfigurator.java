@@ -1,7 +1,7 @@
 package GUI.deprecated;
 
 import GUI.MainFrame;
-import GUI.util.AgentConfiguratorData;
+import GUI.util.config.AgentConfiguratorData;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

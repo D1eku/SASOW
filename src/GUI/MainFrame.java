@@ -1,9 +1,9 @@
 package GUI;
 
-import GUI.util.ActionData;
-import GUI.util.AgentConfiguratorData;
-import GUI.util.ExperimentConfigData;
 import GUI.util.ModelAgentConfigsTable;
+import GUI.util.config.ActionData;
+import GUI.util.config.AgentConfiguratorData;
+import GUI.util.config.ExperimentConfigData;
 import model.environments.facebook.ExperimentFacebook;
 import model.environments.twitter.ExperimentTwitter;
 import model.util.actions.Action;
@@ -16,7 +16,6 @@ import model.util.factory.AgentConfigFactory;
 import model.util.factory.AgentFactory;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.FileInputStream;
@@ -234,7 +233,7 @@ public class MainFrame extends JFrame{
                 agentsConfigDataTable.updateUI();
                 //Actualizar JCheckBoxes.
                 detailedDataCheckBox.setSelected(false);
-                essentialDataCheckBox.setSelected(false);
+                essentialDataCheckBox.setSelected(true);
                 //Actualizar Labels
                 SeedSizeField.setText("");
                 NetworkSizeField.setText("");
@@ -256,13 +255,6 @@ public class MainFrame extends JFrame{
     }
 
     private void configureTable(){
-        agentsConfigDataTable.setBackground(Color.WHITE);
-        agentsConfigDataTable.setBorder(new BevelBorder(BevelBorder.RAISED,
-                null,
-                null,
-                null,
-                null));
-        agentsConfigDataTable.setOpaque(false);
         makeTable();
     }
 
@@ -290,9 +282,10 @@ public class MainFrame extends JFrame{
         this.agentsConfigDataTable.setModel(model);
         agentsConfigDataTable.getTableHeader().setReorderingAllowed(false);
         agentsConfigDataTable.setRowHeight(25);
-        agentsConfigDataTable.setGridColor(new Color(0,0,0));
+        //agentsConfigDataTable.setGridColor(new Color(0,0,0));
         agentsConfigDataTable.getColumnModel().getColumn(0).setPreferredWidth(150);
         agentConfigJScrollPane.setViewportView(agentsConfigDataTable);
+        agentsConfigDataTable.updateUI();
     }
 
     private Object[][] getDataMatrix(String[] headList) {
@@ -348,13 +341,15 @@ public class MainFrame extends JFrame{
                         agentFactory.createFacebookAgentSeed(actionsAgent),
                         dataAgent.getQuantityAgent(),
                         dataAgent.getFollowers(),
-                        dataAgent.getFollowings()));
+                        dataAgent.getFollowings(),
+                        dataAgent.getAgentConfigName()));
             }else{
                 list.add(agentConfigFactory.createAgentConfig(
                         agentFactory.createFacebookAgent(actionsAgent),
                         dataAgent.getQuantityAgent(),
                         dataAgent.getFollowers(),
-                        dataAgent.getFollowings()));
+                        dataAgent.getFollowings(),
+                        dataAgent.getAgentConfigName()));
             }
         }
         return list;
@@ -379,13 +374,15 @@ public class MainFrame extends JFrame{
                         agentFactory.createTwitterAgentSeed(actionsAgent),
                         dataAgent.getQuantityAgent(),
                         dataAgent.getFollowers(),
-                        dataAgent.getFollowings()));
+                        dataAgent.getFollowings(),
+                        dataAgent.getAgentConfigName()));
             }else{
                 list.add(agentConfigFactory.createAgentConfig(
                         agentFactory.createTwitterAgent(actionsAgent),
                         dataAgent.getQuantityAgent(),
                         dataAgent.getFollowers(),
-                        dataAgent.getFollowings()));
+                        dataAgent.getFollowings(),
+                        dataAgent.getAgentConfigName()));
             }
         }
         return list;
@@ -395,7 +392,7 @@ public class MainFrame extends JFrame{
         SeedSizeField.setText(""+getSeeds());
         NetworkSizeField.setText(""+(getNetworkSize()+getSeeds()));
         for(int i = 0; i<this.model.getDataVector().size(); i++){
-            Vector aux = this.model.getDataVector().get(i);
+            Vector aux = (Vector) this.model.getDataVector().get(i);
             String new_name = (String) aux.get(0);
             int new_quantity = (int) aux.get(1);
             boolean new_seed = (boolean) aux.get(2);
@@ -432,7 +429,7 @@ public class MainFrame extends JFrame{
         updateCombos();
         //Actualizar JCheckBoxes.
         detailedDataCheckBox.setSelected(expConfig.isDetailedData());
-        essentialDataCheckBox.setSelected(expConfig.isEssentialData());
+        essentialDataCheckBox.setSelected(expConfig.isEssentialData());//if this make error verify if your cfg file have true = essentialData
         //Actualizar Labels
         SeedSizeField.setText(""+getSeeds());
         NetworkSizeField.setText(""+(getNetworkSize()+getSeeds()));
@@ -471,8 +468,8 @@ public class MainFrame extends JFrame{
     public int getSeeds(){
         int total = 0;
         for(int i = 0; i<model.getDataVector().size(); i++){
-            if((boolean) model.getDataVector().get(i).get(2)){
-                total +=  (int) model.getDataVector().get(i).get(1);
+            if((boolean) ((Vector) model.getDataVector().get(i) ).get(2)){
+                total +=  (int) ((Vector) model.getDataVector().get(i) ).get(1);
             }
         }
         return total;
@@ -481,8 +478,8 @@ public class MainFrame extends JFrame{
     public int getNetworkSize(){
         int total = 0;
         for(int i = 0; i<model.getDataVector().size(); i++){
-            if(!(boolean) model.getDataVector().get(i).get(2)){
-                total +=  (int) model.getDataVector().get(i).get(1);
+            if(!(boolean) ((Vector) model.getDataVector().get(i) ).get(2)){
+                total +=  (int) ((Vector) model.getDataVector().get(i) ).get(1);
             }
         }
         return total;
@@ -579,20 +576,25 @@ public class MainFrame extends JFrame{
         }
     }
 
+    private void configureIco(){
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\dieku\\IdeaProjects\\ArchOpenWom\\images\\ico.png");
+        this.setIconImage(icon);
+
+    }
+
     private void configureWindow(){
+        configureIco();
         setContentPane(mainPanel);
-        setTitle("OPEN WOM");
+
+        setTitle("SASOW - Agent Based Modeling System ");
         Dimension dim = new Dimension(1280, 830);
+
+
         setSize(dim);
         setMaximumSize(dim);
         setMinimumSize(dim);
         setPreferredSize(dim);
         setResizable(false);
-
-
-
-
-
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);

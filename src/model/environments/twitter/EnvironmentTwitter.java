@@ -22,10 +22,18 @@ public class EnvironmentTwitter extends Environment {
         int shared = 0;
         for (Agent user: users) {
             switch (user.getState()) {
-                case Agent.PREPARE_FOR_SHARE -> prepared++;
-                case Agent.NOREAD -> noread++;
-                case Agent.READ -> read++;
-                case Agent.SHARED -> shared++;
+                case Agent.PREPARE_FOR_SHARE:
+                    prepared++;
+                    break;
+                case Agent.NOREAD:
+                    noread++;
+                    break;
+                case Agent.READ:
+                    read++;
+                    break;
+                case Agent.SHARED:
+                    shared++;
+                    break;
             }
         }
         rd.addRow(noread, "state_noread");//Son los que no hicieron nada
@@ -52,10 +60,12 @@ public class EnvironmentTwitter extends Environment {
     @Override
     public void run() {
         System.out.println("Starting in Environment ");
-        setPeriod(0);
-        while(period < periods) {
+        int p = 0;
+        setPeriod(p);
+        while(period < (periods-1)) {
             step();
-            setPeriod(++period);
+            ++p;
+            setPeriod(p);
         }
     }
 

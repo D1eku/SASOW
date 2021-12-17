@@ -1,10 +1,9 @@
 package GUI;
 
-import GUI.util.ActionData;
-import GUI.util.AgentConfiguratorData;
+import GUI.util.config.ActionData;
+import GUI.util.config.AgentConfiguratorData;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -43,11 +42,17 @@ public class AgentConfigurator extends JFrame {
     //Other
     String mode;
 
+    private void configureIco(){
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\dieku\\IdeaProjects\\ArchOpenWom\\images\\ico.png");
+        this.setIconImage(icon);
+    }
+
     public AgentConfigurator(MainFrame mainFrame, String mode) {
         //Initialize and configure windows
+        configureIco();
         this.mainFrame = mainFrame;
         setContentPane(agentConfiguratorPanel);
-        setTitle("Agent Configurator Tool");
+        setTitle("SASOW -  Agent Configurator Tool");
         setVisible(true);
         configureComboActions();
         configureActionsList();
@@ -136,10 +141,6 @@ public class AgentConfigurator extends JFrame {
     }
 
     private void configureActionsList() {
-        //We need to create an initialized model
-        actionsTable.setBackground(Color.white);
-        actionsTable.setBorder(new BevelBorder(BevelBorder.RAISED,null,null,null,null));
-        actionsTable.setOpaque(false);
         makeTable();
     }
 
@@ -168,9 +169,10 @@ public class AgentConfigurator extends JFrame {
         actionsTable.setModel(modelActions);
         actionsTable.getTableHeader().setReorderingAllowed(false);
         actionsTable.setRowHeight(25);
-        actionsTable.setGridColor(new Color(0,0,0));
+        //actionsTable.setGridColor(new Color(0,0,0));
         actionsTable.getColumnModel().getColumn(0).setPreferredWidth(150);
         actionsJScroll.setViewportView(actionsTable);
+
     }
 
     private Object[][] getDataMatrix(String[] headList,ArrayList<ActionData> dataActions) {
@@ -249,7 +251,7 @@ public class AgentConfigurator extends JFrame {
 
     public void fixData() {
         for (int i = 0; i< this.modelActions.getDataVector().size(); i++) {
-            Vector a = this.modelActions.getDataVector().get(i);
+            Vector a = (Vector) this.modelActions.getDataVector().get(i);
             ActionData ad = this.agentData.getActionsData().get(i);
             ad.setName((String) a.get(0));
             ad.setProbability((double) a.get(1));

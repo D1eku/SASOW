@@ -157,7 +157,8 @@ public abstract class Environment implements IObservable, IDataEssential, IDataD
 
     @Override
     public void notifyData() {
-        this.dataHandler.updateEssential();
+        //this.dataHandler.updateEssential();
+        this.dataHandler.update();
     }
 
     public ArrayList<Agent> getUsers(){

@@ -328,7 +328,9 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="EssentialData"/>
+                  <enabled value="false"/>
+                  <selected value="true"/>
+                  <text value="Essential"/>
                 </properties>
               </component>
               <component id="991a0" class="javax.swing.JCheckBox" binding="detailedDataCheckBox" default-binding="true">
@@ -336,7 +338,7 @@
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="DetailedData"/>
+                  <text value="Detailed"/>
                 </properties>
               </component>
             </children>

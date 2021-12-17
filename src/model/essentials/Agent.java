@@ -4,7 +4,6 @@ import model.util.actions.Action;
 import model.util.config.AgentConfig;
 import model.util.data.IDataDetailed;
 import model.util.data.RowData;
-import model.util.datahandler.DataHandler;
 import model.util.datahandler.observer.IObservable;
 
 import java.util.ArrayList;
@@ -38,6 +37,7 @@ public abstract class Agent implements IDataDetailed, IObservable {
         rd.addRow(agent_id, "agent_id");
         rd.addRow(state, "agent_state");
         rd.addRow(isSeed, "agent_seed");
+        rd.addRow(agentConfig.getName(),"agent_type");
         return rd;
     }
 
@@ -63,7 +63,7 @@ public abstract class Agent implements IDataDetailed, IObservable {
 
     @Override
     public void notifyData() {
-        DataHandler.getInstance().updateDetailed(this);
+        //DataHandler.getInstance().updateDetailed(this);
     }
 
     public void addFriend(Agent agent) {
