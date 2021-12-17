@@ -1,4 +1,4 @@
-# ![Logo](https://media.discordapp.net/attachments/344458456159485962/921409731204100136/ico.png) SASOW - Agent Based Modeling System
+# SASOW - Agent Based Modeling System
 
 #### SASOW is an Open Agent Based Simulation based in online WOM
 
