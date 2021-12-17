@@ -1,6 +1,6 @@
 # SASOW - Agent Based Modeling System
 
-#### SASOW is an Open Agent Based Simulation based in online WOM
+#### SASOW is an Open Agent Based Simulation for online WOM
 
 ![image](https://user-images.githubusercontent.com/45185542/146555223-42e49c93-cc9e-4834-b86e-fc9335c5df5d.png)
 
