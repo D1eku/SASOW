@@ -129,7 +129,7 @@ public class DataHandler implements IObserver {
             System.out.println("Starting to write the file --> " +mode+" .");
             DateFormat df = new SimpleDateFormat("dd-MM-yy(HH-mm-ss)");
             String date = "_" + df.format(new Date());
-            FileWriter myWriter = new FileWriter(dataHandlerConfig.getExperimentName()+date+"_"+mode+".csv");
+            FileWriter myWriter = new FileWriter("./"+dataHandlerConfig.getExperimentName()+date+"_"+mode+".csv");
             myWriter.write(data.getCSVFormat());
             myWriter.close();
             System.out.println("Successfully wrote to the file --> " +mode+" .");
