@@ -2,9 +2,9 @@ package model.environments.facebook;
 
 import model.essentials.Agent;
 import model.essentials.Experiment;
-import model.util.actions.Action;
-import model.util.actions.commands.ActionRead;
-import model.util.actions.commands.ActionShare;
+import model.util.actions.ActionAgent;
+import model.util.actions.actions_agents.ActionAgentRead;
+import model.util.actions.actions_agents.ActionAgentShare;
 import model.util.config.AgentConfig;
 import model.util.config.DataHandlerConfig;
 import model.util.config.SimulationConfig;
@@ -24,9 +24,9 @@ public class ExperimentFacebook extends Experiment {
 
 
         //Crea los comandos
-        ArrayList<Action> commands = new ArrayList<>();
-        ActionShare cmdShare = new ActionShare("SHARE", 0.03);
-        ActionRead lRead = new ActionRead("READ_LEADER", 0.5);
+        ArrayList<ActionAgent> commands = new ArrayList<>();
+        ActionAgentShare cmdShare = new ActionAgentShare("SHARE", 0.03);
+        ActionAgentRead lRead = new ActionAgentRead("READ_LEADER", 0.5);
         commands.add(cmdShare);
         commands.add(lRead);
 

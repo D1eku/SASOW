@@ -1,6 +1,6 @@
 package model.essentials;
 
-import model.util.actions.Action;
+import model.util.actions.ActionAgent;
 import model.util.config.AgentConfig;
 import model.util.data.IDataDetailed;
 import model.util.data.RowData;
@@ -18,16 +18,16 @@ public abstract class Agent implements IDataDetailed, IObservable {
     protected int agent_id;
     protected ArrayList<Agent> followers;
     protected ArrayList<Agent> followings;
-    protected ArrayList<Action> commands;
+    protected ArrayList<ActionAgent> commands;
     protected Boolean isSeed;
     protected AgentConfig agentConfig;
 
-    public Agent(int id, int state, ArrayList<Action> cmd_config, boolean isSeed, AgentConfig agentConfig) {
+    public Agent(int id, int state, ArrayList<ActionAgent> cmd_config, boolean isSeed, AgentConfig agentConfig) {
         this.agent_id = id;
         this.state = state;
         this.followers = new ArrayList<>();
         this.followings = new ArrayList<>();
-        this.commands = cmd_config;
+        this.commands = cmd_config;//todo this can make better
         this.isSeed = isSeed;
         this.agentConfig = agentConfig;
     }
@@ -52,8 +52,15 @@ public abstract class Agent implements IDataDetailed, IObservable {
         }
     }
 
-    protected Action getActionName(String name){
-        for(Action c : this.commands) {
+    protected void sendMessage(){
+        for(int i = 0; i<getFollowers().size() ; i++){
+            Agent f = getFollowers().get(i);
+            f.receiveMessage();
+        }
+    }
+
+    protected ActionAgent getActionName(String name){
+        for(ActionAgent c : this.commands) {
             if(c.getName().equals(name)){
                 return c;
             }
@@ -118,7 +125,7 @@ public abstract class Agent implements IDataDetailed, IObservable {
         this.followers = followers;
     }
 
-    public void setCommands(ArrayList<Action> commands) {
+    public void setCommands(ArrayList<ActionAgent> commands) {
         this.commands = commands;
     }
 
@@ -142,7 +149,7 @@ public abstract class Agent implements IDataDetailed, IObservable {
         this.followings = followings;
     }
 
-    public ArrayList<Action> getCommands(){
+    public ArrayList<ActionAgent> getCommands(){
         return this.commands;
     }
 

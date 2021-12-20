@@ -47,15 +47,26 @@ public class EnvironmentTwitter extends Environment {
     public void step() {
         System.out.println("Do Step ("+ (period+1) + ") of "+(periods));
         if(period == 0){
+
+        }else {
+
+        }
+    }
+
+    private void startAction() {
+        if( period == 0){
             for(Agent seed: seeds){
                 seed.receiveMessage();
             }
-        }else {
-            for (Agent agent: users ) {
-                agent.doActions();
-            }
         }
     }
+
+    private void doActions(){
+        for (Agent agent: users ) {
+            agent.doActions();
+        }
+    }
+
 
     @Override
     public void run() {

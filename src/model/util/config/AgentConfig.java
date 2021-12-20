@@ -1,6 +1,6 @@
 package model.util.config;
 
-import model.util.actions.Action;
+import model.util.actions.ActionAgent;
 import model.essentials.Agent;
 
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ public class AgentConfig {
     private int cantAgent;
     private double percentageFollowers;
     private double percentageFollowings;
-    private ArrayList<Action> actions;
+    private ArrayList<ActionAgent> actionAgents;
     private String name;
 
     public AgentConfig(Agent agent, int cantAgent, double followers, double followings){
@@ -18,7 +18,7 @@ public class AgentConfig {
         this.agentInfo = agent;
         this.percentageFollowers = followers;
         this.percentageFollowings = followings;
-        this.actions = agent.getCommands();
+        this.actionAgents = agent.getCommands();//todo this can make better
         this.name = "agentDefault";
         System.out.println("Followers in agentConfig: "+followers+" --> "+name);
         System.out.println("Followings in agentConfig: "+followings+" --> "+name);
@@ -29,7 +29,7 @@ public class AgentConfig {
         this.agentInfo = agent;
         this.percentageFollowers = followers;
         this.percentageFollowings = followings;
-        this.actions = agent.getCommands();
+        this.actionAgents = agent.getCommands();
         this.name = name;
     }
 
@@ -57,8 +57,8 @@ public class AgentConfig {
         return this.percentageFollowings;
     }
 
-    public ArrayList<Action> getActions(){
-        return this.actions;
+    public ArrayList<ActionAgent> getActions(){
+        return this.actionAgents;
     }
 
     public void setPercentageFollowers(int followers) {
@@ -77,8 +77,8 @@ public class AgentConfig {
         this.cantAgent = cantAgent;
     }
 
-    public void setActions(ArrayList<Action> actions) {
-        this.actions = actions;
+    public void setActions(ArrayList<ActionAgent> actionAgents) {
+        this.actionAgents = actionAgents;
     }
 
     public void setName(String name){

@@ -1,12 +1,12 @@
-package model.util.actions.commands;
+package model.util.actions.actions_agents;
 
-import model.util.actions.Action;
+import model.util.actions.ActionAgent;
 import model.essentials.Agent;
 
 
-public class ActionShare extends Action {
+public class ActionAgentShare extends ActionAgent {
 
-    public ActionShare(String name, double probability ) {
+    public ActionAgentShare(String name, double probability ) {
         super(name, probability);
     }
     //Todo fix states to make a fixed shared message.

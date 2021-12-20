@@ -2,12 +2,12 @@ package model.util.actions;
 
 import model.essentials.Agent;
 
-public abstract class Action {
+public abstract class ActionAgent {
 
     protected String name;
     protected double probability;
 
-    public Action(String name, double probability) {
+    public ActionAgent(String name, double probability) {
         this.name = name;
         this.probability = probability;
     }

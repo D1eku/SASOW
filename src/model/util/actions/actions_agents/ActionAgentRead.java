@@ -1,11 +1,11 @@
-package model.util.actions.commands;
+package model.util.actions.actions_agents;
 
-import model.util.actions.Action;
+import model.util.actions.ActionAgent;
 import model.essentials.Agent;
 
-public class ActionRead extends Action {
+public class ActionAgentRead extends ActionAgent {
 
-    public ActionRead(String name, double probability ) {
+    public ActionAgentRead(String name, double probability ) {
         super(name, probability);
     }
 

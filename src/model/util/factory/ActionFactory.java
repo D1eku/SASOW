@@ -1,9 +1,9 @@
 package model.util.factory;
 
 
-import model.util.actions.Action;
-import model.util.actions.commands.ActionRead;
-import model.util.actions.commands.ActionShare;
+import model.util.actions.ActionAgent;
+import model.util.actions.actions_agents.ActionAgentRead;
+import model.util.actions.actions_agents.ActionAgentShare;
 
 public class ActionFactory {
 
@@ -11,20 +11,20 @@ public class ActionFactory {
 
     }
 
-    public Action createReadAction(String name, double probability){
-        return new ActionRead(name, probability);
+    public ActionAgent createReadAction(String name, double probability){
+        return new ActionAgentRead(name, probability);
     }
 
-    public Action createReadAction( double probability){
-        return new ActionRead("read", probability);
+    public ActionAgent createReadAction(double probability){
+        return new ActionAgentRead("read", probability);
     }
 
-    public Action createShareAction(String name, double probability){
-        return  new ActionShare(name, probability);
+    public ActionAgent createShareAction(String name, double probability){
+        return  new ActionAgentShare(name, probability);
     }
 
-    public Action createShareAction( double probability){
-        return  new ActionShare("share", probability);
+    public ActionAgent createShareAction(double probability){
+        return  new ActionAgentShare("share", probability);
     }
 
 

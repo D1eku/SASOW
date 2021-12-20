@@ -6,7 +6,7 @@ import GUI.util.config.AgentConfiguratorData;
 import GUI.util.config.ExperimentConfigData;
 import model.environments.facebook.ExperimentFacebook;
 import model.environments.twitter.ExperimentTwitter;
-import model.util.actions.Action;
+import model.util.actions.ActionAgent;
 import model.util.config.AgentConfig;
 import model.util.config.DataHandlerConfig;
 import model.util.config.SimulationConfig;
@@ -326,7 +326,7 @@ public class MainFrame extends JFrame{
     private ArrayList<AgentConfig> createFacebook(ArrayList<AgentConfig> list){
         for (int i = 0; i<expConfig.getAgentConfData().size(); i++) {
             AgentConfiguratorData dataAgent = expConfig.getAgentConfData().get(i);
-            ArrayList<Action> actionsAgent = new ArrayList<>();
+            ArrayList<ActionAgent> actionsAgent = new ArrayList<>();
             for( int j = 0 ; j< dataAgent.getActionsData().size(); j++) {
                 ActionData ad = dataAgent.getActionsData().get(j);
                 String type = ad.getType();
@@ -359,7 +359,7 @@ public class MainFrame extends JFrame{
         //ArrayList<AgentConfig> list = new ArrayList<>();
         for (int i = 0; i<expConfig.getAgentConfData().size(); i++) {
             AgentConfiguratorData dataAgent = expConfig.getAgentConfData().get(i);
-            ArrayList<Action> actionsAgent = new ArrayList<>();
+            ArrayList<ActionAgent> actionsAgent = new ArrayList<>();
             for( int j = 0 ; j< dataAgent.getActionsData().size(); j++) {
                 ActionData ad = dataAgent.getActionsData().get(j);
                 String type = ad.getType();
