@@ -4,6 +4,28 @@
 
 ![image](https://user-images.githubusercontent.com/45185542/146555223-42e49c93-cc9e-4834-b86e-fc9335c5df5d.png)
 
+## About
+
+SASOW is a software to simulate social networks, its development is focused on an open implementation where the user/ developer will be able to generate a simple to build simulation by writing a few lines of code.
+
+SASOW is mainly focused on WOM (Word of Mouth Marketing) but we hope to achieve a robust system capable of facilitating the modeling of any social network.
+
+SASOW has an open architecture that will allow the programmer to interact with the different classes and elements of the system and, in the future, to access a metaprogramming abstraction layer. 
+
+The Current SASOW Architecture is as follows
+
+![image](https://user-images.githubusercontent.com/45185542/146765498-c130250d-68fb-40fd-b4bd-c5a51091f524.png)
+
+A user who uses SASOW in a normal way, will focus his use mainly through the ```Experiment and Scenarios layers```. While a user who needs a more specialized or complex simulation will have access to all the ```abstraction layers```, where he will be able to create a new simulation capable of adapting to his needs by using the ```Essential layer```, which is nothing more than the core of SASOW.
+
+- ```Experiment``` is the first abstraction layer which allows you to configure the simulation and helps you to set the simulation objective.
+- ```Scenarios``` is a central layer between Experiment and Essential. Scenarios contains a collection of different social networks ready for use, this would include the specialized simulations created by the developer.
+
+- ```Essentials``` is the heart of SASOW and provides all the logic support to create new scenarios that adapt to the different uses that can be given to SASOW.
+
+- The last abstraction ```layer Meta``` refers to a metaprogramming layer that will allow the developer to use SASOW at all levels.
+
+
 ## Installation
 if you want to use SASOW software, you need to install and following the documentation
 
