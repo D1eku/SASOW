@@ -4,6 +4,9 @@ import GUI.util.ModelAgentConfigsTable;
 import GUI.util.config.ActionData;
 import GUI.util.config.AgentConfiguratorData;
 import GUI.util.config.ExperimentConfigData;
+import experiments.main.Manuela.ActionReadManuela;
+import experiments.main.Manuela.ActionShareManuela;
+import experiments.main.Manuela.ExperimentManuela;
 import model.environments.facebook.ExperimentFacebook;
 import model.environments.twitter.ExperimentTwitter;
 import model.util.actions.actions_agents.essentials.core.ActionAgent;
@@ -64,6 +67,8 @@ public class MainFrame extends JFrame{
     private JPanel topPanel;
     private JScrollPane jscrollOutPut;
     private JComboBox comboBoxEnvironment;
+    private JCheckBox especializationManuelaCheckBox;
+    private JTextField treshHoldTextField;
     //private ArrayList<AgentConfiguratorData> auxListAgentConfiguratorData;//Data de los agentConfig
     private ExperimentConfigData expConfig;
 
@@ -93,13 +98,17 @@ public class MainFrame extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                System.out.println("Windod Size: "+getSize());
-                //System.out.println("Action listener del combo simulation, selected: "+comboBoxSimulation.getSelectedItem());
-                if(comboBoxSimulation.getSelectedItem().equals("FacebookSimulation")){
-                    doExperimentFacebook();
-                }else if(comboBoxSimulation.getSelectedItem().equals("TwitterSimulation")){
-                    //System.out.println("Twitter");
-                    doExperimentTwitter();
+                if(especializationManuelaCheckBox.isSelected()){
+                    activateManuela();
+                }else{
+                    System.out.println("Windod Size: "+getSize());
+                    //System.out.println("Action listener del combo simulation, selected: "+comboBoxSimulation.getSelectedItem());
+                    if(comboBoxSimulation.getSelectedItem().equals("FacebookSimulation")){
+                        doExperimentFacebook();
+                    }else if(comboBoxSimulation.getSelectedItem().equals("TwitterSimulation")){
+                        //System.out.println("Twitter");
+                        doExperimentTwitter();
+                    }
                 }
             }
         });
@@ -315,7 +324,7 @@ public class MainFrame extends JFrame{
         ArrayList<AgentConfig> list = new ArrayList<>();
         if(Type.equals("Twitter")){
             return createTwitter(list);
-        }else if(Type.equals("Facebook")){
+        }else if(Type.equals("Facebook")) {
             return createFacebook(list);
         }else {
             System.out.println("Error maligno en create agent configs privado en mainframe, quiero llorar :c");
@@ -607,5 +616,72 @@ public class MainFrame extends JFrame{
         jscrollOutPut.setViewportView(outputTextArea);
         pack();
 
+    }
+
+    private ArrayList<AgentConfig> createManuela(ArrayList<AgentConfig> list, int threshHold){
+        for (int i = 0; i<expConfig.getAgentConfData().size(); i++) {
+            AgentConfiguratorData dataAgent = expConfig.getAgentConfData().get(i);
+            ArrayList<ActionAgent> actionsAgent = new ArrayList<>();
+            for( int j = 0 ; j< dataAgent.getActionsData().size(); j++) {
+                ActionData ad = dataAgent.getActionsData().get(j);
+                String type = ad.getType();
+                if(type.equals("Read")){
+                    //actionsAgent.add(actionFactory.createReadAction(ad.getProbability()));
+                    ActionReadManuela arm = new ActionReadManuela("read",ad.getProbability());
+                    actionsAgent.add(arm);
+                }else {
+                    //actionsAgent.add(actionFactory.createShareAction(ad.getProbability()));
+                    ActionShareManuela asm = new ActionShareManuela("share",ad.getProbability());
+                    actionsAgent.add(asm);
+                }
+            }
+            if(dataAgent.isSeed()){
+                list.add(agentConfigFactory.createAgentConfig(
+                        agentFactory.createManuelaSeedAgent(actionsAgent, threshHold),
+                        dataAgent.getQuantityAgent(),
+                        dataAgent.getFollowers(),
+                        dataAgent.getFollowings(),
+                        dataAgent.getAgentConfigName()));
+            }else{
+                list.add(agentConfigFactory.createAgentConfig(
+                        agentFactory.createManuelaAgent(actionsAgent, threshHold),
+                        dataAgent.getQuantityAgent(),
+                        dataAgent.getFollowers(),
+                        dataAgent.getFollowings(),
+                        dataAgent.getAgentConfigName()));
+            }
+        }
+        return list;
+    }
+
+    private void activateManuela(){
+        try{
+            outputTextArea.setText("");
+            fixData();
+            int periods = Integer.parseInt(PeriodsField.getText());
+            String name = NameExperimentField.getText();
+            String description = DescriptionField.getText();
+            int repetitions = Integer.parseInt(RepetitionsField.getText());
+            int networkSize = Integer.parseInt(NetworkSizeField.getText());
+            int seedSize = Integer.parseInt(SeedSizeField.getText());
+            int threshHold = Integer.parseInt(treshHoldTextField.getText());
+            int maxResends = 5;
+            ArrayList<AgentConfig> agentConfigs = createManuela(new ArrayList<>(), threshHold);
+            DataHandlerConfig dataHandlerConfig = new DataHandlerConfig(name);
+            dataHandlerConfig.setDetailedData(detailedDataCheckBox.isSelected());
+            dataHandlerConfig.setEssentialData(essentialDataCheckBox.isSelected());
+            ExperimentManuela exp = new ExperimentManuela(repetitions, name, description, dataHandlerConfig, threshHold, maxResends){
+                @Override
+                public void configure() {
+                    DataHandler.getInstance().setWithInterface(true);
+                    this.simulationConfig = new SimulationConfig(periods, networkSize, seedSize, agentConfigs);
+                }
+            };
+            exp.run();
+        }catch (Exception exp) {
+            exp.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error Can't Start Simulation, Verify your Config");
+        }
+        this.pack();
     }
 }

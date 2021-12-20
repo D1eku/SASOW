@@ -4,6 +4,8 @@ import model.essentials.Agent;
 
 public abstract class ActionAgent {
 
+    //Todo implement handler for create a chain of responsibility for all actions.
+
     protected String name;
     protected double probability;
 

@@ -12,7 +12,7 @@ public class MatrixData {
     }
 
     public void addRow(RowData row) {
-        System.out.println("Adding rows, this is the row: "+row.getRows());
+        //System.out.println("Adding rows, this is the row: "+row.getRows());
         if(head == null) {
             head = row.getHead();
             columns.add(head);
@@ -49,8 +49,8 @@ public class MatrixData {
                 sb.append("\n");
             }
         }
-        System.out.println("sb.length(): "+sb.length());
-        System.out.println("SIZE OF CSV Format: "+ columns.size());
+        //System.out.println("sb.length(): "+sb.length());
+        //System.out.println("SIZE OF CSV Format: "+ columns.size());
         return sb.toString();
     }
 }

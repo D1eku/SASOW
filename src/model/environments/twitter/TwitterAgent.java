@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class TwitterAgent extends Agent {
     public TwitterAgent(int id, int state, ArrayList<ActionAgent> cmd_config, boolean isSeed, AgentConfig agentConfig) {
         super(id, state, cmd_config, isSeed, agentConfig);
+        this.agentTypo = "TwitterAgent";
     }
 
     @Override

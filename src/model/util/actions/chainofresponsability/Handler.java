@@ -1,4 +1,6 @@
 package model.util.actions.chainofresponsability;
 
-public class Handler {
+public interface Handler {
+    void setNext(Handler h);
+    void request(String request);
 }

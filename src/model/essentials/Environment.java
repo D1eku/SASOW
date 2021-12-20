@@ -1,7 +1,9 @@
 package model.essentials;
 
+import experiments.main.Manuela.AgentManuela;
+import model.environments.facebook.AgentFacebook;
 import model.environments.twitter.TwitterAgent;
-import model.util.actions.actions_environment.essentials.ActionEnvironment;
+import model.util.actions.actions_environment.essentials.core.ActionEnvironment;
 import model.util.config.AgentConfig;
 import model.util.data.IDataDetailed;
 import model.util.data.IDataEssential;
@@ -89,7 +91,6 @@ public abstract class Environment implements IObservable, IDataEssential, IDataD
 
     private void addFollowings() {
         System.out.println("Adding Followings");
-        //System.out.println("Users size: "+users.size());
         for (Agent user: this.users) {//Por cada agente, Obten N agentes que tengan su id diferente a alguna indexada
             AgentConfig agentConfig = user.getAgentConfig();
             int total = (int) (agentConfig.getPercentageFollowings()* NetworkSize/100);
@@ -104,15 +105,10 @@ public abstract class Environment implements IObservable, IDataEssential, IDataD
 
     private void addFollowers(){
         System.out.println("Adding Followers");
-        //System.out.println("Users size: "+users.size());
-        int i = 0;
         for (Agent user: this.users) {//Por cada agente, Obten N agentes que tengan su id diferente a alguna indexada
             AgentConfig agentConfig = user.getAgentConfig();
             //System.out.println("agentConfig.getCantFollowers(): "+agentConfig.getQuantityFollowers());
             int total = agentConfig.getQuantityFollowersByNetwork(NetworkSize);
-            System.out.println("Total in followers: "+total);
-            System.out.println("FollowersSize: "+user.getFollowers().size()+ " i--> "+i);
-            i++;
             while(user.getFollowers().size() != total) {
                 int max = this.users.size();
                 int randomIndex = (int) (Math.random() * ((max - 1) + 1) + 0);
@@ -128,7 +124,18 @@ public abstract class Environment implements IObservable, IDataEssential, IDataD
             Agent info = configAgent.getAgentInfo();//Obten la informacion del agenteConfig
             //Todo use agentFactory to create a specific agent, Example: EnvironmentTwitter --> AgentTwitter;
             //Todo EnvironmentFacebook --> FacebookAgent, etc...
-            Agent newAgent =  new TwitterAgent(this.users_cant, info.getState(), info.getCommands(), configAgent.getIsSeed(),configAgent);//Crea un nuevo agente
+            //TODO PLSSS MAKE THIS BETTER
+            Agent newAgent =  null;//AAAAAAAAAAAAAAAAAAAAAAAAAA
+            if(info.getAgentTypo().equals("ManuelaAgent")){
+                newAgent =  new AgentManuela(this.users_cant, info.getState(), info.getCommands(), configAgent.getIsSeed(),configAgent, 5);//todo BUSCA EL MALDITO THRESHHOLD
+                //LO unico que veo como factible es castear ..... PERO ESO ES MALO MALO MALO
+            }else if(configAgent.getName().equals("TwitterAgent")){
+                newAgent = new TwitterAgent(this.users_cant, info.getState(), info.getCommands(), configAgent.getIsSeed(),configAgent);
+            }else{
+                //Facebook... agent
+                newAgent = new AgentFacebook(this.users_cant, info.getState(), info.getCommands(), configAgent.getIsSeed(),configAgent);
+            }
+
             users.add(newAgent);//Agregalo a la lista de agentes.
             if(newAgent.isSeed()){
                 this.seeds.add(newAgent);
@@ -179,6 +186,14 @@ public abstract class Environment implements IObservable, IDataEssential, IDataD
 
     public ArrayList<Agent> getSeeds(){
         return this.seeds;
+    }
+
+    public ArrayList<ActionEnvironment> getActions(){
+        return this.actions;
+    }
+
+    public void setActions(ArrayList<ActionEnvironment> actions){
+        this.actions = actions;
     }
 
 

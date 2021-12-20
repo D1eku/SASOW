@@ -4,11 +4,10 @@ import model.util.actions.actions_agents.essentials.core.ActionAgent;
 import model.util.config.AgentConfig;
 import model.util.data.IDataDetailed;
 import model.util.data.RowData;
-import model.util.datahandler.observer.IObservable;
 
 import java.util.ArrayList;
 
-public abstract class Agent implements IDataDetailed, IObservable {
+public abstract class Agent implements IDataDetailed {
     public static final int SHARED = -1;
     public static final int NOREAD = 0;
     public static final int READ = 1;
@@ -21,6 +20,7 @@ public abstract class Agent implements IDataDetailed, IObservable {
     protected ArrayList<ActionAgent> commands;
     protected Boolean isSeed;
     protected AgentConfig agentConfig;
+    protected String agentTypo;//Todo connect this with frontend
 
     public Agent(int id, int state, ArrayList<ActionAgent> cmd_config, boolean isSeed, AgentConfig agentConfig) {
         this.agent_id = id;
@@ -68,11 +68,6 @@ public abstract class Agent implements IDataDetailed, IObservable {
         return null;
     }
 
-    @Override
-    public void notifyData() {
-        //DataHandler.getInstance().updateDetailed(this);
-    }
-
     public void addFriend(Agent agent) {
         boolean exist = false;
         if(agent.getId() == this.agent_id) {
@@ -114,7 +109,6 @@ public abstract class Agent implements IDataDetailed, IObservable {
 
     public void setState(int state){
         this.state = state;
-        notifyData();
     }
 
     public void setId(int id) {
@@ -165,4 +159,8 @@ public abstract class Agent implements IDataDetailed, IObservable {
         this.isSeed = isSeed;
     }
 
+    public String getAgentTypo(){
+        return this.agentTypo;
+        //Todo create setAgentTypo
+    }
 }

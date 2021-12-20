@@ -1,5 +1,6 @@
 package model.util.factory;
 
+import experiments.main.Manuela.AgentManuela;
 import model.environments.facebook.AgentFacebook;
 import model.environments.twitter.TwitterAgent;
 import model.essentials.Agent;
@@ -23,5 +24,13 @@ public class AgentFactory {
 
     public Agent createFacebookAgentSeed(ArrayList<ActionAgent> actionsList){
         return new AgentFacebook(-1, Agent.NOREAD, actionsList, true, null);
+    }
+
+    public Agent createManuelaAgent(ArrayList<ActionAgent> actionsList, int threshHold) {
+        return new AgentManuela(-1, Agent.NOREAD, actionsList, false, null, threshHold);
+    }
+
+    public Agent createManuelaSeedAgent(ArrayList<ActionAgent> actionsList, int threshHold) {
+        return new AgentManuela(-1, Agent.NOREAD, actionsList, true, null, threshHold);
     }
 }

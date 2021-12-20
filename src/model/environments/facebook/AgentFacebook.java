@@ -10,6 +10,7 @@ public class AgentFacebook extends Agent {
 
     public AgentFacebook(int id, int state, ArrayList<ActionAgent> cmd_config, boolean isSeed, AgentConfig agentConfig) {
         super(id, state, cmd_config, isSeed, agentConfig);
+        agentTypo = "FacebookAgent";
     }
 
     @Override

@@ -2,7 +2,7 @@ package model.environments.facebook;
 
 import model.essentials.Agent;
 import model.essentials.Environment;
-import model.util.actions.actions_environment.essentials.ActionEnvironment;
+import model.util.actions.actions_environment.essentials.core.ActionEnvironment;
 import model.util.config.AgentConfig;
 import model.util.data.RowData;
 
