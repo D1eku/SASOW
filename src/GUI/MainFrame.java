@@ -69,6 +69,7 @@ public class MainFrame extends JFrame{
     private JComboBox comboBoxEnvironment;
     private JCheckBox especializationManuelaCheckBox;
     private JTextField treshHoldTextField;
+    private JTextField resendTextField1;
     //private ArrayList<AgentConfiguratorData> auxListAgentConfiguratorData;//Data de los agentConfig
     private ExperimentConfigData expConfig;
 
@@ -665,7 +666,7 @@ public class MainFrame extends JFrame{
             int networkSize = Integer.parseInt(NetworkSizeField.getText());
             int seedSize = Integer.parseInt(SeedSizeField.getText());
             int threshHold = Integer.parseInt(treshHoldTextField.getText());
-            int maxResends = 5;
+            int maxResends = Integer.parseInt(resendTextField1.getText());
             ArrayList<AgentConfig> agentConfigs = createManuela(new ArrayList<>(), threshHold);
             DataHandlerConfig dataHandlerConfig = new DataHandlerConfig(name);
             dataHandlerConfig.setDetailedData(detailedDataCheckBox.isSelected());
