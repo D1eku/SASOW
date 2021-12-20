@@ -1,6 +1,6 @@
 package model.essentials;
 
-import model.util.actions.ActionAgent;
+import model.util.actions.actions_agents.essentials.core.ActionAgent;
 import model.util.config.AgentConfig;
 import model.util.data.IDataDetailed;
 import model.util.data.RowData;

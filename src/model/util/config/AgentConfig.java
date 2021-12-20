@@ -1,6 +1,6 @@
 package model.util.config;
 
-import model.util.actions.ActionAgent;
+import model.util.actions.actions_agents.essentials.core.ActionAgent;
 import model.essentials.Agent;
 
 import java.util.ArrayList;

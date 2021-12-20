@@ -1,9 +1,9 @@
 package model.util.factory;
 
 
-import model.util.actions.ActionAgent;
-import model.util.actions.actions_agents.ActionAgentRead;
-import model.util.actions.actions_agents.ActionAgentShare;
+import model.util.actions.actions_agents.essentials.core.ActionAgent;
+import model.util.actions.actions_agents.essentials.ActionAgentRead;
+import model.util.actions.actions_agents.essentials.ActionAgentShare;
 
 public class ActionFactory {
 

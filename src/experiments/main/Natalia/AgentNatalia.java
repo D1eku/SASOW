@@ -1,7 +1,7 @@
 package experiments.main.Natalia;
 
 import model.environments.twitter.TwitterAgent;
-import model.util.actions.ActionAgent;
+import model.util.actions.actions_agents.essentials.core.ActionAgent;
 import model.util.config.AgentConfig;
 import model.util.data.RowData;
 

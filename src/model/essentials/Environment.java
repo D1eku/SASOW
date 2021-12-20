@@ -1,6 +1,7 @@
 package model.essentials;
 
 import model.environments.twitter.TwitterAgent;
+import model.util.actions.actions_environment.essentials.ActionEnvironment;
 import model.util.config.AgentConfig;
 import model.util.data.IDataDetailed;
 import model.util.data.IDataEssential;
@@ -24,7 +25,9 @@ public abstract class Environment implements IObservable, IDataEssential, IDataD
     protected int users_cant;
     protected ArrayList<Agent> seeds;
     protected ArrayList<AgentConfig> agentsConfigs;
+    protected String environmentType;
 
+    protected ArrayList<ActionEnvironment> actions;
 
     public Environment(int id, int periods, int NetworkSize,int SeedSize, ArrayList<AgentConfig> agentsConfigs){
         this.environment_id = id;
@@ -37,16 +40,10 @@ public abstract class Environment implements IObservable, IDataEssential, IDataD
         this.users_cant = 0;
         this.periods =periods;
         this.dataHandler = DataHandler.getInstance();
+        this.actions = new ArrayList<ActionEnvironment>();
     }
 
-    public void setSimulation(Simulation simulation) {
-        this.simulation = simulation;
-    }
-
-    public void setPeriod(int p){
-        this.period = p;
-        this.notifyData();
-    }
+    /* Class Methods */
 
     public void initialize() {
         System.out.println("Initializing in Environment: ");
@@ -129,6 +126,8 @@ public abstract class Environment implements IObservable, IDataEssential, IDataD
         System.out.println("Starting Create agents");
         for(int j = 0; j<configAgent.getCantAgent(); j++){
             Agent info = configAgent.getAgentInfo();//Obten la informacion del agenteConfig
+            //Todo use agentFactory to create a specific agent, Example: EnvironmentTwitter --> AgentTwitter;
+            //Todo EnvironmentFacebook --> FacebookAgent, etc...
             Agent newAgent =  new TwitterAgent(this.users_cant, info.getState(), info.getCommands(), configAgent.getIsSeed(),configAgent);//Crea un nuevo agente
             users.add(newAgent);//Agregalo a la lista de agentes.
             if(newAgent.isSeed()){
@@ -139,11 +138,22 @@ public abstract class Environment implements IObservable, IDataEssential, IDataD
         System.out.println("End Create agents");
     }
 
-    public RowData getDataEssential() {
-        RowData rdEnvironment = new RowData();
-        rdEnvironment.addRow(period, "simulation_period");
-        rdEnvironment.addRows(getCountStates());
-        return rdEnvironment;
+    /* Abstract Methods */
+
+    public abstract void doActions();
+
+    public abstract void step();
+
+    public abstract void run();
+
+    public abstract RowData getCountStates();
+
+    /* Implementation Interfaces Methods */
+
+    @Override
+    public void notifyData() {
+        //this.dataHandler.updateEssential();
+        this.dataHandler.update();
     }
 
     @Override
@@ -153,13 +163,15 @@ public abstract class Environment implements IObservable, IDataEssential, IDataD
         return rd;
     }
 
-    public abstract RowData getCountStates();
-
-    @Override
-    public void notifyData() {
-        //this.dataHandler.updateEssential();
-        this.dataHandler.update();
+    public RowData getDataEssential() {
+        RowData rdEnvironment = new RowData();
+        rdEnvironment.addRow(period, "simulation_period");
+        rdEnvironment.addRows(getCountStates());
+        return rdEnvironment;
     }
+
+
+    /* Getters and Setters */
 
     public ArrayList<Agent> getUsers(){
         return this.users;
@@ -169,9 +181,18 @@ public abstract class Environment implements IObservable, IDataEssential, IDataD
         return this.seeds;
     }
 
-    public abstract void step();
 
-    public abstract void run();
+    public void setSimulation(Simulation simulation) {
+        this.simulation = simulation;
+    }
 
+    public void setPeriod(int p){
+        this.period = p;
+        this.notifyData();
+    }
+
+    public int getPeriod() {
+        return period;
+    }
 
 }

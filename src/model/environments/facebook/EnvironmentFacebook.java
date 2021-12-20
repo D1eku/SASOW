@@ -2,6 +2,7 @@ package model.environments.facebook;
 
 import model.essentials.Agent;
 import model.essentials.Environment;
+import model.util.actions.actions_environment.essentials.ActionEnvironment;
 import model.util.config.AgentConfig;
 import model.util.data.RowData;
 
@@ -10,6 +11,13 @@ import java.util.ArrayList;
 public class EnvironmentFacebook extends Environment {
     public EnvironmentFacebook(int id, int periods, int NetworkSize, int SeedSize, ArrayList<AgentConfig> agentsConfigs) {
         super(id, periods, NetworkSize, SeedSize, agentsConfigs);
+    }
+
+    @Override
+    public void doActions(){
+        for(ActionEnvironment action: actions){
+            action.Execute();
+        }
     }
 
     @Override

@@ -2,9 +2,9 @@ package model.environments.facebook;
 
 import model.essentials.Agent;
 import model.essentials.Experiment;
-import model.util.actions.ActionAgent;
-import model.util.actions.actions_agents.ActionAgentRead;
-import model.util.actions.actions_agents.ActionAgentShare;
+import model.util.actions.actions_agents.essentials.core.ActionAgent;
+import model.util.actions.actions_agents.essentials.ActionAgentRead;
+import model.util.actions.actions_agents.essentials.ActionAgentShare;
 import model.util.config.AgentConfig;
 import model.util.config.DataHandlerConfig;
 import model.util.config.SimulationConfig;

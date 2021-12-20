@@ -6,7 +6,7 @@ import GUI.util.config.AgentConfiguratorData;
 import GUI.util.config.ExperimentConfigData;
 import model.environments.facebook.ExperimentFacebook;
 import model.environments.twitter.ExperimentTwitter;
-import model.util.actions.ActionAgent;
+import model.util.actions.actions_agents.essentials.core.ActionAgent;
 import model.util.config.AgentConfig;
 import model.util.config.DataHandlerConfig;
 import model.util.config.SimulationConfig;

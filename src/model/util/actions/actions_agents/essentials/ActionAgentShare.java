@@ -1,7 +1,7 @@
-package model.util.actions.actions_agents;
+package model.util.actions.actions_agents.essentials;
 
-import model.util.actions.ActionAgent;
 import model.essentials.Agent;
+import model.util.actions.actions_agents.essentials.core.ActionAgent;
 
 
 public class ActionAgentShare extends ActionAgent {
@@ -9,7 +9,7 @@ public class ActionAgentShare extends ActionAgent {
     public ActionAgentShare(String name, double probability ) {
         super(name, probability);
     }
-    //Todo fix states to make a fixed shared message.
+
     @Override
     public void Execute(Agent a) {
         double p1 = getRandom();//Obten la probabilidad de compartir

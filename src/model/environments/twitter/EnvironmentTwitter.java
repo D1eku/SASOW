@@ -2,6 +2,7 @@ package model.environments.twitter;
 
 import model.essentials.Agent;
 import model.essentials.Environment;
+import model.util.actions.actions_environment.essentials.ActionEnvironment;
 import model.util.config.AgentConfig;
 import model.util.data.RowData;
 
@@ -11,6 +12,15 @@ public class EnvironmentTwitter extends Environment {
 
     public EnvironmentTwitter(int id, int periods,int NetworkSize, int SeedSize, ArrayList<AgentConfig> agentsConfig)  {
         super(id, periods,NetworkSize, SeedSize, agentsConfig);
+
+        //Todo delete below this, this is only for natalia doActions implementations
+        /*
+        En t0, un conjunto de agentes (seguidores) recibe el mensaje que se difunde a través de la red.
+         En cualquier período de una simulación, una marca podría reenviar el mensaje (por ejemplo, t4),
+         aumentando la posibilidad de aumentar la alcance sino también de agentes saturantes.
+         */
+
+
     }
 
     @Override
@@ -44,29 +54,17 @@ public class EnvironmentTwitter extends Environment {
     }
 
     @Override
+    public void doActions(){
+        for(ActionEnvironment  action: actions){
+            action.Execute();
+        }
+    }
+
+    @Override
     public void step() {
         System.out.println("Do Step ("+ (period+1) + ") of "+(periods));
-        if(period == 0){
-
-        }else {
-
-        }
+        doActions();
     }
-
-    private void startAction() {
-        if( period == 0){
-            for(Agent seed: seeds){
-                seed.receiveMessage();
-            }
-        }
-    }
-
-    private void doActions(){
-        for (Agent agent: users ) {
-            agent.doActions();
-        }
-    }
-
 
     @Override
     public void run() {

@@ -1,7 +1,7 @@
-package model.util.actions.actions_agents;
+package model.util.actions.actions_agents.essentials;
 
-import model.util.actions.ActionAgent;
 import model.essentials.Agent;
+import model.util.actions.actions_agents.essentials.core.ActionAgent;
 
 public class ActionAgentRead extends ActionAgent {
 

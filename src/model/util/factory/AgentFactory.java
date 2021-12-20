@@ -3,7 +3,7 @@ package model.util.factory;
 import model.environments.facebook.AgentFacebook;
 import model.environments.twitter.TwitterAgent;
 import model.essentials.Agent;
-import model.util.actions.ActionAgent;
+import model.util.actions.actions_agents.essentials.core.ActionAgent;
 
 import java.util.ArrayList;
 

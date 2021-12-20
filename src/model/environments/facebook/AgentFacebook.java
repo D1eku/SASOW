@@ -1,7 +1,7 @@
 package model.environments.facebook;
 
 import model.essentials.Agent;
-import model.util.actions.ActionAgent;
+import model.util.actions.actions_agents.essentials.core.ActionAgent;
 import model.util.config.AgentConfig;
 
 import java.util.ArrayList;

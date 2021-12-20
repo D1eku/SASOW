@@ -1,4 +1,4 @@
-package model.util.actions;
+package model.util.actions.actions_agents.essentials.core;
 
 import model.essentials.Agent;
 
@@ -12,11 +12,11 @@ public abstract class ActionAgent {
         this.probability = probability;
     }
 
-    public abstract void Execute(Agent agent);
-
     public String getName(){
         return this.name;
     }
+
+    public abstract void Execute(Agent agent);
 
     public double getProbability(){
         return this.probability;

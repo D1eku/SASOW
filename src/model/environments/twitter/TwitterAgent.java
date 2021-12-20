@@ -1,6 +1,6 @@
 package model.environments.twitter;
 
-import model.util.actions.ActionAgent;
+import model.util.actions.actions_agents.essentials.core.ActionAgent;
 import model.essentials.Agent;
 import model.util.config.AgentConfig;
 import model.util.data.RowData;
