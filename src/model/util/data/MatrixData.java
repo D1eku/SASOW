@@ -39,6 +39,7 @@ public class MatrixData {
 
 
     public String getCSVFormat() {
+        //Todo crear arreglo de strings builders
         StringBuilder sb = new StringBuilder();
         //sb.append(getStringedArray(this.head)+"\n");
         for(int i = 0; i<columns.size(); i++) {
