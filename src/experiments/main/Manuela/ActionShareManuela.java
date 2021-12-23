@@ -11,9 +11,16 @@ public class ActionShareManuela extends ActionAgent {
 
     @Override
     public void Execute(Agent agent) {
+
+    }
+
+    public void Execute(AgentManuela agent) {
         double p1 = getRandom();//Obten la probabilidad de compartir
-        if(p1/100 > (1 - probability) && !((AgentManuela) agent).isSaturated() ) {
+        if(p1/100 > (1 - probability) && !agent.isSaturated() ) {
             agent.setState(Agent.PREPARE_FOR_SHARE);
         }
     }
+
+
+
 }

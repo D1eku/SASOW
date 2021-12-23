@@ -128,7 +128,6 @@ public abstract class Environment implements IObservable, IDataEssential, IDataD
             Agent newAgent =  null;//AAAAAAAAAAAAAAAAAAAAAAAAAA
             if(info.getAgentTypo().equals("ManuelaAgent")){
                 newAgent =  new AgentManuela(this.users_cant, info.getState(), info.getCommands(), configAgent.getIsSeed(),configAgent, 5);//todo BUSCA EL MALDITO THRESHHOLD
-                //LO unico que veo como factible es castear ..... PERO ESO ES MALO MALO MALO
             }else if(configAgent.getName().equals("TwitterAgent")){
                 newAgent = new TwitterAgent(this.users_cant, info.getState(), info.getCommands(), configAgent.getIsSeed(),configAgent);
             }else{
@@ -195,7 +194,6 @@ public abstract class Environment implements IObservable, IDataEssential, IDataD
     public void setActions(ArrayList<ActionEnvironment> actions){
         this.actions = actions;
     }
-
 
     public void setSimulation(Simulation simulation) {
         this.simulation = simulation;
